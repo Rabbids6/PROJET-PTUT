@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -235,75 +236,48 @@ document.addEventListener("DOMContentLoaded", function () {
       `;
     } else {
       if (winners.length === 1) {
-  // Envoi auto des résultats au backend
-  const nouvelElement = {
-    [selectedCategory.toUpperCase()]: {
-      id: Date.now(),
-      details: {
-        pseudo: localStorage.pseudo || '',
-        age: localStorage.age || null,
-        fav: winners[0]?.title || '',
-        sex: localStorage.sex || ''
+        document.body.classList.add('victory-background');
+        document.body.innerHTML = `
+          <div class="winner">
+            <h1>🏆 Anime Gagnant 🏆</h1>
+            <h2>${winners[0].title}</h2>
+            <img src="${winners[0].image}" alt="${winners[0].title}">
+            <p>${winners[0].description}</p>
+            <p class="compte-rebours">Retour à l'accueil dans <span id="countdown">10</span> secondes...</p>
+            <button class="btn-finish">← Retour immédiat</button>
+          </div>
+        `;
+        let seconds = 10;
+        const countdownEl = document.getElementById("countdown");
+        const timer = setInterval(() => {
+          seconds--;
+          countdownEl.textContent = seconds;
+          if (seconds <= 0) {
+            clearInterval(timer);
+            window.location.href = "Anime.html";
+          }
+        }, 1000);
+        document.querySelector('.btn-finish').addEventListener('click', () => {
+          clearInterval(timer);
+          window.location.href = "Anime.html";
+        });
+      } else {
+        currentRound = winners;
+        winners = [];
+        pairIndex = 0;
+        roundNumber++;
+        shuffleArray(currentRound);
+        updateRoundIndicator();
+        loadPair();
       }
     }
-  };
-
-  console.log("Données à envoyer :", nouvelElement);
-
-  // Envoi via fetch
-  try {
-    await fetch('http://localhost:3000/ajouterElementJSON', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(nouvelElement)
-    });
-    console.log('Résultat envoyé avec succès');
-  } catch (error) {
-    console.error('Erreur lors de l’envoi des données :', error);
   }
 
-  // Affichage de la page de victoire
-  document.body.classList.add('victory-background');
-  document.body.innerHTML = `
-    <div class="winner">
-      <h1>🏆 Anime Gagnant 🏆</h1>
-      <h2>${winners[0].title}</h2>
-      <img src="${winners[0].image}" alt="${winners[0].title}">
-      <p>${winners[0].description}</p>
-      <p class="compte-rebours">Retour à l'accueil dans <span id="countdown">10</span> secondes...</p>
-      <button class="btn-finish">← Retour immédiat</button>
-    </div>
-  `;
-
-  let seconds = 10;
-  const countdownEl = document.getElementById("countdown");
-  const timer = setInterval(() => {
-    seconds--;
-    countdownEl.textContent = seconds;
-    if (seconds <= 0) {
-      clearInterval(timer);
-      window.location.href = "Anime.html";
-    }
-  }, 1000);
-
-  document.querySelector('.btn-finish').addEventListener('click', () => {
-    clearInterval(timer);
-    window.location.href = "Anime.html";
-  });
-
-} else {
-  // Continuer au prochain round
-  currentRound = winners;
-  winners = [];
-  pairIndex = 0;
-  roundNumber++;
-  shuffleArray(currentRound);
-  updateRoundIndicator();
-  loadPair();
-}
-
+  function chooseWinner(index) {
+    winners.push(currentRound[pairIndex + index]);
+    pairIndex += 2;
+    loadPair();
+  }
 
   function initializeTournament() {
     const keys = Object.keys(categoriesData);
