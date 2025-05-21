@@ -1,0 +1,323 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+}
+
+
+body{
+    display: flex;
+    flex-direction: column; /* Empile les éléments verticalement */
+    align-items: center;    /* Centre horizontalement */
+    padding-top: 10vh;
+    min-height: 100vh;
+    background: linear-gradient(-45deg, #ffffff, #dddbdb, #d1cece, #000000);
+    background-size: 400% 400%;
+    animation : gradientBG 10s ease infinite;
+    color: rgb(201, 201, 201);
+    text-align: center;
+    line-height: 2;
+  }
+
+
+
+.container {
+    width: 100%; 
+    max-width: 2000px; 
+    margin: auto; 
+}
+
+
+header {
+    color: white; 
+    padding: 20px 0; 
+    text-align: center; 
+}
+
+
+ nav{
+    display: flex;
+    justify-content: center;
+    padding: 10px 0; 
+}
+
+
+nav a {
+    color: white; 
+    text-decoration: none; 
+    padding: 10px 20px; 
+}
+
+
+nav a:hover {
+    border-radius: 5px;
+    text-decoration: underline;     
+}
+
+
+main {
+    display: flex; 
+    flex-wrap: wrap; 
+}
+
+
+.content {
+    flex: 4; 
+    background: rgb(0, 0, 0); 
+    padding: 20px; 
+    border-radius: 0px; 
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0); 
+}
+
+
+.sidebar {
+    flex: 0.9; 
+    background: rgb(61, 61, 61); 
+    padding: 5px; 
+    border-radius: 0px; 
+    box-shadow: 0 0 10px rgba(255, 254, 254, 0.2); 
+    text-align : left;
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1000;
+}
+.sidebar hr {
+  border: none;
+  margin: 8px 0;
+}
+
+ul li::marker {
+    color: #000000; 
+}
+
+
+@media (max-width: 768px) {
+    main {
+        flex-direction: column; 
+    }
+
+    .sidebar {
+        margin-left: 0;
+        margin-top: 20px;
+        
+        
+    }
+}
+html {
+    scroll-behavior: smooth;
+  }
+h2.gradient-text {
+  background: linear-gradient(90deg, #ff0000, #1500ff); /* Dégradé bleu clair à bleu foncé */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+strong {
+    color: #ffee00;
+}
+
+  h1 {
+    font-family: 'Bangers', cursive; 
+    text-align: left;
+
+}
+h3 {
+    text-align: left;
+    line-height: 3;
+    background: linear-gradient(270deg,#ff0000, #ffffff, #0800ff);
+    background-size: 200% auto;
+    
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    
+    animation: gradientMove 4s linear infinite;
+}
+
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 200% 50%;
+    }
+}
+
+
+p {
+    font-family: 'Sail', cursive;
+    text-align: left;
+
+}
+video {
+    margin-top: 20px;   /* espace avec le texte au-dessus */
+    display: block;     /* permet de mieux contrôler l’alignement */
+    margin-left: 0;     /* aligne bien à gauche */
+  }
+  
+
+button {
+    font-family: 'Sail', cursive;
+}
+
+a {
+    color: #37ff00; 
+}
+
+
+a:hover {
+    color: #00d5ff; 
+}
+
+
+
+/* Changer la couleur des liens actifs (cliqués) */
+a:active {
+    color: #dcc114; /
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+/* Ajouter un peu d'ombre et un effet au survol des lignes */
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+
+.menu {
+    list-style-type: none;
+    padding: 0;
+}
+
+.menu > li {
+    display: inline-block;
+    position: relative;
+    padding: 10px 20px;
+}
+
+.menu a {
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+}
+
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 160px;
+    list-style-type: none;
+    padding: 0;
+}
+
+.submenu li {
+    padding: 10px;
+}
+
+.submenu a {
+    color: white;
+    display: block;
+    padding: 10px;
+}
+.menu a:hover {
+    color: #00d5ff; 
+}
+
+.submenu a:hover {
+    color: #00d5ff;
+}
+
+
+
+/* Afficher le sous-menu quand on survole */
+.dropdown:hover .submenu {
+    display: block;
+}
+
+/* Style de base de la liste déroulante */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown button {
+    background-color: transparent; /* Pas de fond pour le bouton */
+    border: none; /* Supprimer la bordure */
+    color: inherit; /* Hériter de la couleur du texte */
+    cursor: pointer; /* Ajouter un curseur de type pointeur */
+    padding: 10px 15px; /* Ajouter un peu d'espace autour du texte */
+}
+
+.dropdown-content {
+    display: none; /* Masquer les options par défaut */
+    position: absolute;
+
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block; /* Afficher les options quand on survole l'élément */
+}
+
+.dropdown-content a {
+    color: rgb(255, 255, 255);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.menu-deroulant {
+    background: transparent; /* Supprime le fond */
+    box-shadow: none; /* Supprime toute ombre éventuelle */
+    background: transparent; /* Supprime le fond */
+    box-shadow: none; /* Supprime toute ombre éventuelle */
+    position: absolute;
+    top: 100%; /* Place le menu juste sous le bouton */
+    left: 0; /* Aligne le menu avec son bouton parent */
+    z-index: 10; /* Assure que le menu passe au-dessus du reste sans gêner */
+}
+
+
+form {
+    margin-top: 20px;
+}
+
+input, select, button {
+    margin: 5px;
+    padding: 10px;
+}
+
+#lienJeu {
+    color: limegreen;
+    font-weight: bold;
+    text-decoration: none;
+    display: none;
+}
+

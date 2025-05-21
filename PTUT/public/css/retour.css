@@ -1,0 +1,81 @@
+  .btn-retour {
+    position: relative;
+    padding: 12px 24px;
+    font-size: 18px;
+    color: #00ffcc;
+    border: 2px solid transparent;
+    border-image: linear-gradient(45deg, #00ffcc, #ff00cc);
+    border-image-slice: 1;
+    background: none;
+    cursor: pointer;
+    transition: color 0.4s ease;
+    z-index: 0;
+    overflow: hidden;
+  }
+  
+  .btn-retour::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: linear-gradient(45deg, #00ffcc, #ff00cc);
+    transition: all 0.6s ease;
+    border-radius: 50%;
+    z-index: -1;
+    transform: translate(-50%, -50%) scale(0);
+  }
+  
+  .btn-retour:hover::before {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.2;
+  }
+  
+  .btn-retour:hover {
+    color: #ffffff;
+  }
+  
+
+  /* Bouton de fin complètement différent */
+.btn-finish {
+  position: relative;
+  padding: 12px 24px;
+  font-size: 18px;
+  color: #00fbff;
+  border: 2px solid transparent;
+  border-image: linear-gradient(45deg,#C0F8E0, #2F5D62);
+  border-image-slice: 1;
+  background: none;
+  cursor: pointer;
+  transition: color 0.4s ease;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* Effet au survol */
+.btn-finish:hover {
+  color: #ffffff;
+
+}
+
+.btn-finish::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background: linear-gradient(45deg,#C0F8E0, #2F5D62);
+  transition: all 0.6s ease;
+  border-radius: 50%;
+  z-index: -1;
+  transform: translate(-50%, -50%) scale(0);
+}
+
+.btn-finish:hover::before {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 0.2;
+}
+
+

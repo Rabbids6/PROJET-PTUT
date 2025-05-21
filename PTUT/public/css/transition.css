@@ -1,0 +1,35 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background: #111;
+  color: white;
+  height: 300vh; /* Pour permettre le scroll */
+}
+
+.scroll-section {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image {
+  max-width: 600px;
+  width: 80%;
+  width: 100%;
+  display: block;
+  filter: brightness(1.2); /* Valeur finale souhaitée */
+}
+
+.texte {
+  opacity: 0.95;
+  color: white;
+  opacity: 0.95;
+  max-width: 800px;
+  margin: auto;
+}
+
+
+
