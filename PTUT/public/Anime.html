@@ -217,73 +217,106 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   async function loadPair() {
-  if (pairIndex < currentRound.length - 1) {
-    const left = currentRound[pairIndex];
-    const right = currentRound[pairIndex + 1];
-    card1.innerHTML = `
-      <div class="anime-card">
-        <img src="${left.image}" alt="${left.title}">
-        <h2>${left.title}</h2>
-        <p>${left.description}</p>
-      </div>
-    `;
-    card2.innerHTML = `
-      <div class="anime-card">
-        <img src="${right.image}" alt="${right.title}">
-        <h2>${right.title}</h2>
-        <p>${right.description}</p>
-      </div>
-    `;
-  } else {
+  // Si on a fini de parcourir toutes les paires
+  if (pairIndex >= currentRound.length - 1) {
     if (winners.length === 1) {
-      // 💾 Envoi du gagnant vers le serveur
+      const gagnant = winners[0];
+
       const nouvelElement = {
-        id: Date.now(),
-        details: {
-          Pseudo: localStorage.getItem('pseudo') || '',
-          Age: localStorage.getItem('age') ? parseInt(localStorage.getItem('age')) : null,
-          Anime: {
-            Titre: winners[0].title || 'Inconnu',
-            Cat: typeof selectedCategory !== 'undefined' ? selectedCategory : 'Non spécifié'
+        [selectedCategory.toUpperCase()]: {
+          id: Date.now(),
+          details: {
+            pseudo: localStorage.pseudo || '',
+            age: localStorage.age || null,
+            sex: localStorage.sex || '',
+            fav: gagnant?.title || ''
           }
         }
       };
 
+      console.log("Données à envoyer :", JSON.stringify(nouvelElement, null, 2));
+
+      // Envoi vers le serveur
       let responseMessage = 'Envoi en cours...';
       try {
         const response = await fetch('http://localhost:3000/ajouterElementJSON', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(nouvelElement)
         });
 
-        if (!response.ok) {
-          throw new Error(`Erreur HTTP ${response.status}`);
-        }
-
+        if (!response.ok) throw new Error(`Erreur HTTP ${response.status}`);
         responseMessage = await response.text();
         console.log("Réponse du serveur :", responseMessage);
       } catch (error) {
         console.error("Erreur lors de l'envoi :", error);
-        responseMessage = `Erreur lors de l'envoi : ${error.message}`;
+        responseMessage = `Erreur : ${error.message}`;
       }
 
-      // 🎉 Affichage final avec compte à rebours
+      // Affichage final du gagnant
+      document.body.className = '';
+      document.body.innerHTML = '';
       document.body.classList.add('victory-background');
       document.body.innerHTML = `
         <div class="winner">
           <h1>🏆 Anime Gagnant 🏆</h1>
-          <h2>${winners[0].title}</h2>
-          <img src="${winners[0].image}" alt="${winners[0].title}">
-          <p>${winners[0].description}</p>
+          <h2>${gagnant.title || 'Inconnu'}</h2>
+          <img src="${gagnant.image || ''}" alt="${gagnant.title || 'Inconnu'}">
+          <p>${gagnant.description || ''}</p>
+          <p id="response">${responseMessage}</p>
           <p class="compte-rebours">Retour à l'accueil dans <span id="countdown">10</span> secondes...</p>
           <button class="btn-finish">← Retour immédiat</button>
-          <p id="response">${responseMessage}</p>
         </div>
       `;
 
+      // Compte à rebours
+      let seconds = 10;
+      const countdownEl = document.getElementById("countdown");
+      const timer = setInterval(() => {
+        seconds--;
+        countdownEl.textContent = seconds;
+        if (seconds <= 0) {
+          clearInterval(timer);
+          window.location.href = "Anime.html";
+        }
+      }, 1000);
+
+      document.querySelector('.btn-finish').addEventListener('click', () => {
+        clearInterval(timer);
+        window.location.href = "Anime.html";
+      });
+
+    } else {
+      // Préparer le round suivant
+      currentRound = winners;
+      winners = [];
+      pairIndex = 0;
+      roundNumber++;
+      shuffleArray(currentRound);
+      updateRoundIndicator();
+      loadPair();
+    }
+    return;
+  }
+
+  // Charger la paire actuelle
+  const left = currentRound[pairIndex];
+  const right = currentRound[pairIndex + 1];
+  card1.innerHTML = `
+    <div class="anime-card">
+      <img src="${left.image}" alt="${left.title}">
+      <h2>${left.title}</h2>
+      <p>${left.description}</p>
+    </div>
+  `;
+  card2.innerHTML = `
+    <div class="anime-card">
+      <img src="${right.image}" alt="${right.title}">
+      <h2>${right.title}</h2>
+      <p>${right.description}</p>
+    </div>
+  `;
+}
       let seconds = 10;
       const countdownEl = document.getElementById("countdown");
       const timer = setInterval(() => {
