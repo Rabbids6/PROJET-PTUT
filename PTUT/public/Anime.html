@@ -216,62 +216,104 @@ document.addEventListener("DOMContentLoaded", function () {
     roundIndicator.textContent = `Round ${roundNumber} sur ${totalRounds} (${currentRound.length} participants)`;
   }
 
-  function loadPair() {
-    if (pairIndex < currentRound.length - 1) {
-      const left = currentRound[pairIndex];
-      const right = currentRound[pairIndex + 1];
-      card1.innerHTML = `
-        <div class="anime-card">
-          <img src="${left.image}" alt="${left.title}">
-          <h2>${left.title}</h2>
-          <p>${left.description}</p>
-        </div>
-      `;
-      card2.innerHTML = `
-        <div class="anime-card">
-          <img src="${right.image}" alt="${right.title}">
-          <h2>${right.title}</h2>
-          <p>${right.description}</p>
-        </div>
-      `;
-    } else {
-      if (winners.length === 1) {
-        document.body.classList.add('victory-background');
-        document.body.innerHTML = `
-          <div class="winner">
-            <h1>🏆 Anime Gagnant 🏆</h1>
-            <h2>${winners[0].title}</h2>
-            <img src="${winners[0].image}" alt="${winners[0].title}">
-            <p>${winners[0].description}</p>
-            <p class="compte-rebours">Retour à l'accueil dans <span id="countdown">10</span> secondes...</p>
-            <button class="btn-finish">← Retour immédiat</button>
-          </div>
-        `;
-        let seconds = 10;
-        const countdownEl = document.getElementById("countdown");
-        const timer = setInterval(() => {
-          seconds--;
-          countdownEl.textContent = seconds;
-          if (seconds <= 0) {
-            clearInterval(timer);
-            window.location.href = "Anime.html";
+  async function loadPair() {
+  if (pairIndex < currentRound.length - 1) {
+    const left = currentRound[pairIndex];
+    const right = currentRound[pairIndex + 1];
+    card1.innerHTML = `
+      <div class="anime-card">
+        <img src="${left.image}" alt="${left.title}">
+        <h2>${left.title}</h2>
+        <p>${left.description}</p>
+      </div>
+    `;
+    card2.innerHTML = `
+      <div class="anime-card">
+        <img src="${right.image}" alt="${right.title}">
+        <h2>${right.title}</h2>
+        <p>${right.description}</p>
+      </div>
+    `;
+  } else {
+    if (winners.length === 1) {
+      console.log("Fin du tournoi atteinte, gagnant :", winners[0], "title :", winners[0].title);
+
+      // Créer la structure JSON à envoyer
+      const nouvelElement = {
+        [selectedCategory.toUpperCase()]: {
+          id: Date.now(),
+          details: {
+            pseudo: localStorage.pseudo || '',
+            age: localStorage.age || null,
+            sex: localStorage.sex || '',
+            fav: winners[0]?.title || ''
           }
-        }, 1000);
-        document.querySelector('.btn-finish').addEventListener('click', () => {
+        }
+      };
+
+      console.log("Données à envoyer :", JSON.stringify(nouvelElement, null, 2));
+
+      // Envoyer au serveur
+      let responseMessage = 'Envoi en cours...';
+      try {
+        const response = await fetch('http://localhost:3000/ajouterElementJSON', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(nouvelElement)
+        });
+
+        if (!response.ok) throw new Error(`Erreur HTTP ${response.status}`);
+        responseMessage = await response.text();
+        console.log("Réponse du serveur :", responseMessage);
+      } catch (error) {
+        console.error("Erreur lors de l'envoi :", error);
+        responseMessage = `Erreur : ${error.message}`;
+      }
+
+      // Affichage final
+      document.body.classList.add('victory-background');
+      document.body.innerHTML = `
+        <div class="winner">
+          <h1>🏆 Anime Gagnant 🏆</h1>
+          <h2>${winners[0].title || 'Inconnu'}</h2>
+          <img src="${winners[0].image || ''}" alt="${winners[0].title || 'Inconnu'}">
+          <p>${winners[0].description || ''}</p>
+          <p id="response">${responseMessage}</p>
+          <p class="compte-rebours">Retour à l'accueil dans <span id="countdown">10</span> secondes...</p>
+          <button class="btn-finish">← Retour immédiat</button>
+        </div>
+      `;
+
+      // Compte à rebours
+      let seconds = 10;
+      const countdownEl = document.getElementById("countdown");
+      const timer = setInterval(() => {
+        seconds--;
+        countdownEl.textContent = seconds;
+        if (seconds <= 0) {
           clearInterval(timer);
           window.location.href = "Anime.html";
-        });
-      } else {
-        currentRound = winners;
-        winners = [];
-        pairIndex = 0;
-        roundNumber++;
-        shuffleArray(currentRound);
-        updateRoundIndicator();
-        loadPair();
-      }
+        }
+      }, 1000);
+
+      document.querySelector('.btn-finish').addEventListener('click', () => {
+        clearInterval(timer);
+        window.location.href = "Anime.html";
+      });
+
+    } else {
+      // Passage au round suivant
+      console.log("Passage au round suivant, currentRound.length :", currentRound.length);
+      currentRound = winners;
+      winners = [];
+      pairIndex = 0;
+      roundNumber++;
+      shuffleArray(currentRound);
+      updateRoundIndicator();
+      loadPair();
     }
   }
+}
 
   function chooseWinner(index) {
     winners.push(currentRound[pairIndex + index]);
