@@ -258,7 +258,7 @@
         document.body.classList.add('victory-background');
         document.body.innerHTML = `
           <div class="winner">
-            <h1>🏆 Anime Gagnant 🏆</h1>
+            <h1>🏆 Manga Gagnant 🏆</h1>
             <h2>${winners[0].title}</h2>
             <img src="${winners[0].image}" alt="${winners[0].title}">
             <p>${winners[0].description}</p>
@@ -273,12 +273,12 @@
           countdownEl.textContent = seconds;
           if (seconds <= 0) {
             clearInterval(timer);
-            window.location.href = "anime.html";
+            window.location.href = "Manga.html";
           }
         }, 1000);
         document.querySelector('.btn-finish').addEventListener('click', () => {
           clearInterval(timer);
-          window.location.href = "anime.html";
+          window.location.href = "Manga.html";
         });
       } else {
         currentRound = winners;
@@ -317,7 +317,7 @@
       updateRoundIndicator();
       loadPair();
     } else {
-      cardContainer.innerHTML = `<div class="winner"><h2>Aucun anime pour cette catégorie</h2></div>`;
+      cardContainer.innerHTML = `<div class="winner"><h2>Aucun manga pour cette catégorie</h2></div>`;
       roundIndicator.textContent = '';
     }
   }
