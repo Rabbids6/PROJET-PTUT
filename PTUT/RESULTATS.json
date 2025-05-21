@@ -1,0 +1,100 @@
+[
+  {
+    "MANGA": {
+      "id": "0",
+      "details": {
+        "fav": "Test",
+        "pseudo": "MangaLover",
+        "age": "18",
+        "sex": "M"
+      }
+    }
+  },
+  {
+    "ANIME": {
+      "id": "0",
+      "details": {
+        "fav": "Test",
+        "pseudo": "MangaLover",
+        "age": "18",
+        "sex": "M"
+      }
+    }
+  },
+  {
+    "PERSO": {
+      "id": "0",
+      "details": {
+        "fav": "Test",
+        "pseudo": "MangaLover",
+        "age": "18",
+        "sex": "M"
+      }
+    }
+  },
+  {
+    "id": 1747765922044,
+    "details": {
+      "Pseudo": "obscene",
+      "Manga": "",
+      "Anime": "Jujutsu Kaisen",
+      "Personnage": ""
+    }
+  },
+  {
+    "id": 1747767828434,
+    "details": {
+      "Pseudo": "salope",
+      "Manga": "",
+      "Anime": "A Silent Voice",
+      "Personnage": ""
+    }
+  },
+  {
+    "id": 1747767869543,
+    "details": {
+      "Pseudo": "salope",
+      "Manga": "",
+      "Anime": "Beelzebub",
+      "Personnage": ""
+    }
+  },
+  {
+    "id": 1747768348362,
+    "details": {
+      "Pseudo": "azery",
+      "Age": "24",
+      "Manga": "Love Is Wars"
+    }
+  },
+  {
+    "id": 1747768385699,
+    "details": {
+      "Pseudo": "azery",
+      "Age": "24",
+      "Anime": "Fire Force"
+    }
+  },
+  {
+    "id": 1747768643583,
+    "details": {
+      "Pseudo": "test",
+      "Age": "23",
+      "Anime": {
+        "Titre": "Death Note",
+        "Cat": "seinen"
+      }
+    }
+  },
+  {
+    "id": 1747768667029,
+    "details": {
+      "Pseudo": "test",
+      "Age": "23",
+      "Anime": {
+        "Titre": "One Piece",
+        "Cat": "shōnen"
+      }
+    }
+  }
+]
