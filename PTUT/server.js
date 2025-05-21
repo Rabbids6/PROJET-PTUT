@@ -2,12 +2,12 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const { Pool } = require('pg');
-const { ajouterElementJSON } = require('./RoutineStockage'); // Ton module pour écrire dans JSON
+const { ajouterElementJSON } = require('./RoutineStockage');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Config PostgreSQL via variable d'environnement
+// Connexion PostgreSQL via variable d'environnement Render
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false }
@@ -19,42 +19,51 @@ app.use(express.json());
 // Servir les fichiers statiques depuis 'public'
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Rediriger '/' vers 'pseudo.html'
+// Rediriger la racine vers pseudo.html
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'pseudo.html'));
 });
 
-// Route pour ajouter un élément JSON
+// Route pour ajouter un élément dans le fichier JSON
 app.post('/ajouterElementJSON', async (req, res) => {
   try {
-    console.log("Appel de ajouterElementJSON (server.js)");
-    const utilisateur = req.body; // Doit contenir { Pseudo: "..." }
+    console.log("Ajout JSON en cours...");
+    const utilisateur = req.body;
     await ajouterElementJSON('RESULTATS.json', utilisateur);
     res.send('Utilisateur ajouté avec succès');
-    console.log("Succès ajouterElementJSON (server.js)");
   } catch (error) {
-    console.error("Erreur :", error);
+    console.error("Erreur ajout JSON :", error);
     res.status(500).send('Erreur serveur');
   }
 });
 
-// Route POST pour convertir le JSON en PostgreSQL
+// Route pour importer tout le JSON vers PostgreSQL
 app.post('/importJSON', async (req, res) => {
   try {
     const data = JSON.parse(fs.readFileSync(path.join(__dirname, 'RESULTATS.json'), 'utf8'));
 
-    for (const item of data) {
-      // Adapte les champs ici selon ta table et JSON
+    for (const obj of data) {
+      const [categorie, contenu] = Object.entries(obj)[0]; // "MANGA": { id, details }
+      if (!contenu || !contenu.details) continue;
+
+      const id = contenu.id || null;
+      const d = contenu.details;
+
+      const fav = d.fav || null;
+      const pseudo = d.pseudo || null;
+      const age = d.age ? parseInt(d.age) : null;
+      const sex = d.sex || null;
+
       await pool.query(
-        'INSERT INTO joueurs (pseudo, score) VALUES ($1, $2)',
-        [item.Pseudo || item.pseudo, item.Score || item.score || 0] // exemples de clés possibles
+        'INSERT INTO preferences (categorie, original_id, pseudo, fav, age, sex) VALUES ($1, $2, $3, $4, $5, $6)',
+        [categorie, id, pseudo, fav, age, sex]
       );
     }
 
-    res.send('Import JSON vers PostgreSQL réussi !');
+    res.send('Import JSON vers PostgreSQL réussi');
   } catch (error) {
-    console.error("Erreur lors de l'import JSON vers PostgreSQL :", error);
-    res.status(500).send('Erreur lors de l\'import JSON');
+    console.error("Erreur import JSON -> PostgreSQL :", error);
+    res.status(500).send('Erreur serveur import');
   }
 });
 
