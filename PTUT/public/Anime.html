@@ -234,7 +234,37 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
       `;
     } else {
-      if (winners.length === 1) {
+           if (winners.length === 1) {
+        // Envoi auto des résultats au backend
+        const nouvelElement = {
+          [selectedCategory.toUpperCase()]: {
+            id: Date.now(),
+            details: {
+              pseudo: localStorage.pseudo || '',
+              age: localStorage.age || null,
+              fav: winners[0]?.title || '',
+              sex: localStorage.sex || ''
+            }
+          }
+        };
+      
+        console.log("Données à envoyer :", nouvelElement);
+      
+        // Envoi via fetch
+        try {
+          await fetch('http://localhost:3000/ajouterElementJSON', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(nouvelElement)
+          });
+          console.log('Résultat envoyé avec succès');
+        } catch (error) {
+          console.error('Erreur lors de l’envoi des données :', error);
+        }
+      
+        // Affichage de la page de victoire
         document.body.classList.add('victory-background');
         document.body.innerHTML = `
           <div class="winner">
@@ -246,6 +276,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <button class="btn-finish">← Retour immédiat</button>
           </div>
         `;
+      
         let seconds = 10;
         const countdownEl = document.getElementById("countdown");
         const timer = setInterval(() => {
@@ -256,11 +287,14 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = "Anime.html";
           }
         }, 1000);
+      
         document.querySelector('.btn-finish').addEventListener('click', () => {
           clearInterval(timer);
           window.location.href = "Anime.html";
         });
+      
       } else {
+        // Continuer au prochain round
         currentRound = winners;
         winners = [];
         pairIndex = 0;
