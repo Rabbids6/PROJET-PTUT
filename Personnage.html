@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="retour.js" defer></script>
+  <link rel="stylesheet" href="css/retour.css">
+  <link rel="stylesheet" href="css/personnages.css">
+
+  <title>Tournoi Personnage</title>
+  
+</head>
+<body>
+
+  <header>
+    <h1>Tournoi All Time Personnage</h1>
+    <div class="container-retour">
+      <a href="Jouer maintenant.html">
+  <button class="btn-retour">← Retour à l'accueil</button>
+      </a>
+    </div>
+
+    <div class="categories">
+      <div class="category selected" data-category="All-Time">All Time</div>
+      <div class="category" data-category="Demon Slayer">Demon Slayer</div>
+      <div class="category" data-category="One Piece">One Piece</div>
+      <div class="category" data-category="Bleach">Bleach</div>
+      <div class="category" data-category="HunterXHunter">HunterXHunter</div>
+      <div class="category" data-category="Dragon Ball Z">Dragon Ball Z</div>
+      <div class="category" data-category="Fairy Tail">Fairy Tail</div>
+      <div class="category" data-category="Naruto Shippuden">Naruto Shippuden</div>
+      <div class="category" data-category="SNK">SNK</div>
+      <div class="category" data-category="Blue Lock">Blue Lock</div>
+      <div class="category" data-category="Jujutsu Kaisen">Jujutsu Kaisen</div>
+      <div class="category" data-category="MHA">MHA</div>
+      <div class="category" data-category="Fire Force">Fire Force</div>
+      <div class="category" data-category="Tokyo Ghoul">Tokyo Ghoul</div>
+      <div class="category" data-category="Nanatsu No Taizai">Nanatsu No Taizai</div>
+      <div class="category" data-category="Classroom Of The Elite">Classroom Of The Elite</div>
+    </div>
+    <div id="roundIndicator">Round 1</div>
+  </header>
+
+  <div class="card-container">
+    <div class="card" id="card1"></div>
+    <div class="card" id="card2"></div>
+  </div>
+<footer> 
+  <p>© Auteur : Chapuis Nathan, Ficat Maxime, Laval Elie, Laborie Lilian</p>
+</footer>
+  <script>
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const categoriesData = {
+      "all-time": [
+        { image: "Personnage/Demon Slayer/Kokushibo.jpg", title: "Kokushibo", description: "Ancien et redoutable démon, premier des Lunes Supérieures, dont la maîtrise du combat est aussi légendaire que tragique" },
+        { image: "Personnage/Demon Slayer/Tanjiro.jpg", title: "Tanjiro", description: "Jeune pourfendeur intrépide, dernier disciple du souffle du soleil, guidé par la compassion et la détermination" },
+        { image: "Personnage/One Piece/Luffy.jpg", title: "Luffy", description: "Capitaine audacieux au rêve de devenir le roi des pirates" },
+        { image: "Personnage/One Piece/Zoro.jpg", title: "Zoro", description: "Épéiste redouté, déterminé à devenir le meilleur sabreur du monde" },
+        { image: "Personnage/Bleach/Ichigo.jpg", title: "Ichigo", description: "Monstre de la pression spirituelle, à la fois Shinigami, Fullbring, Quincy et Hollow" },
+        { image: "Personnage/Bleach/Sosuke Aizen.jpg", title: "Sosuke Aizen", description: "Ex capitaine de la 5eme division, plus grand manipulateur, et l'un des plus puissant Shinigami/Hollow" },
+        { image: "Personnage/Bleach/Kenpachi.jpg", title: "Kenpachi", description: "Guerrier féroce, animé par une soif insatiable de combat et de chaos" },
+        { image: "Personnage/One Piece/Monkey D Dragon.jpg", title: "Monkey D Dragon", description: "Révolutionnaire énigmatique, redouté pour son idéalisme radical et son influence mondiale" },
+        { image: "Personnage/One Piece/Kaido.jpg", title: "Kaido", description: "Empereur des mers, connu pour son invincibilité et sa brutalité inégalée" },
+        { image: "Personnage/One Piece/Edward Newgate.jpg", title: "Edward Newgate", description: "Barbe Blanche, pirate mythique dont la force légendaire inspire la crainte" },
+        { image: "Personnage/Demon Slayer/Yoriichi.jpg", title: "Yoriichi", description: "Légendaire guerrier du soleil, détenteur du souffle divin, dont la puissance transcende les âges" },
+        { image: "Personnage/Demon Slayer/Tanjiro Demon King.jpg", title: "Tanjiro Demon King", description: "Fusion mythique de Tanjiro et d'une royauté démoniaque, combinant le souffle du soleil avec une force sanguinaire irrésistible" },
+        { image: "Personnage/Bleach/Yhwach.jpg", title: "Yhwach", description: "Souverain des Quincy, incarnant une ambition divine et une puissance inimaginable" }, 
+        { image: "Personnage/HunterXHunter/Gon.jpg", title: "Gon", description: "Jeune Hunter au grand potentiel, motivé par la recherche de son père." },
+        { image: "Personnage/HunterXHunter/KIllua.jpg", title: "Killua", description: "Assassin surdoué de la famille Zoldik, meilleur ami de Gon." },
+        { image: "Personnage/HunterXHunter/Meruem.jpg", title: "Meruem", description: "Roi des Fourmis-Chimères, évolution ultime du Nen." },
+        { image: "Personnage/HunterXHunter/Kurapika.jpg", title: "Kurapika", description: "Dernier survivant du clan Kurta, cherche à venger les siens." },
+        { image: "Personnage/Dragon Ball Z/Son Goku.jpg", title: "Son Goku", description: "Saiyan au cœur pur, défenseur de la Terre et expert en arts martiaux." },
+        { image: "Personnage/Bleach/Yamamoto.jpg", title: "Yamamoto", description: "Commandant vénéré, porteur de l'épée incandescente et leader absolu des Soul Reapers" },
+        { image: "Personnage/Dragon Ball Z/Son Gohan.jpg", title: "Son Gohan", description: "Fils de Goku, prodige au potentiel immense." },
+        { image: "Personnage/Fairy Tail/Natsu Dragnir.jpg", title: "Natsu Dragnir", description: "Mage de feu impulsif et loyal, capable d’utiliser la magie du Dragon Slayer pour brûler ses ennemis." }, 
+        { image: "Personnage/Fairy Tail/Lucy Heartfilia.jpg", title: "Lucy Heartfilia", description: "Mage constellationniste ingénieuse, qui invoque des esprits célestes grâce à ses clefs magiques." },
+        { image: "Personnage/Fairy Tail/Erza Scarlet.jpg", title: "Erza Scarlet", description: "Titania de Fairy Tail, experte en re-équipement d’armures magiques et maître du combat à l’épée." },
+        { image: "Personnage/Fairy Tail/Acnologia.jpg", title: "Acnologia", description: "Dragon Noir devenu humain, incarnant la destruction ultime, il parcourt le monde pour anéantir humains et dragons." },
+        { image: "Personnage/Fairy Tail/Zeleph.jpg", title: "Zeleph", description: "Premier mage noir et fondateur de la magie noire, il est à l’origine du déclin des dragons." },
+        { image: "Personnage/Naruto Shippuden/Naruto Uzumaki.jpg", title: "Naruto Uzumaki", description: "Héros énergique, animé par le rêve de devenir Hokage malgré les obstacles." },
+        { image: "Personnage/Naruto Shippuden/Kyubi.jpg", title: "Kyubi", description: "Démon renard à neuf queues, source de puissance légendaire et de chaos." },
+        { image: "Personnage/Naruto Shippuden/Itachi Uchiha.jpg", title: "Itachi Uchiha", description: "Prodige complexe, porteur de secrets douloureux et d'une puissance redoutable." },
+        { image: "Personnage/Naruto Shippuden/Sasuke Uchiha.jpg", title: "Sasuke Uchiha", description: "Ninja tourmenté en quête de rédemption, porté par le désir de vengeance." },
+        { image: "Personnage/Naruto Shippuden/Madara Uchiha.jpg", title: "Madara Uchiha", description: "Mythe redouté du shinobi, dont la puissance dévastatrice défie l'imagination." },
+        { image: "Personnage/Snk/Eren Jäger.jpg", title: "Eren Jäger", description: "Protagoniste central, porteur du Titan Assaillant et moteur du conflit final." },
+        { image: "Personnage/Snk/Mikasa Ackerman.jpg", title: "Mikasa Ackerman", description: "Guerrière redoutable, protectrice d’Eren et membre du clan Ackerman." },
+        { image: "Personnage/Snk/Armin Arlert.jpg", title: "Armin Arlert", description: "Stratège brillant et héritier du Titan Colossal." },
+        { image: "Personnage/Blue Lock/isagi.jpg", title: "Yoichi Isagi", description: "Attaquant tactique, obsédé par le but et la vision du jeu." },
+        { image: "Personnage/Snk/Livaï.jpg", title: "Livaï", description: "Caporal-chef surpuissant du Bataillon d’exploration." },
+        { image: "Personnage/Blue Lock/Rin Itoshi.jpg", title: "Rin Itoshi", description: "Prodige glacé, rival déterminé d’Isagi." },
+        { image: "Personnage/Blue Lock/Michael Kaiser.jpg", title: "Michael Kaiser", description: "Superstar allemande, génie arrogant et dominateur." },
+        { image: "Personnage/Jujutsu Kaisen/Satoru Gojo.jpg", title: "Satoru Gojo", description: "Exorciste surpuissant, détenteur du Sixième Œil et de l’Infini." },
+        { image: "Personnage/Jujutsu Kaisen/Yuji Itadori.jpg", title: "Yuji Itadori", description: "Hôte de Sukuna, force physique et altruisme hors normes." },
+        { image: "Personnage/Jujutsu Kaisen/Ryomen Sukuna.jpg", title: "Ryomen Sukuna", description: "Roi des fléaux, puissance démoniaque incarnée." },
+        { image: "Personnage/HunterXHunter/Kuroro.jpg", title: "Kuroro", description: "Leader charismatique de la Brigade Fantôme, voleur de capacités Nen." },
+        { image: "Personnage/MHA/Izuku Midoriya.jpg", title: "Izuku Midoriya", description: "Héros déterminé héritier du pouvoir d’All Might, toujours prêt à se surpasser. Alter : One For All" },
+        { image: "Personnage/MHA/All For One.jpg", title: "All For One", description: "Ennemi ultime, il vole les alters pour régner sur le chaos. Alter : All For One" },
+        { image: "Personnage/MHA/All Might.jpg", title: "All Might", description: "Symbole de paix et de puissance, l’ancien héros numéro un. Alter : One For All (perdu)" },
+        { image: "Personnage/MHA/Stain.jpg", title: "Stain", description: "Tueur de héros avec une idéologie radicale et un sang toxique. Alter : Coagulation" },
+        { image: "Personnage/Fire Force/Shinra Kusakabe.jpg", title: "Shinra Kusakabe", description: "Pompier de la 8e brigade doté de pouvoirs pyrokynétiques et surnommé le Démon." },
+        { image: "Personnage/Fire Force/Arthur Boyle.jpg", title: "Arthur Boyle", description: "Chevalier auto-proclamé maniant une épée de plasma, compagnon de Shinra." },
+        { image: "Personnage/Tokyo Ghoul/Kaneki Ken.jpg", title: "Kaneki Ken", description: "Étudiant timide devenu demi-goule après une greffe d'organe, il lutte pour conserver son humanité." },
+        { image: "Personnage/One Piece/Mihawk.jpg", title: "Mihawk", description: "Maître épéiste, connu pour la précision et la puissance de ses coups" },
+        { image: "Personnage/Tokyo Ghoul/Eto.jpg", title: "Eto", description: "Chef de l'Aogiri, écrivaine célèbre et goule millénaire." },
+        { image: "Personnage/Tokyo Ghoul/Arima Kishô.jpg", title: "Arima Kishô", description: "Inspecteur légendaire du CCG, aussi redouté que respecté." },
+        { image: "Personnage/Nanatsu No Taizai/Meliodas.jpg", title: "Meliodas", description: "Chef charismatique des Seven Deadly Sins, incarnant le péché de la colère avec une force immortelle et un passé énigmatique" },
+        { image: "Personnage/Nanatsu No Taizai/Ban.jpg", title: "Ban", description: "Voleur immortel défiant la mort avec une agilité sans pareille et une ambition insatiable" },
+        { image: "Personnage/Nanatsu No Taizai/Zeldris.jpg", title: "Zeldris", description: "Démon redoutable, fils du Roi Démon, incarnant la loyauté et la furie infernale" },
+        { image: "Personnage/Nanatsu No Taizai/Escanor.jpg", title: "Escanor", description: "Le plus puissant de la race humaines fesant parti des seven deadly sins, possédent la magie du soleil" },
+        { image: "Personnage/Bleach/Kisuke Urahara.jpg", title: "Kisuke Urahara ", description: "Génie inventif, ex-capitaine ingénieux et maître stratège aux nombreuses inventions" },
+        { image: "Personnage/Cote/Kiyotaka Ayanokōji.jpg", title: "Kiyotaka Ayanokōji", description: "Élève de la Classe D, discret et calme, doté d’une intelligence et de compétences martiales hors du commun, issues de son entraînement dans la White Room." },
+        { image: "Personnage/Cote/Rokusuke Kōenji.jpg", title: "Rokusuke Kōenji", description: "Athlète hors pair issu d’une famille d’athlètes, il se distingue par sa force physique et son tempérament bagarreur." },
+        { image: "Personnage/Cote/Suzune Horikita.jpg", title: "Suzune Horikita", description: "Soeur cadette de Manabu, brillante et déterminée, elle excelle tant académiquement que dans les sports de combat et la stratégie." },
+        { image: "Personnage/One Piece/Doflamingo.jpg", title: "Doflamingo", description: "Seigneur cruel de la pègre, aux manœuvres aussi élégantes que perfides" },
+        { image: "Personnage/Nanatsu No Taizai/Lancelot.jpg", title: "Lancelot", description: "Fils de Ban et Elaine et prince du royaume de Benwick, Lancelot fait partie des 4 chevalier de l'apocalipse, celui de la guerre, considérait comme le plus fort d'entre eux" },
+        { image: "Personnage/HunterXHunter/Pitou.jpg", title: "Pitou", description: "Garde royal de Meruem, expert en manipulation du Nen médical." },
+        { image: "Personnage/One Piece/Shanks.jpg", title: "Shanks", description: "Pirate emblématique, dont le charisme et la sagesse inspirent le respect universel" },
+        { image: "Personnage/One Piece/Gol D Roger.jpg", title: "Gol D Roger", description: "Légendaire roi des pirates, symbole ultime de liberté et d'audace" }
+        ],
+      "Demon Slayer": [
+        { image: "Personnage/Demon Slayer/Kokushibo.jpg", title: "Kokushibo", description: "Ancien et redoutable démon, premier des Lunes Supérieures, dont la maîtrise du combat est aussi légendaire que tragique" },
+        { image: "Personnage/Demon Slayer/Tanjiro.jpg", title: "Tanjiro", description: "Jeune pourfendeur intrépide, dernier disciple du souffle du soleil, guidé par la compassion et la détermination" },
+        { image: "Personnage/Demon Slayer/Zenitsu.jpg", title: "Zenitsu", description: "Ninja fébrile transformé en guerrier éclair, capable d'explosions de vitesse et d'une puissance insoupçonnée malgré sa timidité" },
+        { image: "Personnage/Demon SLayer/Inosuke.jpg", title: "Inosuke", description: "Guerrier impétueux au masque de sanglier, dont l'instinct sauvage et la force brute défient toute attente" },
+        { image: "Personnage/Demon SLayer/Rengoku.jpg", title: "Rengoku", description: "Pilier flamboyant au cœur ardent, porteur du souffle de la flamme et d’un esprit inébranlable" },
+        { image: "Personnage/Demon Slayer/Sanemi.jpg", title: "Sanemi", description: "Fier et tenace pourfendeur, ambassadeur du souffle du vent, alliant férocité et détermination" },
+        { image: "Personnage/Demon Slayer/Akaza.jpg", title: "Akaza", description: "Démon exalté, troisième des Lunes Supérieures, guidé par une passion guerrière implacable et une rivalité éternelle" },
+        { image: "Personnage/Demon Slayer/Gyomei.jpg", title: "Gyomei", description: "Pilier de la roche, figure imposante et spirituelle, considéré comme le plus puissant parmi les piliers" },
+        { image: "Personnage/Demon Slayer/Yoriichi.jpg", title: "Yoriichi", description: "Légendaire guerrier du soleil, détenteur du souffle divin, dont la puissance transcende les âges" },
+        { image: "Personnage/Demon Slayer/Muzan.jpg", title: "Muzan", description: "Créateur de démons millénaire, instigateur d'une ère de terreur et d'immortalité par le sang" },
+        { image: "Personnage/Demon Slayer/Tanjiro Demon King.jpg", title: "Tanjiro Demon King", description: "Fusion mythique de Tanjiro et d'une royauté démoniaque, combinant le souffle du soleil avec une force sanguinaire irrésistible" },
+        { image: "Personnage/Demon Slayer/Daiki et Gyutaro.jpg", title: "Daiki et Gyutaro", description: "Duo démoniaque, incarnant la sixième Lune Supérieure par leur fureur combinée et leur perfidie mortelle" },
+        { image: "Personnage/Demon Slayer/Gyokko.jpg", title: "Gyokko", description: "Démon macabre et maladif, cinquième des Lunes Supérieures, dont l'art transforme la beauté en horreur" },
+        { image: "Personnage/Demon Slayer/Hantengu.jpg", title: "Hantengu", description: "Démon fragmenté, quatrième des Lunes Supérieures, dont la multiplicité d'âmes incarne un mal insaisissable" },
+        { image: "Personnage/Demon Slayer/Misuri.jpg", title: "Misuri", description: "Pourfendeuse au cœur tendre, porteuse du souffle de l'amour, fusionnant compassion et détermination" },
+        { image: "Personnage/Demon Slayer/Obanai.jpg", title: "Obanai", description: "Maître du souffle du serpent, impitoyable et strict, guidé par un sens aigu de la justice" },
+        { image: "Personnage/Demon Slayer/Tomioka.jpg", title: "Tomioka", description: "Pilier de l'eau, stoïque et puissant, maîtrisant les vagues avec une tranquillité destructrice" },
+        { image: "Personnage/Demon Slayer/Muichiro.jpg", title: "Muichiro", description: "Jeune prodige du souffle de la brume, dont l'inconstance révèle une force redoutable en devenir" },
+        { image: "Personnage/Demon Slayer/Doma.jpg", title: "Doma", description: "Deuxième des Lunes Supérieures, démon glacé et implacable, semant la terreur par sa présence glaciale" },
+        { image: "Personnage/Demon Slayer/Tamayo.jpg", title: "Tamayo", description: "Démon érudite et bienveillante, spécialiste en médecine démoniaque, oscillant entre savoir interdit et remords" },
+        { image: "Personnage/Demon Slayer/Tengen.jpg", title: "Tengen", description: "Pilier du son, combattant charismatique dont les vibrations résonnent comme un cri de guerre sur le champ de bataille" },
+        { image: "Personnage/Demon Slayer/Shinobu.jpg", title: "Shinobu", description: "Pilier de l'insecte, agile et létale, utilisant des poisons exquis pour foudroyer les démons" },
+        { image: "Personnage/Demon Slayer/Enmu.jpg", title: "Enmu", description: "Démon cauchemardesque des Lunes Inférieures, manipulateur de rêves et instigateur de terreurs nocturnes" },
+        { image: "Personnage/Demon Slayer/Nezuko.jpg", title: "Nezuko", description: "Démon au cœur pur, première à se dresser contre le soleil, incarnation d'une révolte silencieuse contre la malédiction" },
+        { image: "Personnage/Demon Slayer/Nakime.jpg", title: "Nakime", description: "Démon mystérieux, quatrième des Lunes Supérieures, fusionné avec l'architecture d'un sanctuaire démoniaque" },
+        { image: "Personnage/Demon Slayer/Genya.jpg", title: "Genya", description: "Pourfendeur audacieux, capable de puiser dans l'essence démoniaque pour inverser le cours de la bataille" },
+        { image: "Personnage/Demon Slayer/Kaigaku.jpg", title: "Kaigaku", description: "Successeur sombre et ambitieux, sixième des Lunes Supérieures, dont la rivalité déchire l'ordre démoniaque" },
+        { image: "Personnage/Demon Slayer/Rui.jpg", title: "Rui", description: "Démon fragile et cruel, représentant la sixième Lune Inférieure, où la vulnérabilité masque une froide cruauté" },
+        { image: "Personnage/Demon Slayer/Kagaya.jpg", title: "Kagaya", description: "Guide spirituel des pourfendeurs, chef vénéré dont les prophéties et la sagesse inspirent l'humanité dans sa lutte" },
+        { image: "Personnage/Demon Slayer/Kanao.jpg", title: "Kanao", description: "Pourfendeuse du souffle de la fleur, épanouie dans sa discrétion et éveillée à la beauté de la détermination" },
+        { image: "Personnage/Demon Slayer/Urokodaki.jpg", title: "Urokodaki", description: "Ancien mentor légendaire, transmettant avec sagesse les secrets du souffle du soleil aux nouvelles générations" },
+        { image: "Personnage/Demon Slayer/Yushiro.jpg", title: "Yushiro", description: "Démon fidèle et dévoué, assistant silencieux de Tamayo, illustrant la dualité de la nature démoniaque et humaine" }
+        ], 
+      "One Piece": [
+        { image: "Personnage/One Piece/Luffy.jpg", title: "Luffy", description: "Capitaine audacieux au rêve de devenir le roi des pirates" },
+        { image: "Personnage/One Piece/Zoro.jpg", title: "Zoro", description: "Épéiste redouté, déterminé à devenir le meilleur sabreur du monde" },
+        { image: "Personnage/One Piece/Ussop.jpg", title: "Ussop", description: "Tireur d'élite imaginatif, expert en mensonges et en stratagèmes ingénieux" },
+        { image: "Personnage/One Piece/Nami.jpg", title: "Nami", description: "Navigatrice brillante, experte en cartographie et en quête de trésors" },
+        { image: "Personnage/One Piece/Robin.jpg", title: "Robin", description: "Archéologue énigmatique, détentrice des secrets anciens du monde" },
+        { image: "Personnage/One Piece/Chopper.jpg", title: "Chopper", description: "Médecin adorable, transformable grâce à son fruit du démon aux multiples formes" },
+        { image: "Personnage/One Piece/Franky.jpg", title: "Franky", description: "Constructeur excentrique, pirate ingénieur doté d'un cœur mécanique" },
+        { image: "Personnage/One Piece/Sanji.jpg", title: "Sanji", description: "Cuisinier passionné, combattant élégant au cœur noble et flamboyant" },
+        { image: "Personnage/One Piece/Brook.jpg", title: "Brook", description: "Musicien squelettique, joyeux malgré son passé tragique et son immortalité" },
+        { image: "Personnage/One Piece/Jimbey.jpg", title: "Jimbey", description: "Membre mystérieux, discret mais essentiel par sa présence intrigante" },
+        { image: "Personnage/One Piece/Mihawk.jpg", title: "Mihawk", description: "Maître épéiste, connu pour la précision et la puissance de ses coups" },
+        { image: "Personnage/One Piece/Crocodile.jpg", title: "Crocodile", description: "Antagoniste impitoyable, avide de pouvoir et manipulateur redoutable" },
+        { image: "Personnage/One Piece/Doflamingo.jpg", title: "Doflamingo", description: "Seigneur cruel de la pègre, aux manœuvres aussi élégantes que perfides" },
+        { image: "Personnage/One Piece/Kuma.jpg", title: "Kuma", description: "Guerrier silencieux, redouté pour sa capacité à repousser quiconque se dresse sur sa route" },
+        { image: "Personnage/One Piece/Moria.jpg", title: "Moria", description: "Antagoniste sombre, capable de manipuler l'ombre pour invoquer des zombies" },
+        { image: "Personnage/One Piece/Marshall D.Teach.jpg", title: "Marshall D.Teach", description: "Pirate impitoyable connu sous le nom de Barbe Noire, avide et traître" },
+        { image: "Personnage/One Piece/Boa Hancock.jpg", title: "Boa Hancock", description: "Impératrice séduisante, dont la beauté et le pouvoir font trembler ses adversaires" },
+        { image: "Personnage/One Piece/Baggy.jpg", title: "Baggy", description: "Clown de la piraterie, aussi maladroit que redoutable dans ses imprévus" },
+        { image: "Personnage/One Piece/Weevil.jpg", title: "Weevil", description: "Conquérant déterminé, rival redoutable dans les luttes du Nouveau Monde" },
+        { image: "Personnage/One Piece/Law.jpg", title: "Law", description: "Corsaire stratégique, chirurgien de guerre à l'esprit calculateur et implacable" },
+        { image: "Personnage/One Piece/Gol D Roger.jpg", title: "Gol D Roger", description: "Légendaire roi des pirates, symbole ultime de liberté et d'audace" },
+        { image: "Personnage/One Piece/Silvers Rayleigh.jpg", title: "Silvers Rayleigh", description: "Ancien bras droit de Roger, mentor sage et maître du combat maritime" },
+        { image: "Personnage/One Piece/Scopper Gaban.jpg", title: "Scopper Gaban", description: "Membre loyal, discret et efficace dans le soutien de l'équipage" },
+        { image: "Personnage/One Piece/Zeff.jpg", title: "Zeff", description: "Ex-chef cuisinier, mentor de Sanji, incarnant sacrifice et résilience" },
+        { image: "Personnage/One Piece/Crocus.jpg", title: "Crocus", description: "Gardien sage, protecteur des secrets et traditions de son île" },
+        { image: "Personnage/One Piece/Edward Newgate.jpg", title: "Edward Newgate", description: "Barbe Blanche, pirate mythique dont la force légendaire inspire la crainte" },
+        { image: "Personnage/One Piece/Shakuyaku.jpg", title: "Shakuyaku", description: "Figure mystérieuse, dispensant sagesse et conseils d'une voix énigmatique" },
+        { image: "Personnage/One Piece/Gloriosa.jpg", title: "Gloriosa", description: "Personnage énigmatique, alliant élégance et aura de mystère inoubliable" },
+        { image: "Personnage/One Piece/Shiki.jpg", title: "Shiki", description: "Pirate excentrique, reconnu pour sa bravoure et son style de combat imprévisible" },
+        { image: "Personnage/One Piece/Charlotte Linlin.jpg", title: "Charlotte Linlin", description: "Reine féroce, dotée d'une force surhumaine et d'un tempérament impitoyable" },
+        { image: "Personnage/One Piece/Don Chinjao.jpg", title: "Don Chinjao", description: "Ancien combattant légendaire, célèbre pour ses tatouages et sa puissance brute" },
+        { image: "Personnage/One Piece/Kaido.jpg", title: "Kaido", description: "Empereur des mers, connu pour son invincibilité et sa brutalité inégalée" },
+        { image: "Personnage/One Piece/Kozuki Oden.jpg", title: "Kozuki Oden", description: "Samouraï intrépide, porteur d'un destin tragique et symbole d'honneur" },
+        { image: "Personnage/One Piece/Rocks D. Xebec.jpg", title: "Rocks D. Xebec", description: "Pirate mythique dont l'ambition et la force ont marqué l'histoire des mers" },
+        { image: "Personnage/One Piece/Naguri.jpg", title: "Naguri", description: "Personnage énigmatique, dont l'attitude imprévisible cache une force insoupçonnée" },
+        { image: "Personnage/One Piece/Douglas Bullet.jpg", title: "Douglas Bullet", description: "Capitaine féroce, reconnu pour sa rapidité et son style de combat impitoyable" },
+        { image: "Personnage/One Piece/Eustass Kid.jpg", title: "Eustass Kid", description: "Pirate audacieux au caractère farouche, animé par une ambition dévorante" },
+        { image: "Personnage/One Piece/Basil Hawkins.jpg", title: "Basil Hawkins", description: "Corsaire mystérieux, dont les pouvoirs basés sur la chance défient le destin" },
+        { image: "Personnage/One Piece/X.Drake.jpg", title: "X. Drake", description: "Ancien soldat de marine devenu pirate, maître des tactiques navales surprenantes" },
+        { image: "Personnage/One Piece/Apoo.jpg", title: "Apoo", description: "Pirate excentrique, dont le pouvoir sonore se transforme en force dévastatrice" },
+        { image: "Personnage/One Piece/Urouge.jpg", title: "Urouge", description: "Capitaine robuste, reconnu pour sa force colossale et sa résilience inébranlable" },
+        { image: "Personnage/One Piece/Killer.jpg", title: "Killer", description: "Assassin dévoué, redouté pour sa férocité et son habileté meurtrière" },
+        { image: "Personnage/One Piece/Bonney.jpg", title: "Bonney", description: "Pirate au passé énigmatique, célèbre pour sa capacité à manipuler son âge" },
+        { image: "Personnage/One Piece/Capone Bege.jpg", title: "Capone Bege", description: "Boss mafieux pirate, dont la stratégie implacable inspire crainte et respect" },
+        { image: "Personnage/One Piece/Caribou.jpg", title: "Caribou", description: "Pirate malchanceux, connu pour ses mésaventures rocambolesques et son arrogance" },
+        { image: "Personnage/One Piece/Coribou.jpg", title: "Coribou", description: "Personnage imprévisible, mêlant ruse et maladresse avec une étonnante efficacité" },
+        { image: "Personnage/One Piece/Albion.jpg", title: "Albion", description: "Guerrier énigmatique, entouré de mystère et porteur d'un passé légendaire" },
+        { image: "Personnage/One Piece/Bellamy.jpg", title: "Bellamy", description: "Pirate arrogant, symbolisant la brutalité et l'ambition des mers agitées" },
+        { image: "Personnage/One Piece/Bartolomeo.jpg", title: "Bartolomeo", description: "Fanatique loyal, dont la passion pour Luffy se traduit par une force imprévisible" },
+        { image: "Personnage/One Piece/Cavendish.jpg", title: "Cavendish", description: "Épéiste flamboyant, alliant charme et sauvagerie dans ses duels spectaculaires" },
+        { image: "Personnage/One Piece/Jack.jpg", title: "Jack", description: "Empereur des bêtes, brutal et impitoyable, semant la terreur dans le Nouveau Monde" },
+        { image: "Personnage/One Piece/Queen.jpg", title: "Queen", description: "Soldat monstrueux, dont la férocité et la transformation terrifiante défient l'imagination" },
+        { image: "Personnage/One Piece/King.jpg", title: "King", description: "Souverain impitoyable des cieux, incarnant la domination et la puissance des bêtes" },
+        { image: "Personnage/One Piece/Page One.jpg", title: "Page One", description: "Combattant titanesque, dont la force mécanique terrifie ses adversaires" },
+        { image: "Personnage/One Piece/Ulti.jpg", title: "Ulti", description: "Guerrière féroce des Beasts Pirates, alliant rapidité et brutalité sans concession" },
+        { image: "Personnage/One Piece/Who's-Who.jpg", title: "Who's-Who", description: "Ex-agent du gouvernement, énigmatique et rusé avec des allégeances incertaines" },
+        { image: "Personnage/One Piece/Sasaki.jpg", title: "Sasaki", description: "Samouraï redoutable du pays de Wano, fier héritier de traditions guerrières" },
+        { image: "Personnage/One Piece/Black Maria.jpg", title: "Black Maria", description: "Figure sinistre des Beasts Pirates, alliant élégance et cruauté impitoyable" },
+        { image: "Personnage/One Piece/Cracker.jpg", title: "Cracker", description: "Soldat biscuit, dont les créations éphémères se transforment en redoutables clones" },
+        { image: "Personnage/One Piece/Smoothie.jpg", title: "Smoothie", description: "Pirate élégante et redoutable, maître de la transformation et du poison concentré" },
+        { image: "Personnage/One Piece/Katakuri.jpg", title: "Katakuri", description: "Capitaine des Pirates de Big Mom, célèbre pour son pouvoir prémonitoire et son honneur inébranlable" },
+        { image: "Personnage/One Piece/Perospero.jpg", title: "Perospero", description: "Membre de l'équipage de Big Mom, capable de manipuler le sucre en armes redoutables" },
+        { image: "Personnage/One Piece/Oven.jpg", title: "Oven", description: "Forgeron géant de l'équipage de Big Mom, alliant force brute et savoir-faire colossal" },
+        { image: "Personnage/One Piece/Daifuku.jpg", title: "Daifuku", description: "Combattant imposant, dont la puissance déconcertante surprend autant qu'elle terrifie" },
+        { image: "Personnage/One Piece/Big Mom.jpg", title: "Big Mom", description: "Incarnation du chaos familial, entre instabilité émotionnelle et force dévastatrice" },
+        { image: "Personnage/One Piece/Vivi.jpg", title: "Vivi", description: "Princesse courageuse, porteuse d'espoir et de justice pour son royaume opprimé" },
+        { image: "Personnage/One Piece/Marco.jpg", title: "Marco", description: "Premier officier des Whitebeard Pirates, doté d'une capacité de régénération légendaire" },
+        { image: "Personnage/One Piece/Portgas D. Ace.jpg", title: "Portgas D. Ace", description: "Frère ardent, aimé pour son esprit flamboyant et son destin tragique" },
+        { image: "Personnage/One Piece/Joz.jpg", title: "Joz", description: "Guerrier loyal, reconnu pour sa force inébranlable et sa présence imposante" },
+        { image: "Personnage/One Piece/Satch.jpg", title: "Satch", description: "Combattant costaud des Whitebeard Pirates, symbole de bravoure et de ténacité" },
+        { image: "Personnage/One Piece/Vista.jpg", title: "Vista", description: "Commandant audacieux, dont la stratégie et le courage font de lui un guerrier remarquable" },
+        { image: "Personnage/One Piece/Rakuyou.jpg", title: "Rakuyou", description: "Guerrier mystérieux, enveloppé d'une aura sombre et d'un passé légendaire" },
+        { image: "Personnage/One Piece/Curiel.jpg", title: "Curiel", description: "Officier impitoyable, fidèle à sa mission avec une détermination sans faille" },
+        { image: "Personnage/One Piece/Shanks.jpg", title: "Shanks", description: "Pirate emblématique, dont le charisme et la sagesse inspirent le respect universel" },
+        { image: "Personnage/One Piece/Ben Beckmann.jpg", title: "Ben Beckmann", description: "Corsaire redoutable, dont la présence étrange et la tactique imprévisible déconcertent ses adversaires" },
+        { image: "Personnage/One Piece/Lucky Roux.jpg", title: "Lucky Roux", description: "Pirate chanceux, doté d'une inventivité surprenante et d'une aura d'imprévisibilité" },
+        { image: "Personnage/One Piece/Yasopp.jpg", title: "Yasopp", description: "Tireur d'élite inégalé, dont la précision et la patience font de lui un maître incontesté" },
+        { image: "Personnage/One Piece/Limejuice.jpg", title: "Limejuice", description: "Pirate excentrique, mêlant originalité et imprévisibilité dans ses attaques décalées" },
+        { image: "Personnage/One Piece/Ivankov.jpg", title: "Ivankov", description: "Révolutionnaire flamboyant, célèbre pour ses pouvoirs de transformation incroyables" },
+        { image: "Personnage/One Piece/Building Snake.jpg", title: "Building Snake", description: "Combattant singulier, dont l'apparence imposante cache une force surprenante" },
+        { image: "Personnage/One Piece/Howling Gab.jpg", title: "Howling Gab", description: "Furie des mers, dont le cri perçant et la sauvagerie déchaînée terrorisent ses ennemis" },
+        { image: "Personnage/One Piece/Hongo.jpg", title: "Hongo", description: "Personnage énigmatique, alliant mystère et puissance dans ses gestes déterminés" },
+        { image: "Personnage/One Piece/Monster.jpg", title: "Monster", description: "Créature monstrueuse, incarnant la brutalité et le chaos dans toute leur splendeur" },
+        { image: "Personnage/One Piece/Rockstar.jpg", title: "Rockstar", description: "Pirate énergique, dont la passion musicale se mêle à une force combative inégalée" },
+        { image: "Personnage/One Piece/Jesus Burgess.jpg", title: "Jesus Burgess", description: "Pirate impétueux, renommé pour sa force brute et son style de combat féroce" },
+        { image: "Personnage/One Piece/Shiliew.jpg", title: "Shiliew", description: "Pirate énigmatique, reconnu pour sa discrétion et son efficacité implacable" },
+        { image: "Personnage/One Piece/Van Augur.jpg", title: "Van Augur", description: "Tireur d'élite, dont la précision redoutable fait de lui un sniper infaillible" },
+        { image: "Personnage/One Piece/Avalo Pizarro.jpg", title: "Avalo Pizarro", description: "Capitaine brutal, régnant avec poigne et imprévisibilité sur son équipage" },
+        { image: "Personnage/One Piece/Laffitte.jpg", title: "Laffitte", description: "Pirate astucieux, alliant charme et ruse dans ses stratagèmes ingénieux" },
+        { image: "Personnage/One Piece/Catarina.jpg", title: "Catarina", description: "Pirate excentrique, célèbre pour son style de combat imprévisible et sa personnalité extravagante" },
+        { image: "Personnage/One Piece/Sanjuan Wolf.jpg", title: "Sanjuan Wolf", description: "Commandant impitoyable, dont l'instinct de prédateur le rend redoutable en bataille" },
+        { image: "Personnage/One Piece/Vasco Shot.jpg", title: "Vasco Shot", description: "Tireur agile, réputé pour la précision fulgurante de ses attaques" },
+        { image: "Personnage/One Piece/Doc Q.jpg", title: "Doc Q", description: "Médecin déjanté, célèbre pour ses expériences macabres et son allure sinistre" },
+        { image: "Personnage/One Piece/Akainu.jpg", title: "Akainu", description: "Amiral impitoyable, dont la rigueur féroce incarne une justice sans compromis" },
+        { image: "Personnage/One Piece/Kong.jpg", title: "Kong", description: "Marine impressionnant, reconnu pour sa stature imposante et sa force phénoménale" },
+        { image: "Personnage/One Piece/Sengoku.jpg", title: "Sengoku", description: "Ancien Amiral, brillant stratège dont la sagesse a marqué l'histoire marine" },
+        { image: "Personnage/One Piece/Kizaru.jpg", title: "Kizaru", description: "Amiral flegmatique, dont la lumière fulgurante témoigne d'une force implacable" },
+        { image: "Personnage/One Piece/Fujitora.jpg", title: "Fujitora", description: "Amiral empathique, praticien d'une justice teintée de compassion malgré sa rigueur" },
+        { image: "Personnage/One Piece/Ryokugyu.jpg", title: "Ryokugyu", description: "Amiral redoutable, dont la force sauvage et l'intuition impétueuse défient l'ordre établi" },
+        { image: "Personnage/One Piece/Aokiji.jpg", title: "Aokiji", description: "Ex-Amiral, incarnant un froid méthodique et une justice tempérée par la réflexion" },
+        { image: "Personnage/One Piece/John Giant.jpg", title: "John Giant", description: "Marine titanesque, célèbre pour sa stature imposante et sa force colossale" },
+        { image: "Personnage/One Piece/Stainless.jpg", title: "Stainless", description: "Marine déterminé, dont la résilience et la fidélité aux ordres sont exemplaires" },
+        { image: "Personnage/One Piece/Tsuru.jpg", title: "Tsuru", description: "Amiral tranquille, dont la sagesse et la stratégie apaisent la tempête" },
+        { image: "Personnage/One Piece/Momonga.jpg", title: "Momonga", description: "Marine méthodique, dont la sobriété dément une tactique redoutablement efficace" },
+        { image: "Personnage/One Piece/Smoker.jpg", title: "Smoker", description: "Capitaine obstiné, dont l'intégrité et la détermination font trembler les pirates" },
+        { image: "Personnage/One Piece/Dalmatien.jpg", title: "Dalmatien", description: "Marine vif, dont l'agilité et l'observation fine font toute la différence" },
+        { image: "Personnage/One Piece/Monkey D. Garp.jpg", title: "Monkey D. Garp", description: "Légende vivante, reconnu pour sa puissance surhumaine et son dévouement à la justice" },
+        { image: "Personnage/One Piece/Hina.jpg", title: "Hina", description: "Marine charismatique, alliant douceur et rigueur dans son service exemplaire" },
+        { image: "Personnage/One Piece/Prince Gles.jpg", title: "Prince Gles", description: "Marine distingué, dont l'allure royale et le charisme imposent un profond respect" },
+        { image: "Personnage/One Piece/Kujaku.jpg", title: "Kujaku", description: "Marine perspicace, réputée pour sa rapidité d'esprit et son engagement inébranlable" },
+        { image: "Personnage/One Piece/Tashigi.jpg", title: "Tashigi", description: "Épéiste passionnée, combattant pour la justice avec un sens aigu de l'honneur" },
+        { image: "Personnage/One Piece/Koby.jpg", title: "Koby", description: "Jeune marin ambitieux, dont la persévérance annonce un avenir prometteur" },
+        { image: "Personnage/One Piece/Shû.jpg", title: "Shû", description: "Marine réservé, reconnu pour sa fiabilité et son engagement sans faille" },
+        { image: "Personnage/One Piece/Morgan.jpg", title: "Morgan", description: "Ancien officier infâme, dont la brutalité et l'autoritarisme sont légendaires" },
+        { image: "Personnage/One Piece/Dr.Vegapunk.jpg", title: "Dr. Vegapunk", description: "Génie scientifique, dont les inventions révolutionnaires redéfinissent le monde" },
+        { image: "Personnage/One Piece/Sentomaru.jpg", title: "Sentomaru", description: "Gardien impassible, dont la stature imposante et la loyauté sont sans égal" },
+        { image: "Personnage/One Piece/Unité Pacifista.jpg", title: "Unité Pacifista", description: "Force robotisée, incarnant la froide efficacité de la Marine moderne" },
+        { image: "Personnage/One Piece/Daddy.jpg", title: "Daddy", description: "Pirate déconcertant, alliant une apparence trompeuse à une force redoutable" },
+        { image: "Personnage/One Piece/Z.jpg", title: "Z", description: "Ex-Amiral écorché, mû par des convictions trahies et une intensité douloureuse" },
+        { image: "Personnage/One Piece/Seraphin.jpg", title: "Seraphin", description: "Être mystérieux, entouré d'une aura angélique et d'un pouvoir énigmatique" },
+        { image: "Personnage/One Piece/Sabo.jpg", title: "Sabo", description: "Révolutionnaire passionné, dont le cœur ardent incarne l'esprit de la liberté" },
+        { image: "Personnage/One Piece/Monkey D Dragon.jpg", title: "Monkey D Dragon", description: "Révolutionnaire énigmatique, redouté pour son idéalisme radical et son influence mondiale" },
+        { image: "Personnage/One Piece/Belo Betty.jpg", title: "Belo Betty", description: "Personnage extravagant, alliant audace et originalité dans ses combats" },
+        { image: "Personnage/One Piece/Karasu.jpg", title: "Karasu", description: "Pirate mystérieux, dont la discrétion et la ruse évoquent l'ombre d'un corbeau" },
+        { image: "Personnage/One Piece/Morley.jpg", title: "Morley", description: "Pirate robuste, distingué par sa force implacable et sa fidélité indéfectible" },
+        { image: "Personnage/One Piece/Lindbergh.jpg", title: "Lindbergh", description: "Révolutionnaire aguerri, réputé pour sa discipline stricte et son efficacité sur le terrain" },
+        { image: "Personnage/One Piece/Inazuma.jpg", title: "Inazuma", description: "Combattant éclair, alliant vitesse fulgurante et agilité déconcertante" },
+        { image: "Personnage/One Piece/Koala.jpg", title: "Koala", description: "Révolutionnaire déterminée, incarnant la lutte pour la justice avec un cœur vaillant" }
+        ],
+     "Bleach": [
+        { image: "Personnage/Bleach/Ichigo.jpg", title: "Ichigo", description: "Monstre de la pression spirituelle, à la fois Shinigami, Fullbring, Quincy et Hollow" },
+        { image: "Personnage/Bleach/Sosuke Aizen.jpg", title: "Sosuke Aizen", description: "Ex capitaine de la 5eme division, plus grand manipulateur, et l'un des plus puissant Shinigami/Hollow" },
+        { image: "Personnage/Bleach/Soi Fon.jpg", title: "Soi Fon", description: "Furtive et agile, experte en techniques d'assassinat au service de la Soul Society" },
+        { image: "Personnage/Bleach/Yamamoto.jpg", title: "Yamamoto", description: "Commandant vénéré, porteur de l'épée incandescente et leader absolu des Soul Reapers" },
+        { image: "Personnage/Bleach/Gin.jpg", title: "Gin", description: "Mystérieux stratège aux intentions dissimulées sous un regard calculateur" },
+        { image: "Personnage/Bleach/Unohana.jpg", title: "Unohana", description: "Guérisseuse énigmatique, détentrice d’un passé troublant et d’un art martial redoutable" },
+        { image: "Personnage/Bleach/Vasto Lordes (ichigo).jpg", title: "Vasto Lordes (ichigo)", description: "Noble et raffiné, maître incontesté de l'épée et de la discipline aristocratique" },
+        { image: "Personnage/Bleach/Komamura.jpg", title: "Komamura", description: "Guerrier imposant au cœur loyal, symbole d'honneur et de force brute" },
+        { image: "Personnage/Bleach/Kyôraku.jpg", title: "Kyôraku", description: "Esprit libre et imprévisible, alliant charme décontracté et compétence stratégique" },
+        { image: "Personnage/Bleach/Tôsen.jpg", title: "Tôsen", description: "Impassible et dévoué, guidé par une foi inébranlable et une vision déformée de la justice" },
+        { image: "Personnage/Bleach/Hitsugaya.jpg", title: "Hitsugaya", description: "Prodige du froid, captif de sa maturité précoce et de son contrôle glacé" },
+        { image: "Personnage/Bleach/Kenpachi.jpg", title: "Kenpachi", description: "Guerrier féroce, animé par une soif insatiable de combat et de chaos" },
+        { image: "Personnage/Bleach/Mayuri.jpg", title: "Mayuri", description: "Scientifique excentrique, dont le génie tordu et les inventions macabres terrifient ses adversaires" },
+        { image: "Personnage/Bleach/Ukitake.jpg", title: "Ukitake", description: "Capitaine bienveillant malgré une santé fragile, porteur d'une sagesse empreinte de douleur" },
+        { image: "Personnage/Bleach/Riyalgo.jpg", title: "Riyalgo", description: "Hybride brutal, fusionnant la férocité des Hollows à une intelligence cruelle" },
+        { image: "Personnage/Bleach/Aaroniero.jpg", title: " Aaroniero", description: "Arrancar redoutable, capable d'absorber et de retourner les pouvoirs de ses ennemis" },
+        { image: "Personnage/Bleach/Aporro Grantz.jpg", title: "Aporro Grantz", description: "Arrancar bestial, dont la force sauvage et l'apparence intimidante imposent le respect" },
+        { image: "Personnage/Bleach/Zommari.jpg", title: "Zommari", description: "Arrancar impassible, dont le regard pétrifiant fige ses adversaires sur le champ de bataille" },
+        { image: "Personnage/Bleach/Grimmjow.jpg", title: "Grimmjow", description: "Arrancar rebelle, animé par une soif insatiable de liberté et un désir constant de défi" },
+        { image: "Personnage/Bleach/Gilga.jpg", title: "Gilga", description: "Guerrier impétueux, combinant brutalité physique et charisme imposant sur le terrain" },
+        { image: "Personnage/Bleach/Ulquiorra.jpg", title: "Ulquiorra", description: "Arrancar stoïque, incarnation du désespoir et de la froideur meurtrière" },
+        { image: "Personnage/Bleach/Halibel.jpg", title: "Halibel", description: "Arrancar élégante et stratégique, caractérisée par une force tranquille et une détermination inébranlable" },
+        { image: "Personnage/Bleach/Barragan.jpg", title: "Barragan", description: "Arrancar antique, maîtrisant la décomposition et le temps avec une autorité écrasante" },
+        { image: "Personnage/Bleach/Stark.jpg", title: "Stark", description: "Arrancar brutal et sans compromis, symbole de la puissance brute incarnée" },
+        { image: "Personnage/Bleach/Yoruichi.jpg", title: "Yoruichi", description: "Ancienne capitaine agile, fusionnant agilité féline et techniques de combat redoutables" },
+        { image: "Personnage/Bleach/Gremmy.jpg", title: "Gremmy", description: "Créateur de chaos, dont l'imagination se concrétise en pouvoirs dévastateurs" },
+        { image: "Personnage/Bleach/Kisuke Urahara.jpg", title: "Kisuke Urahara ", description: "Génie inventif, ex-capitaine ingénieux et maître stratège aux nombreuses inventions" },
+        { image: "Personnage/Bleach/Askin Nakk.jpg", title: "Askin Nakk", description: "Combattant déterminé, reconnu pour sa persévérance et sa ténacité sur le champ de bataille" },
+        { image: "Personnage/Bleach/Pernida.jpg", title: "Pernida", description: "Quincy impitoyable, doté d'une puissance dévastatrice et d'une présence menaçante" },
+        { image: "Personnage/Bleach/Gerard Valkyrie.jpg", title: "Gerard Valkyrie", description: "Quincy de grande envergure, incarnant une force surhumaine et une stature imposante" },
+        { image: "Personnage/Bleach/Uryu Ishida.jpg", title: "Uryu Ishida", description: "Quincy précis, habile stratège alliant justesse et sens aigu de la justice" },
+        { image: "Personnage/Bleach/Jugram.jpg", title: "Jugram", description: "Adversaire redoutable, mêlant ruse et force dans une stratégie impitoyable" },
+        { image: "Personnage/Bleach/Ichibe Hyosube.jpg", title: "Ichibe Hyosube", description: "Gardien mystique aux pouvoirs ancestraux, porteur d'une sagesse spirituelle insondable" },
+        { image: "Personnage/Bleach/Yhwach.jpg", title: "Yhwach", description: "Souverain des Quincy, incarnant une ambition divine et une puissance inimaginable" }, 
+        { image: "Personnage/Bleach/Soul King.jpg", title: "Soul King", description: "Figure mythique, pilier de l'équilibre entre les mondes et les âmes" },
+        { image: "Personnage/Bleach/Orihime.jpg", title: "Orihime", description: "Guérisseuse bienveillante, dotée d'une compassion et d'un pouvoir protecteur" },
+        { image: "Personnage/Bleach/Sado.jpg", title: "Sado", description: "Guerrier taciturne, célèbre pour sa force brute et sa présence intimidante" },
+        { image: "Personnage/Bleach/Renji.jpg", title: "Renji", description: "Combattant audacieux, animé par une détermination sans faille et une loyauté fervente" },
+        { image: "Personnage/Bleach/Byakuya.jpg", title: "Byakuya", description: "Noble et impassible, maître de l'épée avec une rigueur aristocratique" },
+        { image: "Personnage/Bleach/Ikkaku.jpg", title: "Ikkaku", description: "Combattant fougueux, reconnu pour sa bravoure et son esprit indomptable" },
+        { image: "Personnage/Bleach/Yachiru.jpg", title: "Yachiru", description: "Esprit espiègle, dont l'apparence juvénile cache une force redoutable" },
+        { image: "Personnage/Bleach/Rangiku.jpg", title: "Rangiku", description: "Capitaine décontractée, connue pour son charme et sa capacité à inspirer la loyauté" },
+        { image: "Personnage/Bleach/Nanao.jpg", title: "Nanao", description: "Stratège calme, dotée d'une intelligence froide et d'une grande perspicacité" },
+        { image: "Personnage/Bleach/Hanatarô.jpg", title: "Hanatarô", description: "Personnage énigmatique, dont l'aura mystique défie l'entendement" },
+        { image: "Personnage/Bleach/Zangetsu.jpg", title: "Zangetsu", description: "Entité spirituelle puissante, incarnation de la force intérieure des Shinigami" },
+        { image: "Personnage/Bleach/Shûhei.jpg", title: "Shûhei", description: "Guerrier discret, dont la détermination se manifeste par ses actions silencieuses" },
+        { image: "Personnage/Bleach/Shinji.jpg", title: "Shinji", description: "Personnage complexe, oscillant entre loyauté et conflit intérieur" },
+        { image: "Personnage/Bleach/Hiyori.jpg", title: "Hiyori", description: "Esprit vif et bienveillant, apportant chaleur et humanité dans la Soul Society" },
+        { image: "Personnage/Bleach/Nelliel.jpg", title: "Nelliel", description: "Être aux multiples facettes, alliant force féroce et douceur insoupçonnée" },
+        { image: "Personnage/Bleach/Grand Fisher.jpg", title: "Grand Fisher", description: "Créature redoutable, légendaire pour ses attaques sournoises dans les abysses" },
+        { image: "Personnage/Bleach/Tensa Zangetsu.jpg", title: "Tensa Zangetsu", description: "Manifestation ultime du pouvoir spirituel, fusion de l'âme et de la force combative" },
+        { image: "Personnage/Bleach/Harribel.jpg", title: "Harribel", description: "Arrancar digne, connue pour son calme impitoyable et sa puissance mesurée" },
+        { image: "Personnage/Bleach/Sasakibe.jpg", title: "Sasakibe", description: "Personnage méthodique, dont la présence impose le respect par son calme stoïque" },
+        { image: "Personnage/Bleach/Kirinji.jpg", title: "Kirinji", description: "Mystérieux et érudit, maître des secrets cachés de la Soul Society" },
+        { image: "Personnage/Bleach/Nimaiya.jpg", title: "Nimaiya", description: "Ancestral Quincy, pilier historique doté d'une sagesse millénaire" },
+        { image: "Personnage/Bleach/Shutara.jpg", title: "Shutara", description: "Personnage discret, à l'influence subtile et à la détermination inébranlable" },
+        { image: "Personnage/Bleach/Kirio.jpg", title: "Kirio", description: "Guerrier intrépide, reconnu pour son énergie inépuisable et sa volonté farouche" },
+        { image: "Personnage/Bleach/Ginjo.jpg", title: "Ginjo", description: "Quincy ambitieux, alliant passion et détermination dans sa lutte pour le pouvoir" },
+        { image: "Personnage/Bleach/Gillian.jpg", title: "Gillian", description: "Combattant imposant, dont la présence massive marque un tournant dans l'affrontement" },
+        { image: "Personnage/Bleach/Adjuchas.jpg", title: "Adjuchas", description: "Arrancar d'importance, illustrant l'évolution brutale des Hollows en combattants redoutables" },
+        { image: "Personnage/Bleach/Vasto Lordes.jpg", title: "Vasto Lordes", description: "Hollow titanesque, manifestation ultime de la puissance et de la corruption spirituelle" },
+        { image: "Personnage/Bleach/Arrancar.jpg", title: "Arrancar", description: "Créature hybride, fusion terrifiante du Shinigami et du Hollow" },
+        { image: "Personnage/Bleach/Menos Grande.jpg", title: "Menos Grande", description: "Entité gigantesque, représentant la force brute des Hollows les plus puissants" },
+        { image: "Personnage/Bleach/Nemu.jpg", title: "Nemu", description: "Subordonné énigmatique, au rôle discret mais essentiel dans la machinerie des Hollows" }
+        ], 
+      "HunterXHunter": [
+        { image: "Personnage/HunterXHunter/Gon.jpg", title: "Gon", description: "Jeune Hunter au grand potentiel, motivé par la recherche de son père." },
+        { image: "Personnage/HunterXHunter/KIllua.jpg", title: "Killua", description: "Assassin surdoué de la famille Zoldik, meilleur ami de Gon." },
+        { image: "Personnage/HunterXHunter/Kurapika.jpg", title: "Kurapika", description: "Dernier survivant du clan Kurta, cherche à venger les siens." },
+        { image: "Personnage/HunterXHunter/Leorio.jpg", title: "Leorio", description: "Aspirant médecin, loyal et passionné par la justice." },
+        { image: "Personnage/HunterXHunter/Meruem.jpg", title: "Meruem", description: "Roi des Fourmis-Chimères, évolution ultime du Nen." },
+        { image: "Personnage/HunterXHunter/Pitou.jpg", title: "Pitou", description: "Garde royal de Meruem, expert en manipulation du Nen médical." },
+        { image: "Personnage/HunterXHunter/Shaupfufu.jpg", title: "Shaupfufu", description: "Garde royal, maître de la stratégie et de la loyauté." },
+        { image: "Personnage/HunterXHunter/Silva.jpg", title: "Silva", description: "Chef de la famille Zoldik, assassin de rang mondial." },
+        { image: "Personnage/HunterXHunter/Menthuthuyoupi.jpg", title: "Menthuthuyoupi", description: "Garde royal de Meruem, force brute et Nen évolutif." },
+        { image: "Personnage/HunterXHunter/Zeno.jpg", title: "Zeno", description: "Maître assassin et stratège, grand-père de Killua." },
+        { image: "Personnage/HunterXHunter/Komugi.jpg", title: "Komugi", description: "Prodige du Gungi, lien humain inattendu avec Meruem." },
+        { image: "Personnage/HunterXHunter/Illumi.jpg", title: "Illumi", description: "Frère aîné de Killua, manipulateur de Nen redoutable." },
+        { image: "Personnage/HunterXHunter/Milluki.jpg", title: "Milluki", description: "Frère de Killua, hacker génial et introverti." },
+        { image: "Personnage/HunterXHunter/Aruka.jpg", title: "Aruka", description: "Sœur de Killua, hôte du pouvoir surnaturel de Nanika." },
+        { image: "Personnage/HunterXHunter/Maha.jpg", title: "Maha", description: "Ancien assassin légendaire, considéré comme un monstre de Nen." },
+        { image: "Personnage/HunterXHunter/Zigg.jpg", title: "Zigg", description: "Ancêtre de la famille Zoldik, explorateur du Continent Noir." },
+        { image: "Personnage/HunterXHunter/Kuroro.jpg", title: "Kuroro", description: "Leader charismatique de la Brigade Fantôme, voleur de capacités Nen." },
+        { image: "Personnage/HunterXHunter/Feitan.jpg", title: "Feitan", description: "Tortionnaire sadique de la Brigade, manie le Nen par la contre-attaque." },
+        { image: "Personnage/HunterXHunter/Phinks.jpg", title: "Phinks", description: "Brigadier au poing destructeur, adepte du Renforcement." },
+        { image: "Personnage/HunterXHunter/Machi.jpg", title: "Machi", description: "Membre de la Brigade, contrôle des fils via la Matérialisation." },
+        { image: "Personnage/HunterXHunter/Franklin.jpg", title: "Franklin", description: "Brigadier au tempérament calme, tireur Nen par Émission." },
+        { image: "Personnage/HunterXHunter/Nobunaga.jpg", title: "Nobunaga", description: "Sabreur de la Brigade Fantôme, fidèle au Renforcement." },
+        { image: "Personnage/HunterXHunter/Pakunoda.jpg", title: "Pakunoda", description: "Capacité de lire les souvenirs par contact, spécialisée en Spécialisation." },
+        { image: "Personnage/HunterXHunter/Sharnalk.jpg", title: "Sharnalk", description: "Contrôle mental via antennes Nen, expert en Manipulation." },
+        { image: "Personnage/HunterXHunter/Shizuku.jpg", title: "Shizuku", description: "Utilise un aspirateur Nen pour effacer toute trace, Matérialisation." },
+        { image: "Personnage/HunterXHunter/Uvôguine.jpg", title: "Uvôguine", description: "Membre brutal de la Brigade, adepte du Renforcement pur." },
+        { image: "Personnage/HunterXHunter/Korutopi.jpg", title: "Korutopi", description: "Peut copier des objets grâce à son Nen, spécialisation rare." },
+        { image: "Personnage/HunterXHunter/Bonorenof.jpg", title: "Bonorenof", description: "Membre du clan des guerriers lyriques, il utilise des chants de guerre pour renforcer ses capacités en combat." },
+        { image: "Personnage/HunterXHunter/Karuto.jpg", title: "Karuto", description: "Le plus jeune membre de la famille Zoldik, manipulateur habile et observateur discret." },
+        { image: "Personnage/HunterXHunter/Hisoka.jpg", title: "Hisoka", description: "Magicien sadique, obsédé par les combattants puissants. Utilise le Nen de la transformation avec sa technique Bungee Gum." },
+        { image: "Personnage/HunterXHunter/Netero.jpg", title: "Netero", description: "Président de l'Association des Hunters, expert en arts martiaux et utilisateur du Nen de l'émission avec la technique du 100-Type Guanyin Bodhisattva." },
+        { image: "Personnage/HunterXHunter/Hanzô.jpg", title: "Hanzô", description: "Ninja du Japon, très agile et loyal, participant à l'examen Hunter." },
+        { image: "Personnage/HunterXHunter/Satotsu.jpg", title: "Satotsu", description: "Examinateur Hunter, calme et méthodique, doté d’un grand sens de la justice." },
+        { image: "Personnage/HunterXHunter/Ging.jpg", title: "Ging", description: "Père de Gon, Hunter légendaire et extrêmement intelligent, spécialiste du Nen." },
+        { image: "Personnage/HunterXHunter/Pokkuru.jpg", title: "Pokkuru", description: "Hunter de type émetteur, utilise des flèches renforcées par le Nen." },
+        { image: "Personnage/HunterXHunter/Shoot.jpg", title: "Shoot", description: "Coéquipier de Knuckle, timide mais puissant, utilise une capacité de Nen impliquant la téléportation de membres." },
+        { image: "Personnage/HunterXHunter/Knuckle.jpg", title: "Knuckle", description: "Hunter compatissant, expert du Nen de l'émission avec une technique basée sur l’intérêt composé." },
+        { image: "Personnage/HunterXHunter/Razor.jpg", title: "Razor", description: "Gardien de Greed Island, ancien criminel réhabilité par Ging, spécialiste du Nen offensif." },
+        { image: "Personnage/HunterXHunter/Ciquento.jpg", title: "Ciquento", description: "Participant à Greed Island, utilisateur de Nen peu développé, rôle mineur." },
+        { image: "Personnage/HunterXHunter/Binolt.jpg", title: "Binolt", description: "Criminel cannibale reconverti, combattu par Gon et Kirua pendant leur entraînement." },
+        { image: "Personnage/HunterXHunter/Saiyu.jpg", title: "Saiyu", description: "Hunter du zodiaque, singe du groupe, doué pour la surveillance et l’espionnage." },
+        { image: "Personnage/HunterXHunter/Kurukku.jpg", title: "Kurukku", description: "Hunter spécialisé dans les plantes médicinales, apparu dans les épisodes de l'examen Hunter." },
+        { image: "Personnage/HunterXHunter/Kaito.jpg", title: "Kaito", description: "Disciple de Ging, utilise un Nen aléatoire sous forme d'armes avec sa capacité Crazy Slots." },
+        { image: "Personnage/HunterXHunter/Mizaisutomu.jpg", title: "Mizaisutomu", description: "Zodiaque du Bœuf, Hunter de type Conjuration, calme et réfléchi, chargé d’enquêtes." },
+        { image: "Personnage/HunterXHunter/Buhara.jpg", title: "Buhara", description: "Premier examinateur de l’examen Hunter, passionné par la nourriture." },
+        { image: "Personnage/HunterXHunter/Menchi.jpg", title: "Menchi", description: "Co-examinatrice dans l'examen Hunter, Hunter gastronomique exigeante." },
+        { image: "Personnage/HunterXHunter/Goreinu.jpg", title: "Goreinu", description: "Participant à Greed Island, peut invoquer deux gorilles avec son Nen pour immobiliser ses adversaires." },
+        { image: "Personnage/HunterXHunter/Tsezugera.jpg", title: "Tsezugera", description: "Hunter expérimenté recruté par Ging pour guider Gon et ses amis dans Greed Island." },
+        { image: "Personnage/HunterXHunter/Senritsu.jpg", title: "Senritsu", description: "Musicienne sensible à l’aura des autres, capable de détecter les émotions à travers la musique." },
+        { image: "Personnage/HunterXHunter/Ginta.jpg", title: "Ginta", description: "Membre des Hunters, apparu brièvement pendant les arcs secondaires." },
+        { image: "Personnage/HunterXHunter/Morau.jpg", title: "Morau", description: "Chasseur vétéran et stratège, utilisateur du Nen de la manipulation à travers sa pipe." },
+        { image: "Personnage/HunterXHunter/Botobai.jpg", title: "Botobai", description: "Zodiaque du dragon, l’un des membres les plus influents de l'Association des Hunters." },
+        { image: "Personnage/HunterXHunter/Biscuit.jpg", title: "Biscuit", description: "Maîtresse en Nen déguisée en fillette, a entraîné Gon et Kirua." },
+        { image: "Personnage/HunterXHunter/Kanzai.jpg", title: "Kanzai", description: "Zodiaque du tigre, impulsif mais loyal à l'Association des Hunters." },
+        { image: "Personnage/HunterXHunter/Saccho.jpg", title: "Saccho", description: "Zodiaque du cheval, méthodique et doué pour les enquêtes criminelles." },
+        { image: "Personnage/HunterXHunter/Chiidoru.jpg", title: "Chiidoru", description: "Personnage secondaire, peu d'informations connues." },
+        { image: "Personnage/HunterXHunter/Geru.jpg", title: "Geru", description: "Hunter gourmet participant à l'examen Hunter." },
+        { image: "Personnage/HunterXHunter/Pariston.jpg", title: "Pariston", description: "Vice-président des Hunters, manipulateur charismatique, Zodiaque du rat." },
+        { image: "Personnage/HunterXHunter/Piyon.jpg", title: "Piyon", description: "Zodiaque du lapin, passionnée de biologie, énergique et curieuse." },
+        { image: "Personnage/HunterXHunter/Palm.jpg", title: "Palm", description: "Disciple de Knov, après transformation Chimera Ant, développe une capacité de surveillance extrême via Nen." },
+        { image: "Personnage/HunterXHunter/Colt.jpg", title: "Colt", description: "Ex-soldat humain devenu Fourmi-Chimère, développe une conscience et tente de sauver les siens." },
+        { image: "Personnage/HunterXHunter/Meleoron.jpg", title: "Meleoron", description: "Fourmi-Chimère allié de Gon, sa capacité God's Accomplice le rend totalement indétectable s’il ne respire pas." },
+        { image: "Personnage/HunterXHunter/Welfin.jpg", title: "Welfin", description: "Fourmi-Chimère à l’esprit stratégique, son Nen 'Missileman' permet d'imposer des conditions mortelles." },
+        { image: "Personnage/HunterXHunter/Ikalgo.jpg", title: "Ikalgo", description: "Fourmi-Chimère pieuvre devenu ami de Kirua, loyal et courageux, spécialiste des techniques de possession." }
+        ],
+      "Dragon Ball Z": [
+        { image: "Personnage/Dragon Ball Z/Son Goku.jpg", title: "Son Goku", description: "Saiyan au cœur pur, défenseur de la Terre et expert en arts martiaux." },
+        { image: "Personnage/Dragon Ball Z/Vegeta.jpg", title: "Vegeta", description: "Prince des Saiyans, fier et rival déterminé de Goku." },
+        { image: "Personnage/Dragon Ball Z/Son Gohan.jpg", title: "Son Gohan", description: "Fils de Goku, prodige au potentiel immense." },
+        { image: "Personnage/Dragon Ball Z/Bulma.jpg", title: "Bulma", description: "Génie scientifique et membre clé de l’équipe Z." },
+        { image: "Personnage/Dragon Ball Z/Freezer.jpg", title: "Freezer", description: "Tyran galactique impitoyable et ennemi emblématique." },
+        { image: "Personnage/Dragon Ball Z/Trunks.jpg", title: "Trunks", description: "Guerrier venu du futur, fils de Vegeta et Bulma." },
+        { image: "Personnage/Dragon Ball Z/Cell.jpg", title: "Cell", description: "Créature parfaite créée pour surpasser tous les combattants." },
+        { image: "Personnage/Dragon Ball Z/C-18.jpg", title: "C-18", description: "Cyborg puissante devenue alliée de l’équipe Z." },
+        { image: "Personnage/Dragon Ball Z/Piccolo.jpg", title: "Piccolo", description: "Guerrier Namek, sage et stratège redoutable." },
+        { image: "Personnage/Dragon Ball Z/Chichi.jpg", title: "Chichi", description: "Épouse de Goku, mère protectrice et déterminée." },
+        { image: "Personnage/Dragon Ball Z/Krilin.jpg", title: "Krilin", description: "Meilleur ami de Goku, courageux et loyal combattant." },
+        { image: "Personnage/Dragon Ball Z/Videl.jpg", title: "Videl", description: "Fille de Mister Satan, combattante talentueuse et femme de Gohan." },
+        { image: "Personnage/Dragon Ball Z/Son Goten.jpg", title: "Son Goten", description: "Fils cadet de Goku, joyeux et prometteur Saiyan." },
+        { image: "Personnage/Dragon Ball Z/Yamcha.jpg", title: "Yamcha", description: "Ancien bandit du désert, membre de l’équipe Z." },
+        { image: "Personnage/Dragon Ball Z/Madame Brief.jpg", title: "Madame Brief", description: "Mère de Bulma, connue pour sa gentillesse et son calme." },
+        { image: "Personnage/Dragon Ball Z/Shenron.jpg", title: "Shenron", description: "Dragon légendaire exauçant les vœux grâce aux Dragon Balls." },
+        { image: "Personnage/Dragon Ball Z/Kamé Sennin.jpg", title: "Kamé Sennin", description: "Maître des arts martiaux et mentor de Goku." },
+        { image: "Personnage/Dragon Ball Z/Raditz.jpg", title: "Raditz", description: "Frère de Goku, Saiyan cruel et impitoyable." },
+        { image: "Personnage/Dragon Ball Z/C-17.jpg", title: "C-17", description: "Cyborg puissant, frère de C-18, devenu protecteur de la nature." },
+        { image: "Personnage/Dragon Ball Z/Ten Shin Han.jpg", title: "Ten Shin Han", description: "Guerrier discipliné et loyal à l’équipe Z." },
+        { image: "Personnage/Dragon Ball Z/Kaio Shin.jpg", title: "Kaio Shin", description: "Dieu suprême chargé de protéger l’univers." },
+        { image: "Personnage/Dragon Ball Z/Boo.jpg", title: "Boo", description: "Créature magique imprévisible, destructrice ou bienveillante selon sa forme." },
+        { image: "Personnage/Dragon Ball Z/Mister Satan.jpg", title: "Mister Satan", description: "Champion mondial, héros public malgré ses limites réelles." },
+        { image: "Personnage/Dragon Ball Z/Mr.Popo.jpg", title: "Mr.Popo", description: "Gardien loyal du sanctuaire et assistant de Kami." },
+        { image: "Personnage/Dragon Ball Z/C-16.jpg", title: "C-16", description: "Cyborg pacifiste, amoureux de la nature, conçu pour éliminer Goku." },
+        { image: "Personnage/Dragon Ball Z/Dendé.jpg", title: "Dendé", description: "Namek guérisseur devenu Dieu de la Terre." },
+        { image: "Personnage/Dragon Ball Z/Karin.jpg", title: "Karin", description: "Chat sage gardien de la tour Karin, maître des Senzus." },
+        { image: "Personnage/Dragon Ball Z/Kami.jpg", title: "Kami", description: "Ancien Dieu de la Terre, fusionné avec Piccolo." },
+        { image: "Personnage/Dragon Ball Z/Vieux Kaio Shin.jpg", title: "Vieux Kaio Shin", description: "Kaio Shin ancien et excentrique, détenteur de connaissances sacrées." },
+        { image: "Personnage/Dragon Ball Z/Kibito.jpg", title: "Kibito", description: "Serviteur fidèle de Kaio Shin, spécialiste du soin instantané." },
+        { image: "Personnage/Dragon Ball Z/Oob.jpg", title: "Oob", description: "Réincarnation humaine de Boo, élève de Goku." },
+        { image: "Personnage/Dragon Ball Z/Dr.Gero.jpg", title: "Dr.Gero", description: "Scientifique du Ruban Rouge, créateur des cyborgs et de Cell." }
+        ],
+"Fairy Tail": [
+        { image: "Personnage/Fairy Tail/Natsu Dragnir.jpg", title: "Natsu Dragnir", description: "Mage de feu impulsif et loyal, capable d’utiliser la magie du Dragon Slayer pour brûler ses ennemis." }, 
+        { image: "Personnage/Fairy Tail/Lucy Heartfilia.jpg", title: "Lucy Heartfilia", description: "Mage constellationniste ingénieuse, qui invoque des esprits célestes grâce à ses clefs magiques." },
+        { image: "Personnage/Fairy Tail/Erza Scarlet.jpg", title: "Erza Scarlet", description: "Titania de Fairy Tail, experte en re-équipement d’armures magiques et maître du combat à l’épée." },
+        { image: "Personnage/Fairy Tail/Gray Fullbuster.jpg", title: "Gray Fullbuster", description: "Mage de glace taciturne, capable de former des armes et des armures gelées en un instant." },
+        { image: "Personnage/Fairy Tail/Happy.jpg", title: "Happy", description: "Chat ailé plein d’entrain, partenaire de Natsu, capable de voler grâce à la magie Aera." },
+        { image: "Personnage/Fairy Tail/Gadjeel Redfox.jpg", title: "Gadjeel Redfox", description: "Dragon Slayer de fer, ancien ennemi devenu allié, utilise son corps métallique comme arme." },
+        { image: "Personnage/Fairy Tail/Jubia Lockse.jpg", title: "Jubia Lockse", description: "Mage de l’eau sensible, maîtrise la Water Magic pour créer et manipuler l’eau en combat." },
+        { image: "Personnage/Fairy Tail/Wendy Marvell.jpg", title: "Wendy Marvell", description: "Jeune Dragon Slayer de vent, prodige capable de soins magiques et de attaques aériennes." },
+        { image: "Personnage/Fairy Tail/Carla.jpg", title: "Carla", description: "Exceed blanc et gardienne de Wendy, dotée de la magie Aera et d’un grand sens de la responsabilité." },
+        { image: "Personnage/Fairy Tail/Mirajane Strauss.jpg", title: "Mirajane Strauss", description: "Doyenne de la guilde, spécialiste de la Take Over Satan Soul, métamorphe puissante au cœur tendre." },
+        { image: "Personnage/Fairy Tail/Makarov Dreyar.jpg", title: "Makarov Dreyar", description: "Maître de Fairy Tail, ancien Dragon Slayer de lumière, respectable et très puissant." },
+        { image: "Personnage/Fairy Tail/Luxus Dreyar.jpg", title: "Luxus Dreyar", description: "Éclair Dragon Slayer, arrogant et extrêmement fort, héritier de Makarov doté d’une magie électrifiée." },
+        { image: "Personnage/Fairy Tail/Kana Alberona.jpg", title: "Kana Alberona", description: "Mage Runecaster de rang S, spécialiste des glyphes magiques pour renforcer ou neutraliser." },
+        { image: "Personnage/Fairy Tail/Elfmann Strauss.jpg", title: "Elfmann Strauss", description: "Frère de Mirajane, doté d’une force surhumaine, expert en combat corporel." },
+        { image: "Personnage/Fairy Tail/Lisana Strauss.jpg", title: "Lisana Strauss", description: "Soeur de Mirajane, mage de rang B, utilise les compétences des autres via sa Take Over Heaven’s Eye." },
+        { image: "Personnage/Fairy Tail/Reby McGarden.jpg", title: "Reby McGarden", description: "Petite amie de Gajeel, spécialisée en magie de musique pour distraire et affaiblir l’adversaire." },
+        { image: "Personnage/Fairy Tail/Gildarts Clive.jpg", title: "Gildarts Clive", description: "Le plus puissant mage de Fairy Tail, détenteur de la Crash Magic, capable de détruire tout ce qu’il touche." },
+        { image: "Personnage/Fairy Tail/Evergreen.jpg", title: "Evergreen", description: "Mage de rang S, utilise la petrification par son regard pour transformer ses cibles en statue de pierre." },
+        { image: "Personnage/Fairy Tail/Fried Justine.jpg", title: "Fried Justine", description: "Mage Astro de rang S, combine magie céleste et technologie pour traquer ses ennemis." },
+        { image: "Personnage/Fairy Tail/Bixrow.jpg", title: "Bixrow", description: "Chef de l’équipe Kawarimi, spécialisé en magie de substitution corporelle pour esquiver toute attaque." },
+        { image: "Personnage/Fairy Tail/Panthère Lily.jpg", title: "Panthère Lily", description: "Exceed fidèle de Gildarts, doté de la magie Aera et d’une grande ruse en vol." },
+        { image: "Personnage/Fairy Tail/Loky.jpg", title: "Loki", description: "Connu sous le nom de Loki, membre des Spriggan 12, mage de l’illusion très dangereux." },
+        { image: "Personnage/Fairy Tail/Macao Conbolt.jpg", title: "Macao Conbolt", description: "Ancien membre de Fairy Tail, mage de rang C, expert en magie du feu et en techniques de lutte." },
+        { image: "Personnage/Fairy Tail/Wakaba Mine.jpg", title: "Wakaba Mine", description: "Mage de rang C, utilise la magie de la Terre pour créer des attaques lourdes et défensives." },
+        { image: "Personnage/Fairy Tail/Romeo Conbolt.jpg", title: "Romeo Conbolt", description: "Fils de Macao, jeune mage talentueux en Fire Magic, plein d’enthousiasme au combat." },
+        { image: "Personnage/Fairy Tail/Mest Gryder.jpg", title: "Mest Gryder", description: "Mage de rang C invisible, capable de supprimer temporairement toute présence autour de lui." },
+        { image: "Personnage/Fairy Tail/Polyusica.jpg", title: "Polyusica", description: "Médecin de Fairy Tail, mage de rang D, spécialisée dans la guérison et la magie de soin." },
+        { image: "Personnage/Fairy Tail/Mystgun.jpg", title: "Mystgun", description: "Ancien membre de Fairy Tail, détective du surnaturel, utilise la magie de lumière pour l’analyse." },
+        { image: "Personnage/Fairy Tail/Maevis Vermillion.jpg", title: "Maevis Vermillion", description: "Maîtresse de Lamia Scale, experte en illusion et en manipulation du terrain." },
+        { image: "Personnage/Fairy Tail/Yuri Dreyar.jpg", title: "Yuri Dreyar", description: "Sœur de Makarov, ancienne mahar de Fairy Tail, très respectée pour sa puissance et son expérience." },
+        { image: "Personnage/Fairy Tail/Jura Neekis.jpg", title: "Jura Neekis", description: "Dragon Slayer de pierre, membre des Spriggan 12, doté d’une force colossale et d’une défense implacable." },
+        { image: "Personnage/Fairy Tail/Leon Bastia.jpg", title: "Leon Bastia", description: "Lieutenant de Raven Tail, procrastinateur puissant maîtrisant la magie du temps." },
+        { image: "Personnage/Fairy Tail/Sherrie Blendy.jpg", title: "Sherrie Blendy", description: "Mage spec, spécialiste en magie de tissus, peut immobiliser et restreindre ses adversaires." },
+        { image: "Personnage/Fairy Tail/Sting Eucliffe.jpg", title: "Sting Eucliffe", description: "Dragon Slayer de lumière, leader des Sabertooth, utilise la White Dragon Slayer Magic." },
+        { image: "Personnage/Fairy Tail/Rogue Cheney.jpg", title: "Rogue Cheney", description: "Dragon Slayer des ombres, silencieux et précis, capable d’attaques furtives." },
+        { image: "Personnage/Fairy Tail/Minerva Orland.jpg", title: "Minerva Orland", description: "Membre des Sabertooth, puissante mage de rang S, experte en Becquerel’s Cage Magic." },
+        { image: "Personnage/Fairy Tail/Frosh.jpg", title: "Frosh", description: "Dragon Slayer de glace hostile, apparaît initialement comme petit garçon mais redoutable en combat." },
+        { image: "Personnage/Fairy Tail/Lector.jpg", title: "Lector", description: "Dragon Slayer du sabre, utilise la White Dragon Slayer Magic pour exécuter des assauts rapides." },
+        { image: "Personnage/Fairy Tail/Yukino Agria.jpg", title: "Yukino Agria", description: "Mage de la guilde Blue Pegasus, utilise la magie stellaire et la magie de l’eau avec précision." },
+        { image: "Personnage/Fairy Tail/Kagura Mikazuchi.jpg", title: "Kagura Mikazuchi", description: "Démon vénéré d’Oración Seis, manie la pluie de lames et possède une endurance remarquable." },
+        { image: "Personnage/Fairy Tail/Millianna.jpg", title: "Millianna", description: "Guérisseuse de rang B, spécialiste des poils magiques pour attaque et défense." },
+        { image: "Personnage/Fairy Tail/Jellal Fernandes.jpg", title: "Jellal Fernandes", description: "Ancien mage noir repentant, maître de la Heavenly Body Magic et redoutable épéiste." },
+        { image: "Personnage/Fairy Tail/Meredy.jpg", title: "Meredy", description: "Mage télépathe membre d’Oración Seis, capable de manipuler les émotions et les pensées." },
+        { image: "Personnage/Fairy Tail/Cobra.jpg", title: "Cobra", description: "Dragon Slayer du son, membre d’Oración Seis, détecte son environnement par l’ouïe magique." },
+        { image: "Personnage/Fairy Tail/Racer.jpg", title: "Racer", description: "Membre d’Oración Seis, utilise la magie de vortex pour créer des tourbillons dévastateurs." },
+        { image: "Personnage/Fairy Tail/Ultia Milkovich.jpg", title: "Ultia Milkovich", description: "Mage amie d’Erza, manie la magie d’eau pure avec une force et une précision remarquables." },
+        { image: "Personnage/Fairy Tail/Brain.jpg", title: "Brain", description: "Tête pensante d’Oración Seis, expert en magie de la réflexion et des miroirs." },
+        { image: "Personnage/Fairy Tail/Zero.jpg", title: "Zero", description: "Célèbre mage du dark guild Grimoire Heart, utilise la magie de glace avancée." },
+        { image: "Personnage/Fairy Tail/Hades.jpg", title: "Hades", description: "Seigneur suprême de Grimoire Heart, puissant utilisateur de la magie des ténèbres." },
+        { image: "Personnage/Fairy Tail/Azuma.jpg", title: "Azuma", description: "Dragon Slayer de la foudre, très rapide et puissant, membre de Grimoire Heart." },
+        { image: "Personnage/Fairy Tail/Capricorne.jpg", title: "Capricorne", description: "Chasseur de dragons prêté à Fairy Tail, utilise la magie de gravité." },
+        { image: "Personnage/Fairy Tail/Zancrow.jpg", title: "Zancrow", description: "Membre des Sept Êtres de Grimoire Heart, mage de la mort, poison et manipulation des ténèbres." },
+        { image: "Personnage/Fairy Tail/Mard geer.jpg", title: "Mard geer", description: "Chef de Grimoire Heart, maître de la Spatial Magic capable de remodeler l’espace." },
+        { image: "Personnage/Fairy Tail/Silver Fullbuster.jpg", title: "Silver Fullbuster", description: "Dragon Slayer du froid, mentor de Gray, capable de créer des structures gelées massives." },
+        { image: "Personnage/Fairy Tail/Kyôka.jpg", title: "Kyôka", description: "Mage du dark guild Fairy Law, utilise la magie d’éclairs concentrés de courte portée." },
+        { image: "Personnage/Fairy Tail/Tempester.jpg", title: "Tempester", description: "Mage manipulateur de tempêtes, capable d’invoquer la foudre et des bourrasques intenses." },
+        { image: "Personnage/Fairy Tail/Keyes.jpg", title: "Keyes", description: "Mage du dark guild Fairy Law, manie la magie de l’ombre pour frapper furtivement." },
+        { image: "Personnage/Fairy Tail/Torafuzar.jpg", title: "Torafuzar", description: "Dragon Slayer de fer ancien, assez stoïque, pratiquant la Dragon Slayer Magic antique." },
+        { image: "Personnage/Fairy Tail/Ezel.jpg", title: "Ezel", description: "Mage du dark guild Fairy Law, spécialisé en magie de l’eau corrompue." },
+        { image: "Personnage/Fairy Tail/Seilah.jpg", title: "Seilah", description: "Mage de rang C, environnementaliste magique, utilise la magie de la terre pour créer des barrières." },
+        { image: "Personnage/Fairy Tail/Jiemma Orland.jpg", title: "Jiemma Orland", description: "Mage de la famille Orland, utilise la magie de l’air pour contrôler les courants aériens." },
+        { image: "Personnage/Fairy Tail/Ikaruga.jpg", title: "Ikaruga", description: "Membre de Crime Sorcière, manie la magie de la régénération et du poison." },
+        { image: "Personnage/Fairy Tail/Fukuro.jpg", title: "Fukuro", description: "Membre de Crime Sorcière, spécialisé en magie de la gravité pour immobiliser ses cibles." },
+        { image: "Personnage/Fairy Tail/Erigor.jpg", title: "Erigor", description: "Ancien maître du culte Eisenwald, surnommé le « Death God » pour ses missions d’assassin, il manie une grande faux et rejoint plus tard l’Ordre Reborn des Oración Seis." },
+        { image: "Personnage/Fairy Tail/Kageyama.jpg", title: "Kageyama", description: "Membre de la Tartaros, il utilise la magie ôbris pour manipuler sa propre ombre en puissante arme offensive." },
+        { image: "Personnage/Fairy Tail/Imitatia.jpg", title: "Imitatia", description: "Mage de la Tartaros capable de copier parfaitement la magie de ses adversaires après l’avoir vue une seule fois." },
+        { image: "Personnage/Fairy Tail/Warrod Sequen.jpg", title: "Warrod Sequen", description: "Légendaire mage de la Guilde de Mavis, il manie la magie draconique du vent et a vécu plus de 400 ans." },
+        { image: "Personnage/Fairy Tail/Samuel.jpg", title: "Samuel", description: "Souverain de la Tour du Paradis, il contrôle la magie du Grand Livre des Époques et joue un rôle central dans l’arc de Zeref." },
+        { image: "Personnage/Fairy Tail/Simon.jpg", title: "Simon", description: "Membre de Fairy Tail Zero, jeune adepte de la magie de l’eau, il participe à la fondation de la guilde aux côtés de Mavis." },
+        { image: "Personnage/Fairy Tail/Hisui E. Fiore.jpg", title: "Hisui E. Fiore", description: "Mère de Erza, ancienne mage de rang S de la Tour du Paradis, elle excelle en magie de barrière et de soin." },
+        { image: "Personnage/Fairy Tail/Arcadios.jpg", title: "Arcadios", description: "Ancien pair stratégique de Mavis dans la Guilde de Mavis, spécialiste de la magie reliant les esprits." },
+        { image: "Personnage/Fairy Tail/Kama.jpg", title: "Kama", description: "Dragon Slayer des chats, il peut déployer des griffes spectrales et communique avec les animaux." },
+        { image: "Personnage/Fairy Tail/Kamika.jpg", title: "Kamika", description: "Sœur jumelle de Kama, Dragon Slayer du serpent, elle manie de puissants venins magiques." },
+        { image: "Personnage/Fairy Tail/Cosmos.jpg", title: "Cosmos", description: "Membre du Conseil de la Magie, capable de manipuler les énergies cosmiques pour créer des champs de force." },
+        { image: "Personnage/Fairy Tail/Irène Belserion.jpg", title: "Irène Belserion", description: "Mage légendaire de rang S, la plus puissante Dragon Slayer de l’histoire, maîtrise la magie de la Métamorphose et du Feu." },
+        { image: "Personnage/Fairy Tail/Ignir.jpg", title: "Ignir", description: "Ancien dragon du feu et mentor des Dragon Slayers, il transmet sa force à Natsu, Gray, Wendy et leur génération." },
+        { image: "Personnage/Fairy Tail/Grandeeney.jpg", title: "Grandeeney", description: "Dragon du vent de l’air, ancien maître de Wendy Marvell, il combine vitesse et techniques aériennes dévastatrices." },
+        { image: "Personnage/Fairy Tail/Matalicana.jpg", title: "Matalicana", description: "Dragon de glace, il enseigne à Gray le Secret de la Magie de Glace Antique, très mystérieux." },
+        { image: "Personnage/Fairy Tail/Weisslogia.jpg", title: "Weisslogia", description: "Dragon du lion de lumière, il a partagé son savoir à Sting Eucliffe, procurant des attaques fulgurantes." },
+        { image: "Personnage/Fairy Tail/Acnologia.jpg", title: "Acnologia", description: "Dragon Noir devenu humain, incarnant la destruction ultime, il parcourt le monde pour anéantir humains et dragons." },
+        { image: "Personnage/Fairy Tail/Zirconis.jpg", title: "Zirconis", description: "Dragon des ténèbres, il confère à Rogue Cheney la magie Dragon Slayer de l’Ombre, maître des attaques furtives." },
+        { image: "Personnage/Fairy Tail/Atlas Flame.jpg", title: "Atlas Flame", description: "Dragon de la foudre, il a formé God Serena, lui transmettant une magie létale d’électricité pure." },
+        { image: "Personnage/Fairy Tail/Kemokemo.jpg", title: "Kemokemo", description: "Dragon du son, il a doté Cobra de la capacité de localiser tout ennemi grâce aux vibrations sonores." },
+        { image: "Personnage/Fairy Tail/Chronos.jpg", title: "Chronos", description: "Dragon du sabre, secret et puissant, il maîtrise la magie temporelle, mais reste très discret." },
+        { image: "Personnage/Fairy Tail/E.N.D.jpg", title: "E.N.D", description: "Entité ultime créée par Zeref, Ethrea Natsu Dragnir est destinée à amener la fin de la magie." },
+        { image: "Personnage/Fairy Tail/Deliora.jpg", title: "Deliora", description: "Dragon de feu ancien, emprisonné dans Lucy enfant, il provoque une destruction massive lors de sa résurgence." },
+        { image: "Personnage/Fairy Tail/Lullaby.jpg", title: "Lullaby", description: "Flûte maudite capable d’assassiner toute personne entendant son air, arme clé de l’arc Eisenwald." },
+        { image: "Personnage/Fairy Tail/Shagotte.jpg", title: "Shagotte", description: "Membre de Tartaros, invulnérable aux attaques physiques normales, il réduit en poussière tout ce qu’il touche." },
+        { image: "Personnage/Fairy Tail/Ul.jpg", title: "Ul", description: "Démo-chef de Tartaros, il utilise la magie du corps à corps améliorée et peut encaisser de terribles frappes." },
+        { image: "Personnage/Fairy Tail/Mato.jpg", title: "Mato", description: "Membre de Tartaros, il manie la magie de l’ombre pour créer des doubles d’ombre indestructibles." },
+        { image: "Personnage/Fairy Tail/Grammy.jpg", title: "Grammy", description: "Dragon Slayer de poison, gui ancien, elle attaque en diffusion de toxines mortelles." },
+        { image: "Personnage/Fairy Tail/Éclair.jpg", title: "Éclair", description: "Esprit céleste de foudre, allié de Lucy, il inflige des décharges électriques concentrées." },
+        { image: "Personnage/Fairy Tail/Momon.jpg", title: "Momon", description: "Esprit céleste de feu, invoqué par Lucy, il produit des explosions de flammes à volonté." },
+        { image: "Personnage/Fairy Tail/Pisces.jpg", title: "Pisces", description: "Esprit céleste de l’eau, invoqué par Lucy, il est spécialisé dans la guérison et la manipulation aquatique." },
+        { image: "Personnage/Fairy Tail/Zeleph.jpg", title: "Zeleph", description: "Premier mage noir et fondateur de la magie noire, il est à l’origine du déclin des dragons." },
+        { image: "Personnage/Fairy Tail/August.jpg", title: "August", description: "Plus puissant des Spriggan 12, il manie la magie de l’espace pour remodeler la réalité." },
+        { image: "Personnage/Fairy Tail/Ajeel.jpg", title: "Ajeel", description: "Membre des Spriggan 12, Dragon Slayer du sable, il contrôle grêlons et tempêtes de sable écrasantes." },
+        { image: "Personnage/Fairy Tail/God Serena.jpg", title: "God Serena", description: "Éclair Dragon Slayer devenu maître de sept Dragons Slayers, annihile tout avec sa puissance divine." },
+        { image: "Personnage/Fairy Tail/Larcade Dragnir.jpg", title: "Larcade Dragnir", description: "Dragon Slayer du son et frère de Natsu, membre des Spriggan 12, son chant génère des ondes destructrices." },
+        { image: "Personnage/Fairy Tail/Mercphobia.jpg", title: "Mercphobia", description: "Membre des Spriggan 12, expert en magie de l’eau corrompue, crée des geysers et inondations mortelles." },
+        { image: "Personnage/Fairy Tail/Ignia.jpg", title: "Ignia", description: "Membre des Spriggan 12, Dragon Slayer du feu d’acier, son pouvoir cristallise et brûle à l’extrême." },
+        { image: "Personnage/Fairy Tail/Aldoron.jpg", title: "Aldoron", description: "Membre des Spriggan 12, Dragon Slayer du poison, il empoisonne ses adversaires au contact." },
+        { image: "Personnage/Fairy Tail/Selene.jpg", title: "Selene", description: "Membre des Spriggan 12, Dragon Slayer de la lune, elle manipule la gravité lunaire pour écraser ses ennemis." },
+        { image: "Personnage/Fairy Tail/Viernes.jpg", title: "Viernes", description: "Membre des Spriggan 12, Dragon Slayer de la terre, il crée des tremblements et fissures massives." },
+        { image: "Personnage/Fairy Tail/Dogramag.jpg", title: "Dogramag", description: "Membre des Spriggan 12, Dragon Slayer de la glace antique, il gèle tout sur son passage." },
+        { image: "Personnage/Fairy Tail/Faust.jpg", title: "Faust", description: "Membre des Spriggan 12, il contrôle la magie sanguine pour manipuler et régénérer ses blessures." },
+        { image: "Personnage/Fairy Tail/Byro.jpg", title: "Byro", description: "Membre des Spriggan 12, Dragon Slayer du poison métallique, il transforme son corps en acide." },
+        { image: "Personnage/Fairy Tail/Roi des esprits.jpg", title: "Roi des esprits", description: "Esprit céleste légendaire, souverain des 12 Esprits, il n’apparaît qu’en cas de crise majeure." },
+        { image: "Personnage/Fairy Tail/Aquarius.jpg", title: "Aquarius", description: "Esprit céleste de l’eau de Lucy, spécialisé en pluie torrentielle et vortex aquatiques." },        { image: "Personnage/Fairy Tail/Virgo.jpg", title: "Virgo", description: "Esprit céleste de Claydol, maniable et polyvalente, elle crée des sols mouvants et pièges de sable." },
+        { image: "Personnage/Fairy Tail/Cancer.jpg", title: "Cancer", description: "Esprit céleste du Crabe, invulnérable en défense, invoqué par Lucy pour protéger ses alliés." },
+        { image: "Personnage/Fairy Tail/Sagittarius.jpg", title: "Sagittarius", description: "Esprit céleste de l’archer, maîtrise l’arc et la magie de la foudre." },
+        { image: "Personnage/Fairy Tail/Aries.jpg", title: "Aries", description: "Esprit céleste du Bélier, invoqué par Lucy pour submerger l’ennemi sous un nuage de laine magique." },
+        { image: "Personnage/Fairy Tail/Gemini.jpg", title: "Gemini", description: "Esprit céleste des jumeaux, il peut dupliquer son invocateur pour leurrer l’adversaire." },
+        { image: "Personnage/Fairy Tail/Scorpio.jpg", title: "Scorpio", description: "Esprit céleste du Scorpion, cracheur de poison, il endort ou empoisonne sa cible." },
+        { image: "Personnage/Fairy Tail/Pisces (Eclipse).jpg", title: "Pisces", description: "Esprit céleste des Poissons, maître en magie de l’eau curative et offensive." },
+        { image: "Personnage/Fairy Tail/Ophiusius.jpg", title: "Ophiusius", description: "Esprit céleste du Serpentaire, rare et mystérieux, contrôle la magie du venin et de la nuit." },
+        { image: "Personnage/Fairy Tail/Plue.jpg", title: "Plue", description: "Mascotte de la série, esprit céleste de rang inférieur, apporte chance et bon augure." },
+        { image: "Personnage/Fairy Tail/Cancer (Eclipse).jpg", title:"Cancer (Eclipse)", description: "Version corrompue de Cancer invoquée par Eclipse, doublée de pouvoirs d’ombre et de ténèbres." },
+        { image: "Personnage/Fairy Tail/Aquarius (Eclipse).jpg", title: "Aquarius (Eclipse)", description: "Esprit céleste de l’eau maîtrisant pluie battante et tourbillons, capable d’inonder ses adversaires en un instant."},
+        { image: "Personnage/Fairy Tail/Taurus (Eclipse).jpg", title: "Taurus (Eclipse)", description: "Esprit céleste du Taureau, incarnant la force brute et la puissance d’une charge foudroyante."},
+        { image: "Personnage/Fairy Tail/Virgo (Eclipse).jpg", title: "Virgo (Eclipse)", description: "Esprit céleste à l’allure de Claydol, experte en pièges sablonneux et en terrains mouvants déstabilisant l’ennemi."},
+        { image: "Personnage/Fairy Tail/Sagittarius (Eclipse).jpg", title: "Sagittarius (Eclipse)", description: "Esprit céleste archer, tireur d’élite doublé d’un maître de la foudre, ses flèches électrisées fendent l’air."},
+        { image: "Personnage/Fairy Tail/Aries (Eclipse).jpg", title: "Aries (Eclipse)", description: "Esprit céleste du Bélier, invoque un nuage de laine magique pour étouffer et désorienter ses adversaires."},
+        { image: "Personnage/Fairy Tail/Gemini (Eclipse).jpg", title: "Gemini (Eclipse)", description: "Esprit céleste des Jumeaux, capable de cloner son invocateur pour semer la confusion au cœur du combat."},
+        { image: "Personnage/Fairy Tail/Scorpio (Eclipse).jpg", title: "Scorpio (Eclipse)", description: "Esprit céleste du Scorpion, maître du poison capable d’assoupir ou empoisonner subtilement toute cible."},
+        { image: "Personnage/Fairy Tail/Leo (Eclipse).jpg", title: "Leo (Eclipse)", description: "Esprit céleste des Poissons, à la fois guérisseur et assaillant, manie la magie aqueuse sous toutes ses formes."},
+        { image: "Personnage/Fairy Tail/Ophiusius (Eclipse).jpg", title: "Ophiusius (Eclipse)", description: "Esprit céleste du Serpentaire, énigmatique et rare, commandant les ténèbres et la magie du venin."}
+        ],
+
+      "Naruto Shippuden": [
+        { image: "Personnage/Naruto Shippuden/Hinata Hyuga.jpg", title: "Hinata Hyuga", description: "Timide et déterminée, dotée du Byakugan qui perçoit l'invisible." },
+        { image: "Personnage/Naruto Shippuden/Kakashi Hatake.jpg", title: "Kakashi Hatake", description: "Sensei légendaire, maître stratège au Sharingan et à l'attitude décontractée." },
+        { image: "Personnage/Naruto Shippuden/Itachi Uchiha.jpg", title: "Itachi Uchiha", description: "Prodige complexe, porteur de secrets douloureux et d'une puissance redoutable." },
+        { image: "Personnage/Naruto Shippuden/Tsunade.jpg", title: "Tsunade", description: "Cinquième Hokage, reconnue pour sa force surhumaine et son talent médical inégalé." },
+        { image: "Personnage/Naruto Shippuden/Gaara.jpg", title: "Gaara", description: "Ancien ennemi devenu allié, possédant un contrôle absolu sur le sable et une âme tourmentée." },
+        { image: "Personnage/Naruto Shippuden/Naruto Uzumaki.jpg", title: "Naruto Uzumaki", description: "Héros énergique, animé par le rêve de devenir Hokage malgré les obstacles." },
+        { image: "Personnage/Naruto Shippuden/Sakura Haruno.jpg", title: "Sakura Haruno", description: "Guerrière persévérante, alliant force physique et intelligence médicale." },
+        { image: "Personnage/Naruto Shippuden/Konan.jpg", title: "Konan", description: "Femme forte du clan Akatsuki, experte en techniques d'origami létal." },
+        { image: "Personnage/Naruto Shippuden/Sasuke Uchiha.jpg", title: "Sasuke Uchiha", description: "Ninja tourmenté en quête de rédemption, porté par le désir de vengeance." },
+        { image: "Personnage/Naruto Shippuden/Temari.jpg", title: "Temari", description: "Guerrière du sable, maniant le vent avec une tactique implacable." },
+        { image: "Personnage/Naruto Shippuden/Kushina Uzumaki.jpg", title: "Kushina Uzumaki", description: "Mère passionnée, dont l'amour et la force ont marqué la vie de Naruto." },
+        { image: "Personnage/Naruto Shippuden/Deidara.jpg", title: "Deidara", description: "Artiste explosif, transformant l'argile en œuvres d'art dévastatrices." },
+        { image: "Personnage/Naruto Shippuden/Minato Namikaze.jpg", title: "Minato Namikaze", description: "Quatrième Hokage, célèbre pour sa vitesse fulgurante et ses techniques légendaires." },
+        { image: "Personnage/Naruto Shippuden/Shikamaru Nara.jpg", title: "Shikamaru Nara", description: "Stratège paresseux mais brillant, toujours prêt à élaborer des plans ingénieux." },
+        { image: "Personnage/Naruto Shippuden/Kurenai Yuhi.jpg", title: "Kurenai Yuhi", description: "Experte en genjutsu, connue pour sa passion et sa force mentale." },
+        { image: "Personnage/Naruto Shippuden/Mei Terumi.jpg", title: "Mei Terumi", description: "Femme politique charismatique et ninja, dotée d'une présence puissante et unique." },
+        { image: "Personnage/Naruto Shippuden/Neji Hyuga.jpg", title: "Neji Hyuga", description: "Prodige du clan Hyuga, marqué par un destin tragique et une maîtrise parfaite du Byakugan." },
+        { image: "Personnage/Naruto Shippuden/Sasori.jpg", title: "Sasori", description: "Maître marionnettiste, combinant génie du poison et créativité mortelle en combat." },
+        { image: "Personnage/Naruto Shippuden/Kiba Inuzuka.jpg", title: "Kiba Inuzuka", description: "Ninja intrépide, accompagné de son fidèle chien et d'un instinct animal affûté." },
+        { image: "Personnage/Naruto Shippuden/Jiraiya.jpg", title: "Jiraiya", description: "Légendaire ninja errant, mentor de Naruto et détenteur d'une sagesse ancestrale." },
+        { image: "Personnage/Naruto Shippuden/Karin Uzumaki.jpg", title: "Karin Uzumaki", description: "Femme mystérieuse, dotée de pouvoirs de guérison et d'une vision singulière." },
+        { image: "Personnage/Naruto Shippuden/TenTen.jpg", title: "TenTen", description: "Spécialiste des armes, réputée pour sa précision et son arsenal varié." },
+        { image: "Personnage/Naruto Shippuden/Madara Uchiha.jpg", title: "Madara Uchiha", description: "Mythe redouté du shinobi, dont la puissance dévastatrice défie l'imagination." },
+        { image: "Personnage/Naruto Shippuden/Orochimaru.jpg", title: "Orochimaru", description: "Scientifique dément obsédé par l'immortalité, en quête de savoir interdit." },
+        { image: "Personnage/Naruto Shippuden/Rock Lee.jpg", title: "Rock Lee", description: "Ninja acharné, surmontant l'absence de talent naturel grâce à une volonté inébranlable." },
+        { image: "Personnage/Naruto Shippuden/Suigetsu Houzuki.jpg", title: "Suigetsu Houzuki", description: "Combattant excentrique, aspirant à la grandeur malgré une personnalité imprévisible." },
+        { image: "Personnage/Naruto Shippuden/Pain.jpg", title: "Pain", description: "Antagoniste tourmenté, incarnant la douleur et la quête d'une paix par la souffrance." },
+        { image: "Personnage/Naruto Shippuden/Obito Uchiha.jpg", title: "Obito Uchiha", description: "Figure tragique masquée, dont le destin oscille entre rédemption et perdition." },
+        { image: "Personnage/Naruto Shippuden/Kisame Hoshigaki.jpg", title: "Kisame Hoshigaki", description: "Brute redoutable, compagnon loyal au goût du combat féroce et sans pitié." },
+        { image: "Personnage/Naruto Shippuden/Sai.jpg", title: "Sai", description: "Artiste au passé trouble, maniant l'encre pour créer des attaques mortelles." },
+        { image: "Personnage/Naruto Shippuden/Shino Aburame.jpg", title: "Shino Aburame", description: "Ninja discret, maîtrisant les insectes et toujours calme en toutes circonstances." },
+        { image: "Personnage/Naruto Shippuden/Hidan.jpg", title: "Hidan", description: "Fanatique immortel, dévoué à une croyance macabre et pratiquant des rituels sanglants." },
+        { image: "Personnage/Naruto Shippuden/Tobirama Senju.jpg", title: "Tobirama Senju", description: "Second Hokage visionnaire, innovateur dont les stratégies ont façonné l'ère shinobi." },
+        { image: "Personnage/Naruto Shippuden/Zabuza Momochi.jpg", title: "Zabuza Momochi", description: "Ninja renégat tristement célèbre pour sa brutalité et son style de combat tranchant." },
+        { image: "Personnage/Naruto Shippuden/Nagato Uzumaki.jpg", title: "Nagato Uzumaki", description: "Portant le fardeau de la souffrance, il incarne le chemin tragique vers la paix." },
+        { image: "Personnage/Naruto Shippuden/Iruka Umino.jpg", title: "Iruka Umino", description: "Enseignant bienveillant, figure paternelle guidant Naruto avec cœur et rigueur." },
+        { image: "Personnage/Naruto Shippuden/Might Guy.jpg", title: "Might Guy", description: "Ninja exubérant, dont la détermination et la puissance physique défient l'impossible." },
+        { image: "Personnage/Naruto Shippuden/Yamato.jpg", title: "Yamato", description: "Gardien taciturne, portant le fardeau d'un passé obscur et d'une volonté inébranlable." },
+        { image: "Personnage/Naruto Shippuden/Konohamaru Sarutobi.jpg", title: "Konohamaru Sarutobi", description: "Jeune ninja ambitieux, héritier des traditions de Konoha avec énergie et curiosité." },
+        { image: "Personnage/Naruto Shippuden/Kabuto Yakushi.jpg", title: "Kabuto Yakushi", description: "Médecin manipulateur, aux ambitions insaisissables et aux ruses déconcertantes." },
+        { image: "Personnage/Naruto Shippuden/Hashirama Senju.jpg", title: "Hashirama Senju", description: "Premier Hokage légendaire, fondateur d'une ère de paix et de camaraderie shinobi." },
+        { image: "Personnage/Naruto Shippuden/Rin Nohara.jpg", title: "Rin Nohara", description: "Ninja au cœur tendre, dont le destin tragique a marqué l'histoire de Konoha." },
+        { image: "Personnage/Naruto Shippuden/Killer Bee.jpg", title: "Killer Bee", description: "Rappeur et guerrier, maître du Hachibushu au style flamboyant et inimitable." },
+        { image: "Personnage/Naruto Shippuden/Hiruzen Sarutobi.jpg", title: "Hiruzen Sarutobi", description: "Troisième Hokage, sage et bienveillant, dévoué à la protection de Konoha." },
+        { image: "Personnage/Naruto Shippuden/Zetsu.jpg", title: "Zetsu", description: "Créature énigmatique aux multiples facettes, jouant un rôle mystérieux dans l'ombre." },
+        { image: "Personnage/Naruto Shippuden/Choji Akimichi.jpg", title: "Choji Akimichi", description: "Ninja jovial, dont la passion pour la nourriture cache un courage insoupçonné." },
+        { image: "Personnage/Naruto Shippuden/Shisui Uchiha.jpg", title: "Shisui Uchiha", description: "Prodige loyal, dont le Sharingan et la détermination étaient légendaires." },
+        { image: "Personnage/Naruto Shippuden/Kaguya Otsutsuki.jpg", title: "Kaguya Otsutsuki", description: "Mère du chakra, entité ancestrale au pouvoir divin et mystérieux." },
+        { image: "Personnage/Naruto Shippuden/Kyubi.jpg", title: "Kyubi", description: "Démon renard à neuf queues, source de puissance légendaire et de chaos." },
+        { image: "Personnage/Naruto Shippuden/Teuchi.jpg", title: "Teuchi", description: "Propriétaire chaleureux du restaurant de Konoha, symbole de réconfort et de tradition." },
+        { image: "Personnage/Naruto Shippuden/Hagoromo Otsutsuki.jpg", title: "Hagoromo Otsutsuki", description: "Sage des Six Chemins, père du shinobi et porteur d'une immense sagesse." },
+        { image: "Personnage/Naruto Shippuden/Onoki.jpg", title: "Onoki", description: "Vieil homme puissant, maître des techniques de la poussière et des secrets anciens." },
+        { image: "Personnage/Naruto Shippuden/Omoi.jpg", title: "Omoi", description: "Ninja dévoué, connu pour sa loyauté inébranlable envers son village." },
+        { image: "Personnage/Naruto Shippuden/Fugaku Uchiha.jpg", title: "Fugaku Uchiha", description: "Patriarche strict du clan Uchiha, dont l'autorité a marqué sa lignée." },
+        { image: "Personnage/Naruto Shippuden/Juugo.jpg", title: "Juugo", description: "Ninja imprévisible, dont la force brute et la frustration s'expriment en combat." },
+        { image: "Personnage/Naruto Shippuden/Tobi.jpg", title: "Tobi", description: "Mystérieux manipulateur, dissimulant sa véritable identité derrière un masque énigmatique." },
+        { image: "Personnage/Naruto Shippuden/Kankurou.jpg", title: "Kankurou", description: "Marionnettiste astucieux, orchestrant ses combats grâce à ses créations ingénieuses." },
+        { image: "Personnage/Naruto Shippuden/Kakuzu.jpg", title: "Kakuzu", description: "Ninja impitoyable, dont l'obsession pour l'argent rivalise avec sa brutalité." },
+        { image: "Personnage/Naruto Shippuden/Ino Yamanaka.jpg", title: "Ino Yamanaka", description: "Ninja empathique, alliant sensibilité et force dans ses techniques de transfert mental." },
+        { image: "Personnage/Naruto Shippuden/A.jpg", title: "A", description: "Personnage énigmatique, dont l'identité reste voilée par le mystère." },
+        { image: "Personnage/Naruto Shippuden/Darui.jpg", title: "Darui", description: "Ninja impassible, reconnu pour sa force tranquille et son charisme sur le champ de bataille." },
+        { image: "Personnage/Naruto Shippuden/Genma Shiranui.jpg", title: "Genma Shiranui", description: "Vétéran ninja, expert en techniques d'infiltration et en combat rapproché." },
+        { image: "Personnage/Naruto Shippuden/Hiruko.jpg", title: "Hiruko", description: "Personnage mystérieux, aux motivations aussi obscures que son apparence." },
+        { image: "Personnage/Naruto Shippuden/Ebisu.jpg", title: "Ebisu", description: "Enseignant pragmatique, reconnu pour son humour acéré et ses méthodes efficaces." }
+        ],
+      "SNK": [
+        { image: "Personnage/Snk/Eren Jäger.jpg", title: "Eren Jäger", description: "Protagoniste central, porteur du Titan Assaillant et moteur du conflit final." },
+        { image: "Personnage/Snk/Mikasa Ackerman.jpg", title: "Mikasa Ackerman", description: "Guerrière redoutable, protectrice d’Eren et membre du clan Ackerman." },
+        { image: "Personnage/Snk/Armin Arlert.jpg", title: "Armin Arlert", description: "Stratège brillant et héritier du Titan Colossal." },
+        { image: "Personnage/Snk/Grisha Jäger.jpg", title: "Grisha Jäger", description: "Père d’Eren, détenteur précédent du Titan Assaillant." },
+        { image: "Personnage/Snk/Carla Jäger.jpg", title: "Carla Jäger", description: "Mère d’Eren, tuée lors de l’attaque du Titan colossal." },
+        { image: "Personnage/Snk/Hannes.jpg", title: "Hannes", description: "Soldat du district de Shiganshina, ami de la famille Jäger." },
+        { image: "Personnage/Snk/Christa Lenz.jpg", title: "Christa Lenz", description: "Alias Historia Reiss, héritière légitime du trône d’Eldia." },
+        { image: "Personnage/Snk/Jean Kirstein.jpg", title: "Jean Kirstein", description: "Soldat pragmatique et meneur naturel du Bataillon d’exploration." },
+        { image: "Personnage/Snk/Sasha Braus.jpg", title: "Sasha Braus", description: "Tireuse d’élite surnommée la fille patate." },
+        { image: "Personnage/Snk/Annie Leonhart.jpg", title: "Annie Leonhart", description: "Porteuse du Titan Féminin, guerrière infiltrée." },
+        { image: "Personnage/Snk/Reiner Braun.jpg", title: "Reiner Braun", description: "Porteur du Titan Cuirassé, déchiré entre deux mondes." },
+        { image: "Personnage/Snk/Ymir.jpg", title: "Ymir", description: "Détentrice du Titan Mâchoire, liée à Historia." },
+        { image: "Personnage/Snk/Bertholt Hoover.jpg", title: "Bertholt Hoover", description: "Porteur originel du Titan Colossal, compagnon de Reiner." },
+        { image: "Personnage/Snk/Keith Shadis.jpg", title: "Keith Shadis", description: "Instructeur des recrues, ancien commandant du Bataillon." },
+        { image: "Personnage/Snk/Connie Springer.jpg", title: "Connie Springer", description: "Soldat loyal et camarade d’Eren depuis l'entraînement." },
+        { image: "Personnage/Snk/Marco Bott.jpg", title: "Marco Bott", description: "Jeune soldat idéaliste, mort tragique révélatrice." },
+        { image: "Personnage/Snk/Livaï.jpg", title: "Livaï", description: "Caporal-chef surpuissant du Bataillon d’exploration." },
+        { image: "Personnage/Snk/Erwin Smith.jpg", title: "Erwin Smith", description: "Commandant visionnaire, prêt à tout pour la vérité." },
+        { image: "Personnage/Snk/Dot Pixis.jpg", title: "Dot Pixis", description: "Commandant du Sud, réputé pour son sang-froid et sa stratégie." },
+        { image: "Personnage/Snk/Hansi Zoé.jpg", title: "Hansi Zoé", description: "Scientifique passionnée des Titans, leader successeur d’Erwin." },
+        { image: "Personnage/Snk/Petra Ralle.jpg", title: "Petra Ralle", description: "Membre de l’escouade de Livaï, morte au combat." },
+        { image: "Personnage/Snk/Sieg.jpg", title: "Sieg", description: "Porteur du Titan Bestial, demi-frère d’Eren et stratège de Mahr." },
+        { image: "Personnage/Snk/Eren Kruger.jpg", title: "Eren Kruger", description: "Agent infiltré d’Eldia, détenteur du Titan Assaillant avant Grisha." },
+        { image: "Personnage/Snk/Peak Finger.jpg", title: "Peak Finger", description: "Porteuse du Titan Charrette, connue pour son intelligence tactique." },
+        { image: "Personnage/Snk/Falco Gleis.jpg", title: "Falco Gleis", description: "Jeune guerrier Eldien, futur porteur du Titan Mâchoire." },
+        { image: "Personnage/Snk/Gaby Braun.jpg", title: "Gaby Braun", description: "Guerrière impulsive, fervente patriote de Mahr." },
+        { image: "Personnage/Snk/Jelena.jpg", title: "Jelena", description: "Fanatique pro-Zeke, manipulatrice et froide." },
+        { image: "Personnage/Snk/Tom Xaver.jpg", title: "Tom Xaver", description: "Mentor de Sieg, détenteur du Titan Originel avant lui." },
+        { image: "Personnage/Snk/Roi Fritz.jpg", title: "Roi Fritz", description: "Monarque originel ayant exilé les Eldiens sur Paradis." },
+        { image: "Personnage/Snk/Pasteur Nick.jpg", title: "Pasteur Nick", description: "Membre du culte des Murs, possesseur de lourds secrets." },
+        { image: "Personnage/Snk/Hitch Dreyse.jpg", title: "Hitch Dreyse", description: "Soldate cynique de la Garnison, proche d’Annie." },
+        { image: "Personnage/Snk/Daris Zackley.jpg", title: "Daris Zackley", description: "Chef du gouvernement militaire de Paradis." }
+        ],
+      "Blue Lock": [
+        { image: "Personnage/Blue Lock/isagi.jpg", title: "Yoichi Isagi", description: "Attaquant tactique, obsédé par le but et la vision du jeu." },
+        { image: "Personnage/Blue Lock/Jinpachi Ego.jpg", title: "Jinpachi Ego", description: "Créateur de Blue Lock, génie excentrique du football." },
+        { image: "Personnage/Blue Lock/Anri Teieri.jpg", title: "Anri Teieri", description: "Dirigeante idéaliste, veut révolutionner le foot japonais." },
+        { image: "Personnage/Blue Lock/Jingo Raichi.jpg", title: "Jingo Raichi", description: "Joueur agressif au tempérament explosif." },
+        { image: "Personnage/Blue Lock/Hyoma Chigiri.jpg", title: "Hyoma Chigiri", description: "Sprinteur fulgurant au style élégant." },
+        { image: "Personnage/Blue Lock/Gin Gagamaru.jpg", title: "Gin Gagamaru", description: "Gardien acrobatique au flair instinctif." },
+        { image: "Personnage/Blue Lock/Asahi Naruhaya.jpg", title: "Asahi Naruhaya", description: "Joueur modeste qui se bat pour rester dans la course." },
+        { image: "Personnage/Blue Lock/Wataru Kuon.jpg", title: "Wataru Kuon", description: "Stratège manipulateur, trahison dans le sang." },
+        { image: "Personnage/Blue Lock/Meguru Bachira.jpg", title: "Meguru Bachira", description: "Dribbleur imprévisible guidé par son « monstre » intérieur." },
+        { image: "Personnage/Blue Lock/Ikki Niko.jpg", title: "Ikki Niko", description: "Observateur silencieux, vision défensive redoutable." },
+        { image: "Personnage/Blue Lock/Ryousuke Kira.jpg", title: "Ryosuke Kira", description: "Talent classique, éliminé dès le début." },
+        { image: "Personnage/Blue Lock/Shoei Baro.jpg", title: "Shoei Baro", description: "Roi égoïste, puissance brute et domination." },
+        { image: "Personnage/Blue Lock/Zantetsu Tsurugi.jpg", title: "Zantetsu Tsurugi", description: "Rapide mais confus, sprinteur prometteur." },
+        { image: "Personnage/Blue Lock/Seishiro Nagi.jpg", title: "Seishiro Nagi", description: "Génie naturel, feignant mais surdoué." },
+        { image: "Personnage/Blue Lock/Reo Mikage.jpg", title: "Reo Mikage", description: "Héritier riche, polyvalent et ambitieux." },
+        { image: "Personnage/Blue Lock/Kenyu Yukimiya.jpg", title: "Kenyu Yukimiya", description: "Joueur stylé, obsédé par la beauté du jeu." },
+        { image: "Personnage/Blue Lock/Rin Itoshi.jpg", title: "Rin Itoshi", description: "Prodige glacé, rival déterminé d’Isagi." },
+        { image: "Personnage/Blue Lock/Yo Hiori.jpg", title: "Yo Hiori", description: "Milieu intelligent, calme et analytique." },
+        { image: "Personnage/Blue Lock/Ryusei Shido.jpg", title: "Ryusei Shido", description: "Joueur sauvage, instinct animal et chaos total." },
+        { image: "Personnage/Blue Lock/Tabito Karasu.jpg", title: "Tabito Karasu", description: "Milieu toxique et rusé, cerveau du jeu." },
+        { image: "Personnage/Blue Lock/Michael Kaiser.jpg", title: "Michael Kaiser", description: "Superstar allemande, génie arrogant et dominateur." },
+        { image: "Personnage/Blue Lock/Adam Blake.jpg", title: "Adam Blake", description: "Athlète britannique, force physique et agilité." },
+        { image: "Personnage/Blue Lock/Dada Silva.jpg", title: "Dada Silva", description: "Brésilien exubérant, puissance explosive et flair offensif." },
+        { image: "Personnage/Blue Lock/Julian Loki.jpg", title: "Julian Loki", description: "Génie tactique et rapide d'origine suédoise." },
+        { image: "Personnage/Blue Lock/Leonardo Luna.jpg", title: "Leonardo Luna", description: "Joueur créatif et élégant venu d’Espagne." },
+        { image: "Personnage/Blue Lock/Pablo Cavasoz.jpg", title: "Pablo Cavasoz", description: "Gardien espagnol solide et expérimenté." },
+        { image: "Personnage/Blue Lock/Aoshi Tokimitsu.jpg", title: "Aoshi Tokimitsu", description: "Anxieux chronique mais doté d’un immense potentiel physique." },
+        { image: "Personnage/Blue Lock/Sae Itoshi.jpg", title: "Sae Itoshi", description: "Frère de Rin, prodige technique au style européen." },
+        { image: "Personnage/Blue Lock/Oliver Aiku.jpg", title: "Oliver Aiku", description: "Défenseur star, capitaine des U-20." },
+        { image: "Personnage/Blue Lock/Shuto Sendo.jpg", title: "Shuto Sendo", description: "Attaquant des U-20, buteur complet." },
+        { image: "Personnage/Blue Lock/Rensuke Kunigami.jpg", title: "Rensuke Kunigami", description: "Héros au tir puissant, sens de la justice marqué." },
+        { image: "Personnage/Blue Lock/Noel Noa.jpg", title: "Noel Noa", description: "Meilleur attaquant du monde, mentor d’Isagi." }
+        ],
+      "Jujutsu Kaisen": [
+        { image: "Personnage/Jujutsu Kaisen/Satoru Gojo.jpg", title: "Satoru Gojo", description: "Exorciste surpuissant, détenteur du Sixième Œil et de l’Infini." },
+        { image: "Personnage/Jujutsu Kaisen/Masamichi Yaga.jpg", title: "Masamichi Yaga", description: "Directeur de l’école de Tokyo, créateur de Panda." },
+        { image: "Personnage/Jujutsu Kaisen/Shoko Ieiri.jpg", title: "Shoko Ieiri", description: "Médecin jujutsu, stoïque et compétente." },
+        { image: "Personnage/Jujutsu Kaisen/Atsuya Kusakabe.jpg", title: "Atsuya Kusakabe", description: "Exorciste prudent, souvent dépassé par les événements." },
+        { image: "Personnage/Jujutsu Kaisen/Yuji Itadori.jpg", title: "Yuji Itadori", description: "Hôte de Sukuna, force physique et altruisme hors normes." },
+        { image: "Personnage/Jujutsu Kaisen/Megumi Fushiguro.jpg", title: "Megumi Fushiguro", description: "Élève taciturne, maîtrise les shikigami avec brio." },
+        { image: "Personnage/Jujutsu Kaisen/Nobara Kugisaki.jpg", title: "Nobara Kugisaki", description: "Exorciste féroce, clous et marteau comme signature." },
+        { image: "Personnage/Jujutsu Kaisen/Maki Zenin.jpg", title: "Maki Zenin", description: "Sans énergie occulte mais force physique monstrueuse." },
+        { image: "Personnage/Jujutsu Kaisen/Toge Inumaki.jpg", title: "Toge Inumaki", description: "Parle en onigiri, redoutable grâce à sa parole maudite." },
+        { image: "Personnage/Jujutsu Kaisen/Panda.jpg", title: "Panda", description: "Peluche vivante, trois cœurs et une grande âme." },
+        { image: "Personnage/Jujutsu Kaisen/Yuta Okkotsu.jpg", title: "Yuta Okkotsu", description: "Exorciste prodige, hôte de l’esprit vengeur Rika." },
+        { image: "Personnage/Jujutsu Kaisen/Utahime Iori.jpg", title: "Utahime Iori", description: "Exorciste sérieuse, enseignante de Kyoto." },
+        { image: "Personnage/Jujutsu Kaisen/Yoshinobu.jpg", title: "Yoshinobu", description: "Ancien directeur, attaché aux traditions conservatrices." },
+        { image: "Personnage/Jujutsu Kaisen/Arata Nitta.jpg", title: "Arata Nitta", description: "Exorciste de soutien, expert en soins urgents." },
+        { image: "Personnage/Jujutsu Kaisen/Mai Zenin.jpg", title: "Mai Zenin", description: "Sœur de Maki, tireuse habile à la balle maudite." },
+        { image: "Personnage/Jujutsu Kaisen/Mahito.jpg", title: "Mahito", description: "Fléau sadique, manipulateur des âmes humaines." },
+        { image: "Personnage/Jujutsu Kaisen/Noritoshi Kamo.jpg", title: "Noritoshi Kamo", description: "Héritier du clan Kamo, maître du sang maudit." },
+        { image: "Personnage/Jujutsu Kaisen/Aoi Todo.jpg", title: "Aoi Todo", description: "Force colossale, fan de pop et technique téléportante." },
+        { image: "Personnage/Jujutsu Kaisen/Kento Nanami.jpg", title: "Kento Nanami", description: "Exorciste méthodique, ancien salaryman au cœur noble." },
+        { image: "Personnage/Jujutsu Kaisen/Dagon.jpg", title: "Dagon", description: "Fléau marin, utilisateur d’un domaine aquatique." },
+        { image: "Personnage/Jujutsu Kaisen/Hanami.jpg", title: "Hanami", description: "Fléau de la nature, veut éradiquer l’humanité." },
+        { image: "Personnage/Jujutsu Kaisen/Mei Mei.jpg", title: "Mei Mei", description: "Exorciste indépendante, mercenaire ultra efficace." },
+        { image: "Personnage/Jujutsu Kaisen/Yuki Tsukumo.jpg", title: "Yuki Tsukumo", description: "Exorciste spéciale, rêve d’un monde sans fléaux." },
+        { image: "Personnage/Jujutsu Kaisen/Jogo.jpg", title: "Jogo", description: "Fléau volcanique, vaniteux et explosif." },
+        { image: "Personnage/Jujutsu Kaisen/Naobito Zenin.jpg", title: "Naobito Zenin", description: "Chef du clan Zenin, technique de mouvement éclair." },
+        { image: "Personnage/Jujutsu Kaisen/Suguru Geto.jpg", title: "Suguru Geto", description: "Ancien ami de Gojo, devenu ennemi des humains." },
+        { image: "Personnage/Jujutsu Kaisen/Miguel.jpg", title: "Miguel", description: "Guerrier étranger, manie une corde maudite puissante." },
+        { image: "Personnage/Jujutsu Kaisen/Tengen.jpg", title: "Tengen", description: "Fondateur de la société d'exorcisme, principal interêt d'un groupe religieux le vénèrent tel un dieux." },
+        { image: "Personnage/Jujutsu Kaisen/Uraume.jpg", title: "Uraume", description: "Fidèle de Sukuna, sorcier mystérieux et ancien." },
+        { image: "Personnage/Jujutsu Kaisen/Toji Fushiguro.jpg", title: "Toji Fushiguro", description: "Tueur de sorciers, père de Megumi, corps surhumain." },
+        { image: "Personnage/Jujutsu Kaisen/Ryomen Sukuna.jpg", title: "Ryomen Sukuna", description: "Roi des fléaux, puissance démoniaque incarnée." },
+        { image: "Personnage/Jujutsu Kaisen/Kenjaku.jpg", title: "Kenjaku", description: "Esprit manipulateur de corps, cerveau derrière le chaos." }
+        ],
+      "MHA": [
+        { image: "Personnage/MHA/Izuku Midoriya.jpg", title: "Izuku Midoriya", description: "Héros déterminé héritier du pouvoir d’All Might, toujours prêt à se surpasser. Alter : One For All" },
+        { image: "Personnage/MHA/Shoto Todoroki.jpg", title: "Shoto Todoroki", description: "Élève brillant maniant feu et glace, en conflit avec son passé familial. Alter : Feu et Glace" },
+        { image: "Personnage/MHA/Katsuki Bakugo.jpg", title: "Katsuki Bakugo", description: "Explosif et orgueilleux, il vise la première place coûte que coûte. Alter : Explosion" },
+        { image: "Personnage/MHA/Ochaco Uraraka.jpg", title: "Ochaco Uraraka", description: "Gentille et rêveuse, elle peut annuler la gravité avec un simple toucher. Alter : Gravité Zero" },
+        { image: "Personnage/MHA/Tenya Iida.jpg", title: "Tenya Iida", description: "Sérieux et discipliné, il court littéralement vers la justice. Alter : Engine" },
+        { image: "Personnage/MHA/Momo Yaoyorozu.jpg", title: "Momo Yaoyorozu", description: "Stratège brillante capable de créer n'importe quel objet depuis son corps. Alter : Création" },
+        { image: "Personnage/MHA/Eijiro Kirishima.jpg", title: "Eijiro Kirishima", description: "Loyal et courageux, sa peau peut se durcir comme la pierre. Alter : Durcissemment" },
+        { image: "Personnage/MHA/Denki Kaminari.jpg", title: "Denki Kaminari", description: "Électrique et décontracté, parfois un peu... grillé après ses attaques. Alter : Électricité" },
+        { image: "Personnage/MHA/Fumikage Tokoyami.jpg", title: "Fumikage Tokoyami", description: "Sombre et mystérieux, il combat avec son ombre vivante, Dark Shadow. Alter : Dark Shadow" },
+        { image: "Personnage/MHA/Tsuyu Asui.jpg", title: "Tsuyu Asui", description: "Calme et observatrice, elle possède les capacités d’une grenouille. Alter : Grenouille" },
+        { image: "Personnage/MHA/Kyoka Jiro.jpg", title: "Kyoka Jiro", description: "Passionnée de musique, elle utilise ses prises jack comme armes sonores. Alter : Earphone Jack" },
+        { image: "Personnage/MHA/Toru Hagakure.jpg", title: "Toru Hagakure", description: "Discrète au sens propre, son invisibilité la rend idéale pour l’espionnage. Alter : Invisibilité" },
+        { image: "Personnage/MHA/Mina Ashido.jpg", title: "Mina Ashido", description: "Dynamique et joyeuse, elle sécrète un acide corrosif pour se battre. Alter : Acide" },
+        { image: "Personnage/MHA/Yuga Aoyama.jpg", title: "Yuga Aoyama", description: "Brillant et dramatique, il tire un laser du nombril… avec panache ! Alter : Nombrilaser" },
+        { image: "Personnage/MHA/Mashirao Ojiro.jpg", title: "Mashirao Ojiro", description: "Héros humble au corps à corps, il se bat avec sa queue puissante. Alter : Tail" },
+        { image: "Personnage/MHA/Hanta Sero.jpg", title: "Hanta Sero", description: "Cool et efficace, ses rubans adhésifs sortent de ses coudes. Alter : Ruban Adhésif" },
+        { image: "Personnage/MHA/Rikido Sato.jpg", title: "Rikido Sato", description: "Gourmand, il augmente sa force en mangeant du sucre. Alter : Sugar Dope" },
+        { image: "Personnage/MHA/Koji Koda.jpg", title: "Koji Koda", description: "Timide mais protecteur, il communique avec les animaux. Alter : Anivoice" },
+        { image: "Personnage/MHA/Mezo Shoji.jpg", title: "Mezo Shoji", description: "Silencieux et dévoué, ses bras multiples sont parfaits pour le combat ou la surveillance. Alter : Bras Cloneurs" },
+        { image: "Personnage/MHA/Minoru Mineta.jpg", title: "Minoru Mineta", description: "Petit mais ambitieux, ses boules collantes créent des pièges redoutables. Alter : Boing Boing" },
+        { image: "Personnage/MHA/Neito Monoma.jpg", title: "Neito Monoma", description: "Imitateur de pouvoirs sarcastique, il adore provoquer la 1-A. Alter : Copie" },
+        { image: "Personnage/MHA/Itsuka Kendo.jpg", title: "Itsuka Kendo", description: "Leader posée avec des mains géantes et une patience d’ange. Alter : Giant Fists" },
+        { image: "Personnage/MHA/Tetsutetsu Tetsutetsu.jpg", title: "Tetsutetsu Tetsutetsu", description: "Dur comme l’acier et tout aussi tenace, rival de Kirishima. Alter : Acier" },
+        { image: "Personnage/MHA/Mirio Togata.jpg", title: "Mirio Togata", description: "Héros surpuissant au cœur d’or, capable de traverser la matière. Alter : Perméabilité" },
+        { image: "Personnage/MHA/Nejire Hado.jpg", title: "Nejire Hado", description: "Énergique et curieuse, elle tire des vagues d’énergie spiralées. Alter : Surge" },
+        { image: "Personnage/MHA/Tamaki Amajiki.jpg", title: "Tamaki Amajiki", description: "Timide mais redoutable, ses pouvoirs reflètent ce qu’il mange. Alter : Assimilation" },
+        { image: "Personnage/MHA/Hitoshi Shinso.jpg", title: "Hitoshi Shinso", description: "Capable de contrôler les esprits par la voix, il cherche à devenir un vrai héros. Alter : Lavage De Cerveau" },
+        { image: "Personnage/MHA/Mei Hatsume.jpg", title: "Mei Hatsume", description: "Génie excentrique de la tech, elle invente des gadgets à la chaîne. Alter : Zoom" },
+        { image: "Personnage/MHA/Inasa Yoarashi.jpg", title: "Inasa Yoarashi", description: "Tempétueux mais puissant, il contrôle le vent avec une force extrême. Alter : Vent" },
+        { image: "Personnage/MHA/Camie Utsushimi.jpg", title: "Camie Utsushimi", description: "Mystérieuse et séduisante, elle crée des illusions réalistes. Alter : Ensorcellement" },
+        { image: "Personnage/MHA/Nana Shimura.jpg", title: "Nana Shimura", description: "Ancienne détentrice du One For All, symbole d’espoir et de courage. Alter : Voltige" },
+        { image: "Personnage/MHA/Gran Torino.jpg", title: "Gran Torino", description: "Vieux maître rapide comme l’éclair, mentor exigeant mais juste. Alter : Réacteurs" },
+        { image: "Personnage/MHA/Sir Nighteye.jpg", title: "Sir Nighteye", description: "Héros calculateur avec un pouvoir de clairvoyance redoutable. Alter : Prévoyance" },
+        { image: "Personnage/MHA/All Might.jpg", title: "All Might", description: "Symbole de paix et de puissance, l’ancien héros numéro un. Alter : One For All (perdu)" },
+        { image: "Personnage/MHA/Eraser Head.jpg", title: "Eraser Head (Shota Aizawa)", description: "Prof strict qui neutralise les alters d’un seul regard. Alter : Effacement" },
+        { image: "Personnage/MHA/Present Mic.jpg", title: "Present Mic (Jizashi Yamada)", description: "Prof dynamique à la voix capable de tout faire vibrer. Alter : Voice" },
+        { image: "Personnage/MHA/Midnight.jpg", title: "Midnight (Nemuri Kayama)", description: "Héroïne sensuelle maîtrisant le sommeil par un gaz. Alter : Parfum Soporifique" },
+        { image: "Personnage/MHA/Star and Stripe.jpg", title: "Star and Stripe", description: "Héroïne américaine surpuissante, incarnant la justice sans compromis. Alter : New Order" },
+        { image: "Personnage/MHA/Endeavor.jpg", title: "Endeavor (Enji Todoroki)", description: "Héros numéro un dur et intense, en quête de rédemption. Alter : Hell flame" },
+        { image: "Personnage/MHA/Hawks.jpg", title: "Hawks (Keigo Takami)", description: "Rapide, intelligent et détendu, il combat avec des plumes tranchantes. Alter : Ailes D'Acier" },
+        { image: "Personnage/MHA/Best Jeanist.jpg", title: "Best Jeanist (Tsunagu Hakamata)", description: "Stylé et rigide, il contrôle les fibres textiles avec précision. Alter : Maîtrise des Fibres" },
+        { image: "Personnage/MHA/Edgeshot.jpg", title: "Edgeshot (Shinya Kamihara)", description: "Ninja silencieux pouvant se transformer en fil ultra-fin. Alter : Corps de Papier" },
+        { image: "Personnage/MHA/Miruko.jpg", title: "Miruko (Rumi Usagiyama)", description: "Combattante féroce aux jambes de lapin et à la volonté de fer. Alter : Lapin" },
+        { image: "Personnage/MHA/Dieu Sylvestre.jpg", title: "Dieu Sylvestre (Shinji Nishiya)", description: "Héros au grand cœur capable de faire pousser des arbres instantanément. Alter : Arborescence" },
+        { image: "Personnage/MHA/Ryukyu.jpg", title: "Ryukyu (Ryuko Tatsuma)", description: "Sérieuse et puissante, elle peut se transformer en dragon. Alter : Dragon" },
+        { image: "Personnage/MHA/Mount Lady.jpg", title: "Mount Lady (Yu Takeyama)", description: "Héroïne géante, parfois plus intéressée par la célébrité. Alter : Gigantisme" },
+        { image: "Personnage/MHA/Fat Gum.jpg", title: "Fat Gum (Taishiro Toyomitsu)", description: "Héros chaleureux qui absorbe les dégâts avec son corps moelleux. Alter : Graisse Absorbante" },
+        { image: "Personnage/MHA/Stain.jpg", title: "Stain", description: "Tueur de héros avec une idéologie radicale et un sang toxique. Alter : Coagulation" },
+        { image: "Personnage/MHA/Gentle Criminal.jpg", title: "Gentle Criminal (Danjuro Tobita)", description: "Vilain élégant rêvant de gloire, plus comique que dangereux. Alter : Elasticité" },
+        { image: "Personnage/MHA/Love Lover.jpg", title: "La Brava / Love Lover (Manami Aiba)", description: "Hackeuse loyale capable de booster la force par amour. Alter : Amour" },
+        { image: "Personnage/MHA/All For One.jpg", title: "All For One", description: "Ennemi ultime, il vole les alters pour régner sur le chaos. Alter : All For One" },
+        { image: "Personnage/MHA/Tomura Shigaraki.jpg", title: "Tomura Shigaraki", description: "Successeur terrifiant d’All For One, destructeur au toucher. Alter : Désintégration" },
+        { image: "Personnage/MHA/Black Mist.jpg", title: "Black Mist (Kurogiri)", description: "Gardien des vilains, il crée des portails d’ombre. Alter : Création de portails" },
+        { image: "Personnage/MHA/Gigantomachia.jpg", title: "Gigantomachia", description: "Géant surpuissant, loyal jusqu’à la mort à son maître. Alters : Endurance (alter d'origine), Suppression de la Douleur, Gigantisme, Chien, Super-Rendement Energétique, Muscles d'Acier, Taupe" },
+        { image: "Personnage/MHA/Mister Compress.jpg", title: "Mister Compress (Atsuhiro Sako)", description: "Magicien du crime, il compresse tout dans des billes. Alter : Compress" },
+        { image: "Personnage/MHA/Twice.jpg", title: "Twice (Jin Bubaigawara)", description: "Instable mais attachant, il peut se dupliquer à l’infini. Alter : Duplicité" },
+        { image: "Personnage/MHA/Spinner.jpg", title: "Spinner (Shuichi Iguchi)", description: "Fan de Stain, il se bat avec des lames et une cause. Alter : Gecko" },
+        { image: "Personnage/MHA/Himiko Toga.jpg", title: "Himiko Toga", description: "Folle amoureuse du chaos, elle peut prendre l’apparence d’autrui en buvant son sang. Alter : Métamorphose" },
+        { image: "Personnage/MHA/Dabi.jpg", title: "Dabi", description: "Froid et destructeur, il maîtrise des flammes bleues dévastatrices. Alter : Crémation" },
+        { image: "Personnage/MHA/Muscular.jpg", title: "Muscular (Imasuji Goto)", description: "Vilain brutal au corps renforcé de muscles indestructibles. Alter : Augmentation Musculaire" },
+        { image: "Personnage/MHA/Overhaul.jpg", title: "Overhaul (Kai Chisaki)", description: "Obsédé par le contrôle, il désintègre et reconstruit tout avec un toucher. Alter : Overhaul" },
+        { image: "Personnage/MHA/Eri.jpg", title: "Eri", description: "Petite fille au pouvoir dangereux capable d’inverser le temps sur une personne. Alter : Rembobinage" },
+        { image: "Personnage/MHA/Re-Destro.jpg", title: "Re-Destro (Rikiya Yotsubashi)", description: "Chef de l'ancien Front de Libération des super-pouvoirs qui se renforce par la colère. Alter : Stress" },
+        { image: "Personnage/MHA/Lady Nagant.jpg", title: "Lady Nagant (Kaina Tsutsumi)", description: "Tireuse d’élite aux balles contrôlées, ancienne héroïne devenue assassine. Alter : Fusil" }
+        ],
+      "Fire Force": [
+        { image: "Personnage/Fire Force/Shinra Kusakabe.jpg", title: "Shinra Kusakabe", description: "Pompier de la 8e brigade doté de pouvoirs pyrokynétiques et surnommé le Démon." },
+        { image: "Personnage/Fire Force/Arthur Boyle.jpg", title: "Arthur Boyle", description: "Chevalier auto-proclamé maniant une épée de plasma, compagnon de Shinra." },
+        { image: "Personnage/Fire Force/Akitaru Oubi.jpg", title: "Akitaru Oubi", description: "Capitaine de la 8e brigade, sans pouvoir mais d’une grande force physique." },
+        { image: "Personnage/Fire Force/Takehisa Hinawa.jpg", title: "Takehisa Hinawa", description: "Lieutenant strict et tacticien expert, manie les armes avec précision." },
+        { image: "Personnage/Fire Force/Maki Oze.jpg", title: "Maki Oze", description: "Soldate douce mais puissante, capable de contrôler les flammes avec élégance." },
+        { image: "Personnage/Fire Force/Iris.jpg", title: "Iris", description: "Sœur religieuse apportant son soutien spirituel à la brigade." },
+        { image: "Personnage/Fire Force/Tamaki Kotatsu.jpg", title: "Tamaki Kotatsu", description: "Pompière dotée d’un pouvoir félin et victime d’un malchanceux 'syndrome de la tenue légère'." },
+        { image: "Personnage/Fire Force/Victor Light.jpg", title: "Victor Light", description: "Scientifique excentrique passionné par les Adolla Bursts." },
+        { image: "Personnage/Fire Force/Hibana.jpg", title: "Hibana", description: "Capitaine de la 5e brigade, manipule les flammes en forme de fleurs." },
+        { image: "Personnage/Fire Force/Benimarou Shinmon.jpg", title: "Benimaru Shinmon", description: "Capitaine de la 7e brigade, le plus fort des pyrokinésistes." },
+        { image: "Personnage/Fire Force/Konro Sagamiya.jpg", title: "Konro Sagamiya", description: "Lieutenant de Benimaru, affaibli par une surexposition à l’Adolla Link." },
+        { image: "Personnage/Fire Force/Vulcan Joseph.jpg", title: "Vulcan Joseph", description: "Génie mécano, constructeur des équipements de la brigade." },
+        { image: "Personnage/Fire Force/Joker.jpg", title: "Joker", description: "Mysterieux individu lié à Shinra, détenteur de secrets sur l’Adolla." },
+        { image: "Personnage/Fire Force/Pusu Pusu.jpg", title: "Pusu Pusu", description: "Insecte porteur du feu utilisé dans les expériences sur l’Adolla." },
+        { image: "Personnage/Fire Force/Mera Mera.jpg", title: "Mera Mera", description: "Officier religieux lié au Grand Prédicateur et à l’Église du Saint-Soleil." },
+        { image: "Personnage/Fire Force/Leonardo Barnes.jpg", title: "Leonardo Barnes", description: "Membre loyal de la 1re brigade, fervent croyant du culte du feu." },
+        { image: "Personnage/Fire Force/Tooru Kishiri.jpg", title: "Tooru Kishiri", description: "Soldat de la 1re brigade, capable de devenir invisible." },
+        { image: "Personnage/Fire Force/Rekka Hoshimiya.jpg", title: "Rekka Hoshimiya", description: "Fanatique qui cherchait à éveiller l’Adolla chez les enfants." },
+        { image: "Personnage/Fire Force/Takeru Noto.jpg", title: "Takeru Noto", description: "Soldat au grand cœur, spécialiste des explosions." },
+        { image: "Personnage/Fire Force/Karim Fulham.jpg", title: "Karim Fulham", description: "Officier au tempérament calme, utilise une clarinette pour geler les flammes." },
+        { image: "Personnage/Fire Force/Huoyen Li.jpg", title: "Huoyen Li", description: "Capitaine étranger impliqué dans la science derrière l’Adolla." },
+        { image: "Personnage/Fire Force/Haran.jpg", title: "Haran", description: "Apôtre du Grand Prédicateur, manipulateur de flammes destructrices." },
+        { image: "Personnage/Fire Force/Arrow.jpg", title: "Arrow", description: "Sniper fidèle à Haumea, utilisatrice précise des flammes." },
+        { image: "Personnage/Fire Force/Raffles III.jpg", title: "Raffles III", description: "Figure religieuse mythique, fondateur présumé de l'Église." },
+        { image: "Personnage/Fire Force/Dr.Giovanni.jpg", title: "Dr.Giovanni", description: "Scientifique fou et cybernétique, obsédé par l’Adolla." },
+        { image: "Personnage/Fire Force/Souichirou Hague.jpg", title: "Souichirou Hague", description: "Capitaine de la 4e brigade, passionné par la vérité." },
+        { image: "Personnage/Fire Force/Flail.jpg", title: "Flail", description: "Membre du Grand Prédicateur, combattant brutal." },
+        { image: "Personnage/Fire Force/Shou Kusakabe.jpg", title: "Shou Kusakabe", description: "Frère de Shinra et commandant des Chevaliers de l’Évangile." },
+        { image: "Personnage/Fire Force/Lisa Isaribi.jpg", title: "Lisa Isaribi", description: "Assistante de Vulcan, ancienne manipulée par le Grand Prédicateur." },
+        { image: "Personnage/Fire Force/Charon.jpg", title: "Charon", description: "Garde du corps surpuissant de Haumea, absorbe et reflète l’énergie." },
+        { image: "Personnage/Fire Force/Haumea.jpg", title: "Haumea", description: "Messagère de l’Adolla, télépathe cruelle au service de l’Évangile." },
+        { image: "Personnage/Fire Force/Assault.jpg", title: "Assault", description: "Combattant redoutable dont la faiblesse est sa timidité face aux femmes." },
+        ],
+      "Tokyo Ghoul": [
+        { image: "Personnage/Tokyo Ghoul/Kaneki Ken.jpg", title: "Kaneki Ken", description: "Étudiant timide devenu demi-goule après une greffe d'organe, il lutte pour conserver son humanité." },
+        { image: "Personnage/Tokyo Ghoul/Kamishiro Rize.jpg", title: "Kamishiro Rize", description: "Goule puissante et insatiable, connue pour son appétit dévorant. Sa greffe transforme Kaneki." },
+        { image: "Personnage/Tokyo Ghoul/Kirishima Tôka.jpg", title: "Kirishima Tôka", description: "Serveuse au café l'Antique et goule redoutable, elle enseigne à Kaneki la survie dans leur monde." },
+        { image: "Personnage/Tokyo Ghoul/Uta.jpg", title: "Uta", description: "Créateur de masques pour goules, au style étrange et mystérieux. Membre des Clowns." },
+        { image: "Personnage/Tokyo Ghoul/Nishio Nishiki.jpg", title: "Nishio Nishiki", description: "Goule universitaire qui devient un allié après avoir affronté Kaneki." },
+        { image: "Personnage/Tokyo Ghoul/Nagachika Hideyoshi.jpg", title: "Nagachika Hideyoshi", description: "Ami humain fidèle de Kaneki, surnommé Hide. Intelligent et perspicace." },
+        { image: "Personnage/Tokyo Ghoul/Tsukiyama Shû.jpg", title: "Tsukiyama Shû", description: "Surnommé le Gourmet, il est fasciné par Kaneki et développe une obsession culinaire pour lui." },
+        { image: "Personnage/Tokyo Ghoul/Amon Kôtarô.jpg", title: "Amon Kôtarô", description: "Inspecteur du CCG, il poursuit les goules avec un fort sens de la justice." },
+        { image: "Personnage/Tokyo Ghoul/Mado Kureo.jpg", title: "Mado Kureo", description: "Inspecteur expérimenté du CCG, impitoyable envers les goules." },
+        { image: "Personnage/Tokyo Ghoul/Ômori Yakumo.jpg", title: "Ômori Yakumo", description: "Surnommé Yamori ou Jason, une goule sadique et cruelle qui torture Kaneki." },
+        { image: "Personnage/Tokyo Ghoul/Yoshimura Kuzen.jpg", title: "Yoshimura Kuzen", description: "Patron de l'Antique, il protège les goules pacifiques et guide Kaneki." },
+        { image: "Personnage/Tokyo Ghoul/Yomo Renji.jpg", title: "Yomo Renji", description: "Employé de l'Antique, taciturne mais puissant, il agit comme un mentor." },
+        { image: "Personnage/Tokyo Ghoul/Fueguchi Hinami.jpg", title: "Fueguchi Hinami", description: "Jeune goule douce, orpheline après la mort de ses parents." },
+        { image: "Personnage/Tokyo Ghoul/Fueguchi Ryôko.jpg", title: "Fueguchi Ryôko", description: "Mère aimante d’Hinami, tuée par le CCG." },
+        { image: "Personnage/Tokyo Ghoul/Kirishima Ayato.jpg", title: "Kirishima Ayato", description: "Frère de Tôka, violent et membre de l'Aogiri." },
+        { image: "Personnage/Tokyo Ghoul/Suzuya Jûzô.jpg", title: "Suzuya Jûzô", description: "Inspecteur excentrique du CCG, ancien enfant maltraité." },
+        { image: "Personnage/Tokyo Ghoul/Banjô Kazuichi.jpg", title: "Banjô Kazuichi", description: "Goule de l'Aogiri au cœur noble, allié de Kaneki." },
+        { image: "Personnage/Tokyo Ghoul/Itori.jpg", title: "Itori", description: "Vieille amie d'Uta, goule informatrice excentrique." },
+        { image: "Personnage/Tokyo Ghoul/Kirishima Arata.jpg", title: "Kirishima Arata", description: "Père de Tôka et Ayato, ancien pacifiste devenu cible du CCG." },
+        { image: "Personnage/Tokyo Ghoul/Koma Enji.jpg", title: "Koma Enji", description: "Ancien chef d'un gang, travaille à l'Antique pour la paix." },
+        { image: "Personnage/Tokyo Ghoul/Arima Kishô.jpg", title: "Arima Kishô", description: "Inspecteur légendaire du CCG, aussi redouté que respecté." },
+        { image: "Personnage/Tokyo Ghoul/Marude Itsuki.jpg", title: "Marude Itsuki", description: "Inspecteur du CCG ambitieux, soupçonne les complots internes." },
+        { image: "Personnage/Tokyo Ghoul/Takizawa Seidô.jpg", title: "Takizawa Seidô", description: "Inspecteur du CCG devenu goule expérimentale." },
+        { image: "Personnage/Tokyo Ghoul/Noro.jpg", title: "Noro", description: "Goule silencieuse de l'Aogiri, dotée de capacités de régénération extrêmes." },
+        { image: "Personnage/Tokyo Ghoul/Tatara.jpg", title: "Tatara", description: "Haut membre de l'Aogiri, fidèle à Eto." },
+        { image: "Personnage/Tokyo Ghoul/Kosaka Yoriko.jpg", title: "Kosaka Yoriko", description: "Amie humaine de Tôka, ignorante de sa véritable nature." },
+        { image: "Personnage/Tokyo Ghoul/Irimi Kaya.jpg", title: "Irimi Kaya", description: "Travaille à l'Antique, ancienne leader du gang des Black Dobers." },
+        { image: "Personnage/Tokyo Ghoul/Eto.jpg", title: "Eto", description: "Chef de l'Aogiri, écrivaine célèbre et goule millénaire." },
+        { image: "Personnage/Tokyo Ghoul/Mado Akira.jpg", title: "Mado Akira", description: "Fille de Kureo Mado, inspectrice du CCG et collègue d'Amon." },
+        { image: "Personnage/Tokyo Ghoul/Kuroiwa Iwao.jpg", title: "Kuroiwa Iwao", description: "Inspecteur vétéran du CCG, père de Hairu." },
+        { image: "Personnage/Tokyo Ghoul/Kanô Akihiro.jpg", title: "Kanô Akihiro", description: "Médecin derrière les expériences humaines-goules." },
+        { image: "Personnage/Tokyo Ghoul/Hirako Take.jpg", title: "Hirako Take", description: "Inspecteur du CCG, proche collaborateur d'Arima." },
+        ],
+      "Nanatsu No Taizai": [
+        { image: "Personnage/Nanatsu No Taizai/Meliodas.jpg", title: "Meliodas", description: "Chef charismatique des Seven Deadly Sins, incarnant le péché de la colère avec une force immortelle et un passé énigmatique" },
+        { image: "Personnage/Nanatsu No Taizai/Gelda.jpg", title: "Gelda", description: "Guerrière redoutable au tempérament impétueux, révélant une force intérieure et une volonté inébranlable" },
+        { image: "Personnage/Nanatsu No Taizai/Elizabeth Liones.jpg", title: "Elizabeth Liones", description: "Princesse bienveillante, symbole d'espoir et d'humanité dans un monde en conflit" },
+        { image: "Personnage/Nanatsu No Taizai/Diane.jpg", title: "Diane", description: "Géante au cœur tendre, mêlant une force colossale à une fidélité inébranlable" },
+        { image: "Personnage/Nanatsu No Taizai/Ban.jpg", title: "Ban", description: "Voleur immortel défiant la mort avec une agilité sans pareille et une ambition insatiable" },
+        { image: "Personnage/Nanatsu No Taizai/King.jpg", title: "King", description: "Roi félin, gardien du royaume féerique, affichant une noblesse majestueuse et une puissance discrète" },
+        { image: "Personnage/Nanatsu No Taizai/Gowther.jpg", title: "Gowther", description: "Marionnettiste énigmatique, manipulant les émotions avec une froideur déroutante" },
+        { image: "Personnage/Nanatsu No Taizai/Merlin.jpg", title: "Merlin", description: "Magicienne légendaire dont la sagesse ancestrale et les pouvoirs mystiques défient le temps" },
+        { image: "Personnage/Nanatsu No Taizai/Hawk.jpg", title: "Hawk", description: "Mascotte comique et attachante, apportant légèreté et soutien inébranlable" },
+        { image: "Personnage/Nanatsu No Taizai/Mère d'Hawk.jpg", title: "Mère d'Hawk", description: "Figure maternelle rassurante offrant chaleur et conseils avisés" },
+        { image: "Personnage/Nanatsu No Taizai/Jericho.jpg", title: "Jericho", description: "Messager fidèle dont la présence discrète cache une grande sagacité" },
+        { image: "Personnage/Nanatsu No Taizai/Zaratras.jpg", title: "Zaratras", description: "Émissaire mystique porteur de secrets anciens et d'une aura divine" },
+        { image: "Personnage/Nanatsu No Taizai/Gilthunde.jpg", title: "Gilthunde", description: "Guerrier déterminé combinant une force brute à une volonté inébranlable" },
+        { image: "Personnage/Nanatsu No Taizai/Elaine.jpg", title: "Elaine", description: "Fée gracieuse dont la douceur naturelle et la connexion à la nature enchante l'entourage" },
+        { image: "Personnage/Nanatsu No Taizai/Geera.jpg", title: "Geera", description: "Guerrier imposant, incarnation de la ténacité et de la force inéluctable" },
+        { image: "Personnage/Nanatsu No Taizai/Hendrickson.jpg", title: "Hendrickson", description: "Prêtre corrompu usant de la foi pour dissimuler ses ambitions sombres" },
+        { image: "Personnage/Nanatsu No Taizai/Escanor.jpg", title: "Escanor", description: "Le plus puissant de la race humaines fesant parti des seven deadly sins, possédent la magie du soleil" },
+        { image: "Personnage/Nanatsu No Taizai/Dreyfus.jpg", title: "Dreyfus", description: "Chevalier loyal guidé par un sens aigu de la justice et du devoir" },
+        { image: "Personnage/Nanatsu No Taizai/Zeldris.jpg", title: "Zeldris", description: "Démon redoutable, fils du Roi Démon, incarnant la loyauté et la furie infernale" },
+        { image: "Personnage/Nanatsu No Taizai/Arthur Pendragon.jpg", title: "Arthur Pendragon", description: "Roi légendaire porteur d'une épée mythique et d'une justice ancestrale" },
+        { image: "Personnage/Nanatsu No Taizai/Galand.jpg", title: "Galand", description: "Guerrier farouche animé par un esprit indomptable et une détermination implacable" },
+        { image: "Personnage/Nanatsu No Taizai/Monspiet.jpg", title: "Monspiet", description: "Stratège taciturne dont la présence imposante inspire crainte et respect" },
+        { image: "Personnage/Nanatsu No Taizai/Derrierie.jpg", title: "Derrierie", description: "Guerrier féroce déterminé à défendre ses convictions avec une intensité brutale" },
+        { image: "Personnage/Nanatsu No Taizai/Fraudrin.jpg", title: "Fraudrin", description: "Démon manipulateur usurpant la divinité pour semer le chaos et la discorde" },
+        { image: "Personnage/Nanatsu No Taizai/Melascula.jpg", title: "Melascula", description: "Démon enchanteresse dont la séduction perfide dissimule une malice mortelle" },
+        { image: "Personnage/Nanatsu No Taizai/Estarossa.jpg", title: "Estarossa", description: "Démon tourmenté porteur d'un passé tragique et d'un pouvoir destructeur incommensurable" },
+        { image: "Personnage/Nanatsu No Taizai/Gloxinia.jpg", title: "Gloxinia", description: "Ancien roi féerique dont la grandeur a laissé place à une destinée sombre" },
+        { image: "Personnage/Nanatsu No Taizai/Ludociel.jpg", title: "Ludociel", description: "Créature mystique marquant le désordre des forces surnaturelles par son aura énigmatique" },
+        { image: "Personnage/Nanatsu No Taizai/Grayroad.jpg", title: "Grayroad", description: "Entité sinistre dont le pouvoir obscur et l'apparence cauchemardesque hantent l'adversaire" },
+        { image: "Personnage/Nanatsu No Taizai/Sariel.jpg", title: "Sariel", description: "Guerrier déchu en lutte perpétuelle entre rédemption et ténèbres intérieures" },
+        { image: "Personnage/Nanatsu No Taizai/Tarmiel.jpg", title: "Tarmiel", description: "Être spectral dont la présence énigmatique défie la compréhension humaine" },
+        { image: "Personnage/Nanatsu No Taizai/Gowther (Createur).jpg", title: "Gowther (Createur)", description: "Version originelle de Gowther, architecte d'illusions et manipulateur des âmes aux origines insondables" }
+        ],
+      "Classroom Of The Elite": [
+        { image: "Personnage/Cote/Kiyotaka Ayanokōji.jpg", title: "Kiyotaka Ayanokōji", description: "Élève de la Classe D, discret et calme, doté d’une intelligence et de compétences martiales hors du commun, issues de son entraînement dans la White Room." },
+        { image: "Personnage/Cote/Suzune Horikita.jpg", title: "Suzune Horikita", description: "Soeur cadette de Manabu, brillante et déterminée, elle excelle tant académiquement que dans les sports de combat et la stratégie." },
+        { image: "Personnage/Cote/Kikyo Kushida.jpg", title: "Kikyo Kushida", description: "Apparence douce et sociable, mais ceinture noire de karaté, capable de surprendre par sa ténacité et son intelligence en situation de conflit." },
+        { image: "Personnage/Cote/Ken Sudou.jpg", title: "Ken Sudou", description: "Membre du trio impulsif de la classe D, boxeur amateur à la puissance brute redoutable et à l’énergie débordante." },
+        { image: "Personnage/Cote/Haruki Yamauchi.jpg", title: "Haruki Yamauchi", description: "Assez calme et posé, il possède une solide expérience en self-défense et fait preuve d’un sang-froid notable en situation tendue." },
+        { image: "Personnage/Cote/Rokusuke Kōenji.jpg", title: "Rokusuke Kōenji", description: "Athlète hors pair issu d’une famille d’athlètes, il se distingue par sa force physique et son tempérament bagarreur." },
+        { image: "Personnage/Cote/Yōsuke Hirata.jpg", title: "Yōsuke Hirata", description: "Capitaine de l’équipe de football, il allie endurance exceptionnelle et rapidité, toujours prêt à protéger ses camarades." },
+        { image: "Personnage/Cote/Sae Chabashira.jpg", title: "Sae Chabashira", description: "Professeure de self-défense, experte en techniques de combat rapproché et en tactiques d’immobilisation." },
+        { image: "Personnage/Cote/Airi Sakura.jpg", title: "Airi Sakura", description: "Timide et réservée, elle révèle pourtant une grande force de caractère et une efficacité surprenante lorsqu’elle est poussée à agir." },
+        { image: "Personnage/Cote/Honami Ichinose.jpg", title: "Honami Ichinose", description: "Leader naturelle de la classe B, elle allie empathie, sang-froid et une forte capacité à motiver les autres." },
+        { image: "Personnage/Cote/Kei Karuizawa.jpg", title: "Kei Karuizawa", description: "Ancienne harceleuse devenue alliée d’Ayanokōji, elle possède une endurance physique et mentale accrues après son entraînement avec lui." },
+        { image: "Personnage/Cote/Kouhei Katsuragi.jpg", title: "Kouhei Katsuragi", description: "Élève de la Classe C, adepte de l’entraînement intensif, il cultive une grande force et une volonté de fer." },
+        { image: "Personnage/Cote/Kakeru Ryuuen.jpg", title: "Kakeru Ryūen", description: "Chef de la faction la plus violente de la Classe C, il use de l’intimidation et d’alliés nombreux pour dominer." },
+        { image: "Personnage/Cote/Arisu Sakayanagi.jpg", title: "Arisu Sakayanagi", description: "Étudiante d’élite de la Classe A, prodige intellectuelle manipulatrice, elle use de stratagèmes plus que de force brute." },
+        { image: "Personnage/Cote/Mio Ibuki.jpg", title: "Mio Ibuki", description: "Karatéka de haut niveau dans la Classe D, elle allie précision et élégance dans ses frappes." },
+        { image: "Personnage/Cote/Manabu Horikita.jpg", title: "Manabu Horikita", description: "Frère aîné de Suzune, figure d’autorité exemplaire, expert en karaté et leader strict de l’élite." },
+        { image: "Personnage/Cote/Hiyori Shiina.jpg", title: "Hiyori Shiina", description: "Élève discrète de la Classe D, mais entraînée en techniques d’esquive et de contre, subtile en combat rapproché." },
+        { image: "Personnage/Cote/Albert Yamada.jpg", title: "Albert Yamada", description: "Élève international en Classe D, bon en arts martiaux mixtes et doté d’une grande endurance." },
+        { image: "Personnage/Cote/Akane Tachibana.jpg", title: "Akane Tachibana", description: "Membre de la Classe D, passionnée d’arts martiaux et dotée d’une forte détermination en duel." },
+        { image: "Personnage/Cote/Miyabi Nagumo.jpg", title: "Miyabi Nagumo", description: "Stratège de la Classe D, elle privilégie les tactiques d’équipe et la gestion de stress." },
+        { image: "Personnage/Cote/Tokinari Tsukishiro.jpg", title: "Tokinari Tsukishiro", description: "Ancien directeur intérimaire, vétéran de la  White Room, maître de nombreuses disciplines martiales." },
+        { image: "Personnage/Cote/Atsuomi Ayanokouji.jpg", title: "Atsuomi Ayanokōji", description: "Père de Kiyotaka, figure mystérieuse de la White Room, doté d’une intelligence et d’une force redoutables." },
+        { image: "Personnage/Cote/Ichika Amasawa.jpg", title: "Ichika Amasawa", description: "Ancienne élève 5ᵉ génération de la White Room, experte toutes armes, capable de préjuger les attaques adverses." },
+        { image: "Personnage/Cote/Takuya Yagami.jpg", title: "Takuya Yagami", description: "Élève de la Classe D, agile et rapide, il excelle dans l’adresse au corps-à-corps." },
+        { image: "Personnage/Cote/Shiba Katsunori.jpg", title: "Shiba Katsunori", description: "Associé de Tsukishiro, réputé pour sa puissance de frappe et sa rapidité d’exécution." },
+        { image: "Personnage/Cote/Kazuomi Hōsen.jpg", title: "Kazuomi Hōsen", description: "Professeur de self-défense, ancien combattant clandestin, alliant force physique et technique." },
+        { image: "Personnage/Cote/Tsubaki Sakurako.jpg", title: "Tsubaki Sakurako", description: "Élève calme et méthodique de la Classe D, specialised en tactiques défensives." },
+        { image: "Personnage/Cote/Ishigami Kyo.jpg", title: "Ishigami Kyo", description: "Membre discret mais tenace, adepte d’arts martiaux traditionnels et d’esquive." },
+        { image: "Personnage/Cote/Kiryuin Fuka.jpg", title: "Kiryuin Fuka", description: "Élève de la Classe C, énergique et fonceuse, elle mise sur l’assaut direct." },
+        { image: "Personnage/Cote/Utomiya Riku.jpg", title: "Utomiya Riku", description: "Stratège de soutien, privilégie l’analyse et les contre-attaques plutôt que la force brute." },
+        { image: "Personnage/Cote/Nanase Tsubasa.jpg", title: "Nanase Tsubasa", description: "Élève polyvalente, combine agilité et endurance, souvent chargée de missions de reconnaissance." },
+        { image: "Personnage/Cote/Maya Sato.jpg", title: "Hōsen Kazuomi", description: "Même profil que Kazuomi Hōsen (double entrée), professeur de self-défense expérimenté." },
+      ]};
+
+
+       let selectedCategory = "All-Time";
+  let currentRound = [];
+  let winners = [];
+  let pairIndex = 0;
+  let roundNumber = 1;
+  let totalRounds = 0;
+
+  // --- Sélecteurs DOM ---
+  const card1 = document.getElementById('card1');
+  const card2 = document.getElementById('card2');
+  const roundIndicator = document.getElementById('roundIndicator');
+  const categoryElements = document.querySelectorAll('.category');
+  const cardContainer = document.querySelector('.card-container');
+
+  // --- Fonctions utilitaires ---
+  function normalizeCategory(cat) {
+    return cat.trim().toLowerCase();
+  }
+
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
+  // --- Mise à jour du texte du round ---
+  function updateRoundIndicator() {
+    roundIndicator.textContent = `Round ${roundNumber} sur ${totalRounds} (${currentRound.length} participants)`;
+  }
+
+  // --- Affiche la paire actuelle ou gère la fin de round/tournoi ---
+  function loadPair() {
+    if (pairIndex < currentRound.length - 1) {
+      const left = currentRound[pairIndex];
+      const right = currentRound[pairIndex + 1];
+      card1.innerHTML = `
+        <img src="${left.image}" alt="${left.title}">
+        <div class="info">
+          <h2>${left.title}</h2>
+          <p>${left.description}</p>
+        </div>
+      `;
+      card2.innerHTML = `
+        <img src="${right.image}" alt="${right.title}">
+        <div class="info">
+          <h2>${right.title}</h2>
+          <p>${right.description}</p>
+        </div>
+      `;
+    } else {
+      // Fin d'un round
+      if (winners.length === 1) {
+        document.body.classList.add('victory-background'); // Ajoute le fond doré
+          document.body.innerHTML = `
+        // Vainqueur final
+      
+          <div class="winner">
+            <h1>🏆 Vainqueur Final 🏆</h1>
+            <h2>${winners[0].title}</h2>
+            <img src="${winners[0].image}" alt="${winners[0].title}">
+            <p>${winners[0].description}</p>
+            <p class="compte-rebours">Retour à l'accueil dans <span id="countdown">10</span> secondes...</p>
+            <button class="btn-finish">← Retour immédiat</button>
+          </div>
+        `;
+        let seconds = 10;
+        const countdownEl = document.getElementById("countdown");
+        const timer = setInterval(() => {
+          seconds--;
+          countdownEl.textContent = seconds;
+          if (seconds <= 0) {
+            clearInterval(timer);
+            window.location.href = "Personnage.html";
+          }
+        }, 1000);
+        document.querySelector('.btn-finish').addEventListener('click', () => {
+          clearInterval(timer);
+          window.location.href = "Personnage.html";
+        });
+      } else {
+        // Passage au round suivant
+        currentRound = winners;
+        winners = [];
+        pairIndex = 0;
+        roundNumber++;
+        shuffleArray(currentRound);
+        updateRoundIndicator();
+        loadPair();
+      }
+    }
+  }
+
+  // --- Choix du gagnant ---
+  function chooseWinner(index) {
+    winners.push(currentRound[pairIndex + index]);
+    pairIndex += 2;
+    loadPair();
+  }
+
+  // --- Initialisation du tournoi ---
+  function initializeTournament() {
+    // Recherche la clé correcte dans categoriesData (insensible à la casse)
+    const keys = Object.keys(categoriesData);
+    const foundKey = keys.find(k => normalizeCategory(k) === normalizeCategory(selectedCategory));
+
+    if (foundKey && categoriesData[foundKey].length > 0) {
+      currentRound = [...categoriesData[foundKey]];
+      totalRounds = Math.log2(currentRound.length);
+      if (!Number.isInteger(totalRounds)) {
+        // Ajuste la liste à la plus grande puissance de 2 inférieure
+        const validLength = Math.pow(2, Math.floor(totalRounds));
+        currentRound = currentRound.slice(0, validLength);
+        totalRounds = Math.floor(totalRounds);
+      }
+      shuffleArray(currentRound);
+      winners = [];
+      pairIndex = 0;
+      roundNumber = 1;
+      updateRoundIndicator();
+      loadPair();
+    } else {
+      cardContainer.innerHTML = `<div class="winner"><h2>Aucun manga pour cette catégorie</h2></div>`;
+      roundIndicator.textContent = '';
+    }
+  }
+
+  // --- Gestion des clics sur catégories ---
+  categoryElements.forEach(elem => {
+    elem.addEventListener('click', () => {
+      categoryElements.forEach(e => e.classList.remove('selected'));
+      elem.classList.add('selected');
+      selectedCategory = elem.getAttribute('data-category');
+      initializeTournament();
+    });
+  });
+
+  // --- Sélection via paramètre URL ---
+  const urlParams = new URLSearchParams(window.location.search);
+  const categoryParam = urlParams.get('category');
+  if (categoryParam) {
+    selectedCategory = categoryParam;
+    categoryElements.forEach(e => e.classList.remove('selected'));
+    const targetCat = Array.from(categoryElements).find(c => normalizeCategory(c.dataset.category) === normalizeCategory(categoryParam));
+    if (targetCat) targetCat.classList.add('selected');
+  }
+
+  // --- Rendre les cartes cliquables ---
+  card1.addEventListener('click', () => chooseWinner(0));
+  card2.addEventListener('click', () => chooseWinner(1));
+
+  // --- Démarre le tournoi ---
+  initializeTournament();
+});
+    </script>
+  
+  </body>
+  </html>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tournoi Anime</title>
+  <link rel="stylesheet" href="css/retour.css">
+  <link rel="stylesheet" href="css/personnages.css">
+</head>
+<body>
+
+  <header>
+    <h1>Tournoi All Time Anime</h1>
+    <div class="container-retour">
+      <a href="Jouer maintenant.html">
+  <button class="btn-retour">← Retour à l'accueil</button>
+      </a>
+    </div>
+    <div class="categories">
+      <div class="category selected" data-category="All-Time">All Time</div>
+      <div class="category" data-category="Shōnen">Shōnen</div>
+      <div class="category" data-category="Shōjo">Shōjo</div>
+      <div class="category" data-category="Seinen">Seinen</div>
+    </div>
+    <div id="roundIndicator">Round 1</div>
+  </header>
+
+  <div class="card-container">
+    <div class="card" id="card1"></div>
+    <div class="card" id="card2"></div>
+  </div>
+
+  <script>
+    // Données pour les différentes catégories
+document.addEventListener("DOMContentLoaded", function () {
+   const categoriesData = {
+      "All-Time": [
+        { image: "Manga-Anime/OnePiece.jpg", title: "One Piece", description: "Luffy cherche le trésor légendaire pour devenir roi des pirates." },
+        { image: "Manga-Anime/NarutoS.jpg", title: "Naruto Shippuden", description: "Naruto veut devenir Hokage et sauver son ami Sasuke." },
+        { image: "Manga-Anime/Dragon Ball Z.jpg", title: "Dragon Ball Z", description: "Goku protège la Terre contre de puissants ennemis." },
+        { image: "Manga-Anime/FullMetal Alchemist Brotherhood.jpg", title: "FullMetal Alchemist Brotherhood", description: "Deux frères cherchent la pierre philosophale pour retrouver leurs corps." },
+        { image: "Manga-Anime/Death Note.jpg", title: "Death Note", description: "Un lycéen découvre un carnet qui tue ceux dont on écrit le nom à l'intérieur." },
+        { image: "Manga-Anime/Hunter x Hunter.jpg", title: "Hunter x Hunter", description: "Gon part à l’aventure pour devenir Hunter et retrouver son père." },
+        { image: "Manga-Anime/GTO.jpg", title: "GTO", description: "Un ancien voyou devient prof et tente d'éduquer une classe difficile." },
+        { image: "Manga-Anime/Snk.jpg", title: "Snk", description: "L'humanité lutte pour survivre face à des titans mangeurs d'hommes." },
+        { image: "Manga-Anime/Bleach.jpg", title: "Bleach", description: "Ichigo devient Shinigami pour combattre les esprits maléfiques." },
+        { image: "Manga-Anime/JoJo's Bizarre Adventure.jpg", title: "JoJo's Bizarre Adventure", description: "Chaque génération des Joestar affronte des ennemis étranges." },
+        { image: "Manga-Anime/Fairy Tail.jpg", title: "Fairy Tail", description: "Une guilde de mages vit de folles aventures." },
+        { image: "Manga-Anime/Slam Dunk.jpg", title: "Slam Dunk", description: "Un lycéen rebelle découvre sa passion pour le basket." },
+        { image: "Manga-Anime/Kenshin Le Vagabond.jpg", title: "Kenshin Le Vagabond", description: "Un ancien assassin cherche la paix dans le Japon de l'ère Meiji." },
+        { image: "Manga-Anime/Les Chevaliers du Zodiaque.jpg", title: "Les Chevaliers du Zodiaque", description: "Des chevaliers protègent la déesse Athéna avec leurs armures sacrées." },
+        { image: "Manga-Anime/One-Punch Man.jpg", title: "One-Punch Man", description: "Un héros trop fort bat tous ses ennemis en un coup." },
+        { image: "Manga-Anime/Ippo.jpg", title: "Ippo", description: "Un lycéen timide devient un boxeur talentueux." },
+        { image: "Manga-Anime/My Hero Academia.jpg", title: "My Hero Academia", description: "Izuku veut devenir un héros dans un monde rempli de super-pouvoirs." },
+        { image: "Manga-Anime/YuYu Hakusho.jpg", title: "YuYu Hakusho", description: "Un adolescent meurt en sauvant un enfant et devient détective des esprits." },
+        { image: "Manga-Anime/Eyeshield 21.jpg", title: "Eyeshield 21", description: "Un lycéen timide devient star du football américain." },
+        { image: "Manga-Anime/Détective Conan.jpg", title: "Détective Conan", description: "Un jeune détective coincé dans un corps d’enfant résout des affaires." },
+        { image: "Manga-Anime/Ken le survivant.jpg", title: "Ken le survivant", description: "Dans un monde post-apocalyptique, Ken protège les innocents." },
+        { image: "Manga-Anime/Soul Eater.jpg", title: "Soul Eater", description: "Des élèves manient des armes vivantes pour chasser des âmes maléfiques." },
+        { image: "Manga-Anime/Hikaru no Go.jpg", title: "Hikaru no Go", description: "Un garçon découvre le jeu de Go avec l’aide d’un fantôme." },
+        { image: "Manga-Anime/Assassination Classroom.jpg", title: "Assassination Classroom", description: "Des élèves doivent tuer leur prof alien avant qu’il ne détruise la Terre." },
+        { image: "Manga-Anime/Neon Genesis Evangelion.jpg", title: "Neon Genesis Evangelion", description: "Des adolescents pilotent des robots géants contre des créatures mystérieuses." },
+        { image: "Manga-Anime/Shaman King.jpg", title: "Shaman King", description: "Yoh veut devenir roi des shamans pour parler avec les esprits." },
+        { image: "Manga-Anime/Black Butler.jpg", title: "Black Butler", description: "Un jeune noble et son majordome démoniaque cherchent vengeance." },
+        { image: "Manga-Anime/Blue Exorcist.jpg", title: "Blue Exorcist", description: "Rin découvre qu’il est le fils de Satan et devient exorciste." },
+        { image: "Manga-Anime/Seven Deadly Sins.jpg", title: "Seven Deadly Sins", description: "Des chevaliers puissants veulent sauver le royaume." },
+        { image: "Manga-Anime/Gintama.jpg", title: "Gintama", description: "Un samouraï paresseux vit des aventures absurdes dans un Japon futuriste." },
+        { image: "Manga-Anime/Jujutsu Kaisen.jpg", title: "Jujutsu Kaisen", description: "Yuji combat des malédictions avec ses nouveaux pouvoirs." },
+        { image: "Manga-Anime/Yu-Gi-Oh!.jpg", title: "Yu-Gi-Oh!", description: "Yugi résout des conflits à travers des duels de cartes magiques." },
+        { image: "Manga-Anime/The Promised Neverland.jpg", title: "The Promised Neverland", description: "Des enfants découvrent l’horrible vérité sur leur orphelinat." },
+        { image: "Manga-Anime/Chainsaw Man.jpg", title: "Chainsaw Man", description: "Un chasseur de démons fusionne avec son chien-tronçonneuse." },
+        { image: "Manga-Anime/Beelzebub.jpg", title: "Beelzebub", description: "Un délinquant doit élever le fils du roi des démons." },
+        { image: "Manga-Anime/Demon Slayer.jpg", title: "Demon Slayer", description: "Tanjirô combat les démons pour sauver sa sœur qui a été transformer en démon." },
+        { image: "Manga-Anime/Magi - The Labyrinth of Magic.jpg", title: "Magi : The Labyrinth of Magic", description: "Des jeunes aventuriers explorent des donjons magiques." },
+        { image: "Manga-Anime/A Silent Voice.jpg", title: "A Silent Voice", description: "Un ancien harceleur veut se racheter auprès d’une fille sourde qu'il a harcelé." },
+        { image: "Manga-Anime/Haikyu.jpg", title: "Haikyu", description: "Des lycéens passionnés se battent pour devenir les meilleurs en volley." },
+        { image: "Manga-Anime/Black Clover.jpg", title: "Black Clover", description: "Asta, sans magie, rêve de devenir empereur-mage." },
+        { image: "Manga-Anime/Kuroko no Basket.jpg", title: "Kuroko no Basket", description: "Un joueur discret aide son équipe à devenir la meilleure au basket." },
+        { image: "Manga-Anime/Radiant.jpg", title: "Radiant", description: "Un jeune sorcier combat des monstres venus du ciel." },
+        { image: "Manga-Anime/Food Wars.jpg", title: "Food Wars", description: "Un jeune chef affronte d’autres cuisiniers dans des duels culinaires." },
+        { image: "Manga-Anime/Pokémon.jpg", title: "Pokémon", description: "Sacha parcourt le monde pour devenir maître Pokémon." },
+        { image: "Manga-Anime/Beastars.jpg", title: "Beastars", description: "Dans un monde animal, un loup lutte contre sa nature." },
+        { image: "Manga-Anime/Sakamoto Days.jpg", title: "Sakamoto Days", description: "Un ancien tueur à gages tente de vivre une vie paisible." },
+        { image: "Manga-Anime/Tokyo Revengers.jpg", title: "Tokyo Revengers", description: "Un jeune homme voyage dans le passé pour sauver son amie d'enfance." },
+        { image: "Manga-Anime/Mob Psycho 100.jpg", title: "Mob Psycho 100", description: "Un garçon aux pouvoirs psychiques essaie de vivre normalement." },
+        { image: "Manga-Anime/Baki.jpg", title: "Baki", description: "Un jeune combattant affronte les plus grands guerriers du monde." },
+        { image: "Manga-Anime/Noragami.jpg", title: "Noragami", description: "Un dieu sans temple aide les humains pour quelques pièces." },
+        { image: "Manga-Anime/Code Geass.jpg", title: "Code Geass", description: "Lelouch obtient un pouvoir pour renverser un empire." },
+        { image: "Manga-Anime/Love Is Wars.jpg", title: "Love Is Wars", description: "Deux lycéens amoureux mènent une guerre psychologique pour faire craquer l’autre." },
+        { image: "Manga-Anime/Tomodachi Game.jpg", title: "Tomodachi Game", description: "Des amis participent à un jeu cruel pour rembourser une dette." },
+        { image: "Manga-Anime/Classroom Of The Elite.jpg", title: "Classroom Of The Elite", description: "Un lycée spécial forme les futurs élites du pays." },
+        { image: "Manga-Anime/Fruit Basket.jpg", title: "Fruit Basket", description: "Une orpheline découvre une famille maudite liée au zodiaque chinois." },
+        { image: "Manga-Anime/Inazuma Eleven.jpg", title: "Inazuma Eleven", description: "Une équipe de foot lycéenne vise les sommets grâce à des techniques spéciales." },
+        { image: "Manga-Anime/Blue Lock.jpg", title: "Blue Lock", description: "Des attaquants s'affrontent pour devenir le numéro 1 du foot japonais." },
+        { image: "Manga-Anime/Kingdom.jpg", title: "Kingdom", description: "Deux orphelins veulent unifier la Chine en pleine guerre." },
+        { image: "Manga-Anime/Tokyo Ghoul.jpg", title: "Tokyo Ghoul", description: "Un étudiant devient mi-ghoul après une attaque et tente de garder son humanité." },
+        { image: "Manga-Anime/Oshi No Ko.jpg", title: "Oshi No Ko", description: "Deux fans d'une idole renaissent dans le monde du showbiz ." },
+        { image: "Manga-Anime/Devilman.jpg", title: "Devilman", description: "Un adolescent fusionne avec un démon pour sauver l’humanité." },
+        { image: "Manga-Anime/Fire Force.jpg", title: "Fire Force", description: "Des pompiers spéciaux combattent des incendies causés par des combustions humaines." },
+        { image: "Manga-Anime/Dr.Stone.jpg", title: "Dr.Stone", description: "3000 ans après la pétrificatioon de la Terre des survivants veulent reconstruire la civilisation grâce à la science." },
+        { image: "Manga-Anime/Berserk.jpg", title: "Berserk", description: "Guts, un guerrier maudit, cherche vengeance dans un monde brutal." }
+      ],
+      "Shōnen": [
+        { image: "Manga-Anime/Dragon Ball Z.jpg", title: "Dragon Ball Z", description: "Goku protège la Terre contre de puissants ennemis." },
+        { image: "Manga-Anime/OnePiece.jpg", title: "One Piece", description: "Luffy cherche le trésor légendaire pour devenir roi des pirates." },
+        { image: "Manga-Anime/GTO.jpg", title: "GTO", description: "Un ancien voyou devient prof et tente d'éduquer une classe difficile." },
+        { image: "Manga-Anime/NarutoS.jpg", title: "Naruto Shippuden", description: "Naruto veut devenir Hokage et sauver son ami Sasuke." },
+        { image: "Manga-Anime/Death Note.jpg", title: "Death Note", description: "Un lycéen découvre un carnet qui tue ceux dont on écrit le nom à l'intérieur." },
+        { image: "Manga-Anime/Demon Slayer.jpg", title: "Demon Slayer", description: "Tanjirô combat les démons pour sauver sa sœur qui a été transformé en demon." },
+        { image: "Manga-Anime/My Hero Academia.jpg", title: "My Hero Academia", description: "Izuku veut devenir un héros dans un monde rempli de super-pouvoirs." },
+        { image: "Manga-Anime/The Promised Neverland.jpg", title: "The Promised Neverland", description: "Des enfants découvrent l’horrible vérité sur leur orphelinat." },
+        { image: "Manga-Anime/Chainsaw Man.jpg", title: "Chainsaw Man", description: "Un chasseur de démons fusionne avec son chien-tronçonneuse." },
+        { image: "Manga-Anime/Fire Force.jpg", title: "Fire Force", description: "Des pompiers spéciaux combattent des incendies causés par des combustions humaines." },
+        { image: "Manga-Anime/Soul Eater.jpg", title: "Soul Eater", description: "Des élèves manient des armes vivantes pour chasser des âmes maléfiques." },
+        { image: "Manga-Anime/FullMetal Alchemist Brotherhood.jpg", title: "FullMetal Alchemist", description: "Deux frères cherchent la pierre philosophale pour retrouver leurs corps." },
+        { image: "Manga-Anime/Hunter x Hunter.jpg", title: "Hunter x Hunter", description: "Gon part à l’aventure pour devenir Hunter et retrouver son père." },
+        { image: "Manga-Anime/Bleach.jpg", title: "Bleach", description: "Ichigo devient Shinigami pour combattre les esprits maléfiques." },
+        { image: "Manga-Anime/Fairy Tail.jpg", title: "Fairy Tail", description: "Une guilde de mages vit de folles aventures." },
+        { image: "Manga-Anime/JoJo's Bizarre Adventure.jpg", title: "JoJo's Bizarre Adventure", description: "Chaque génération des Joestar affronte des ennemis étranges." },
+        { image: "Manga-Anime/Tomodachi Game.jpg", title: "Tomodachi Game", description: "Des amis participent à un jeu cruel pour rembourser une dette." },
+        { image: "Manga-Anime/Gurren Lagann.jpg", title: "Gurren Lagann", description: "Des adolescents pilotent des robots pour lutter contre des forces obscures." },
+        { image: "Manga-Anime/Noragami.jpg", title: "Noragami", description: "Un dieu sans temple aide les humains pour quelques pièces." },
+        { image: "Manga-Anime/Albator 84.jpg", title: "Albator 84", description: "Un pirate de l’espace combat pour la liberté de l’humanité." },
+        { image: "Manga-Anime/Overlord.jpeg", title: "Overlord", description: "Un joueur reste coincé dans un jeu vidéo en tant que puissant sorcier." },
+        { image: "Manga-Anime/Samurai 7.jpg", title: "Samurai 7", description: "Des samouraïs défendent un village contre des bandits." },
+        { image: "Manga-Anime/DanMachi.jpg", title: "DanMachi", description: "Un jeune aventurier explore des donjons avec l’aide de dieux." },
+        { image: "Manga-Anime/Trigun.jpg", title: "Trigun", description: "Un tireur légendaire essaie d’éviter les conflits dans un monde désertique." },
+        { image: "Manga-Anime/Charlotte.jpg", title: "Charlotte", description: "Des adolescents avec pouvoirs spéciaux cherchent leur place." },
+        { image: "Manga-Anime/Gate.jpg", title: "Gate", description: "Des militaires explorent un portail vers un monde fantastique." },
+        { image: "Manga-Anime/Seven Deadly Sins.jpg", title: "Seven Deadly Sins", description: "Des chevaliers puissants veulent sauver le royaume." },
+        { image: "Manga-Anime/Gintama.jpg", title: "Gintama", description: "Un samouraï paresseux vit des aventures absurdes dans un Japon futuriste." },
+        { image: "Manga-Anime/Eyeshield 21.jpg", title: "Eyeshield 21", description: "Un lycéen timide devient star du football américain." },
+        { image: "Manga-Anime/Yu-Gi-Oh!.jpg", title: "Yu-Gi-Oh!", description: "Yugi résout des conflits à travers des duels de cartes magiques." },
+        { image: "Manga-Anime/Classroom Of The Elite.jpg", title: "Classroom Of The Elite", description: "Un lycée spécial forme les futurs élites du pays." },
+        { image: "Manga-Anime/Kuroko no Basket.jpg", title: "Kuroko no Basket", description: "Un joueur discret aide son équipe à devenir la meilleure au basket." }
+      ],
+      "Shōjo": [
+        { image: "Manga-Anime/Kaguya-sama.jpg", title: "Kaguya-sama:Love is War", description: "Deux génies amoureux se livrent une guerre psychologique pour ne pas avouer en premier." },
+        { image: "Manga-Anime/Quintessential Quintuplets.jpg", title: "Quintessential Quintuplets", description: "Un étudiant donne des cours à cinq sœurs qui tombent peu à peu amoureuses." },
+        { image: "Manga-Anime/Fruit Basket.jpg", title: "Fruit Basket", description: "Une fille découvre qu’une famille se transforme en animaux du zodiaque." },
+        { image: "Manga-Anime/Blue Box.jpg", title: "Blue Box", description: "Un sportif timide vit sous le même toit que sa crush basketteuse." },
+        { image: "Manga-Anime/Nisekoi.jpg", title: "Nisekoi", description: "Deux lycéens doivent faire semblant de sortir ensemble malgré leurs rancunes." },
+        { image: "Manga-Anime/Darling in the Franxx.jpg", title: "Darling in the Franxx", description: "Des ados pilotent des robots et découvrent l’amour dans un monde en ruine." },
+        { image: "Manga-Anime/Nana.jpg", title: "Nana", description: "Deux femmes nommées Nana partagent un appart et vivent des histoires d’amour intenses" },
+        { image: "Manga-Anime/More than a Married Couple.jpg", title: "More than a Married Couple but Not Lovers", description: "Deux lycéens cohabitent comme un faux couple pour un projet scolaire." },
+        { image: "Manga-Anime/I Want to Eat Your Pancreas.jpg", title: "I Want to Eat Your Pancreas", description: "Un garçon renfermé devient l’ami d’une fille malade et pleine de vie." },
+        { image: "Manga-Anime/Maid Sama.jpg", title: "Maid Sama", description: "Une présidente sévère cache son job de maid à l’école… jusqu’à ce qu’un garçon le découvre." },
+        { image: "Manga-Anime/Wotakoi.jpg", title: "Wotakoi: Love is Hard for Otaku", description: "Deux collègues otakus commencent une relation drôle et réaliste." },
+        { image: "Manga-Anime/Blue Spring Ride.jpg", title: "Blue Spring Ride", description: "Une fille retrouve son amour de jeunesse devenu froid et distant." },
+        { image: "Manga-Anime/To Love-ru.jpg", title: "To Love-ru", description: " Un garçon timide est fiancé à une extraterrestre imprévisible." },
+        { image: "Manga-Anime/Your Lie in April.jpg", title: "Your Lie in April", description: "Un pianiste brisé retrouve la passion grâce à une violoniste excentrique." },
+        { image: "Manga-Anime/Tonikaku Kawaii.jpg", title: "Tonikaku Kawaii", description: "Un couple marié jeune vit une romance douce et mystérieuse." },
+        { image: "Manga-Anime/Nagatoro.jpg", title: "Arrête de me chauffer, Nagatoro", description: " Une fille taquine un garçon timide qu’elle aime en secret." },
+        { image: "Manga-Anime/Domestic Girlfriend.jpg", title: "Domestic Girlfriend", description: "Un garçon est pris dans un triangle amoureux avec ses deux demi-sœurs." },
+        { image: "Manga-Anime/Rent-A-Girlfriend.jpg", title: "Rent-A-Girlfriend", description: "Un étudiant loue une copine et finit par tomber amoureux d’elle." },
+        { image: "Manga-Anime/Date A Live.jpg", title: "Date A Live", description: "Pour sauver le monde, un garçon séduit des filles aux pouvoirs destructeurs." },
+        { image: "Manga-Anime/Komi.jpg", title: "Komi Cherche ses Mots", description: " Une fille trop timide veut se faire 100 amis grâce à un camarade gentil." },
+        { image: "Manga-Anime/Your Name.jpg", title: "Your Name", description: " Deux lycéens échangent de corps et tombent amoureux à travers le temps." },
+        { image: "Manga-Anime/Horimiya.jpg", title: "Horimiya", description: "Un garçon discret et une fille populaire se découvrent hors du lycée." },
+        { image: "Manga-Anime/Shikimori.jpg", title: "Shikimori's Not Just a Cutie", description: "Une fille mignonne mais badass protège son copain maladroit." },
+        { image: "Manga-Anime/The Dangers in my Heart.jpeg", title: "The Dangers in my Heart", description: "Un garçon sombre tombe amoureux d’une fille joyeuse et populaire." },
+        { image: "Manga-Anime/Call of the Night.jpg", title: "Call of the Night", description: "Un garçon insomniaque va tomber amoureux en voulant devenir un vampire." },
+        { image: "Manga-Anime/The 100 Girlfriends.jpg", title: "Les 100 petites amies qui t'aiiiment à en mourir", description: "Un garçon doit sortir avec 100 filles qui l’aiment vraiment, sinon elles meurent." },
+        { image: "Manga-Anime/My Dress-Up Darling.jpg", title: "My Dress-Up Darling", description: "Un garçon passionné de poupée traditionnelle aide une fille cosplayeuse à réaliser ses rêves." },
+        { image: "Manga-Anime/Spice and Wolf.jpg", title: "Spice and Wolf", description: "Un marchand voyage avec une déesse louve maligne et séduisante." },
+        { image: "Manga-Anime/Roshidere.jpg", title: "Alya Sometimes Hides Her Feelings in Russian", description: "Un génie tombe amoureux d'une fille qui parle en russe lorsqu'elle est embarrassée" },
+        { image: "Manga-Anime/My Happy Marriage.jpg", title: "My Happy Marriage", description: "Une fille rejetée trouve enfin de l’amour dans un mariage arrangé." },
+        { image: "Manga-Anime/Bunny Girl Senpai.jpg", title: "Rascal Does Not Dream of Bunny Girl Senpai", description: "Un garçon aide une actrice invisible à ne pas disparaître." },
+        { image: "Manga-Anime/The Angel Next Door.jpg", title: "The Angel Next Door Spoils Me Rotten", description: "Une voisine parfaite prend soin d’un garçon ordinaire et se rapproche de lui." },
+      ],
+      "Seinen": [
+        { image: "Manga-Anime/Death Note.jpg", title: "Death Note", description: "Un lycéen découvre un carnet qui tue les gens dont il écrit le nom à l'intérieur." },
+        { image: "Manga-Anime/Snk.jpg", title: "Snk", description: "Des humains luttent pour survivre face à des titans mangeurs d'hommes." },
+        { image: "Manga-Anime/Btooom!.jpg", title: "Btooom!", description: "Un jeune est piégé sur une île où il doit tuer pour survivre avec des bombes." },
+        { image: "Manga-Anime/Black Lagoon.jpg", title: "Black Lagoon", description: "Un employé devient pirate après avoir été enlevé par un groupe de mercenaires." },
+        { image: "Manga-Anime/Blue Exorcist.jpg", title: "Blue Exorcist", description: "Un ado découvre qu’il est le fils de Satan et décide de le combattre." },
+        { image: "Manga-Anime/Rainbow.jpg", title: "Rainbow", description: "Des jeunes délinquants affrontent la cruauté dans un centre de détention au Japon." },
+        { image: "Manga-Anime/Samurai Champloo.jpg", title: "Samurai Champloo", description: "Trois voyageurs aux styles différents cherchent un samouraï qui sent le tournesol." },
+        { image: "Manga-Anime/Monster.jpg", title: "Monster", description: "Un chirurgien traque un tueur en série qu’il a sauvé enfant." },
+        { image: "Manga-Anime/High School of the Dead.jpg", title: "High School of the Dead", description: "Des lycéens tentent de survivre dans un monde envahi par les zombies." },
+        { image: "Manga-Anime/Berserk.jpg", title: "Berserk", description: "Un guerrier maudit affronte des démons dans un monde brutal et médiéval." },
+        { image: "Manga-Anime/Tokyo Ghoul.jpg", title: "Tokyo Ghoul", description: "Un étudiant devient mi-goule après une attaque et lutte pour garder son humanité." },
+        { image: "Manga-Anime/Hellsing Ultimate.jpg", title: "Hellsing Ultimate", description: "Une organisation chasse les vampires avec l’aide d’un puissant immortel." },
+        { image: "Manga-Anime/Kingdom.jpg", title: "Kingdom", description: "Deux orphelins rêvent de devenir grands généraux dans la Chine ancienne." },
+        { image: "Manga-Anime/20th Century Boys.jpg", title: "20th Century Boys", description: "Un groupe d’amis tente d’arrêter une secte liée à un jeu qu’ils ont inventé enfants." },
+        { image: "Manga-Anime/Grand Blue.jpg", title: "Grand Blue", description: "Un étudiant découvre la plongée sous-marine… et les excès de la vie étudiante." },
+        { image: "Manga-Anime/Vagabond.jpg", title: "Vagabond", description: "L’histoire romancée du célèbre samouraï Miyamoto Musashi." },
+      ]};
+
+      let selectedCategory = "All-Time";
+  let currentRound = [];
+  let winners = [];
+  let pairIndex = 0;
+  let roundNumber = 1;
+  let totalRounds = 0;
+
+  const card1 = document.getElementById('card1');
+  const card2 = document.getElementById('card2');
+  const roundIndicator = document.getElementById('roundIndicator');
+  const categoryElements = document.querySelectorAll('.category');
+  const cardContainer = document.querySelector('.card-container');
+
+  function normalizeCategory(cat) {
+    return cat.trim().toLowerCase();
+  }
+
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
+  function updateRoundIndicator() {
+    roundIndicator.textContent = `Round ${roundNumber} sur ${totalRounds} (${currentRound.length} participants)`;
+  }
+
+  function loadPair() {
+    if (pairIndex < currentRound.length - 1) {
+      const left = currentRound[pairIndex];
+      const right = currentRound[pairIndex + 1];
+      card1.innerHTML = `
+        <div class="anime-card">
+          <img src="${left.image}" alt="${left.title}">
+          <h2>${left.title}</h2>
+          <p>${left.description}</p>
+        </div>
+      `;
+      card2.innerHTML = `
+        <div class="anime-card">
+          <img src="${right.image}" alt="${right.title}">
+          <h2>${right.title}</h2>
+          <p>${right.description}</p>
+        </div>
+      `;
+    } else {
+      if (winners.length === 1) {
+        document.body.classList.add('victory-background');
+        document.body.innerHTML = `
+          <div class="winner">
+            <h1>🏆 Anime Gagnant 🏆</h1>
+            <h2>${winners[0].title}</h2>
+            <img src="${winners[0].image}" alt="${winners[0].title}">
+            <p>${winners[0].description}</p>
+            <p class="compte-rebours">Retour à l'accueil dans <span id="countdown">10</span> secondes...</p>
+            <button class="btn-finish">← Retour immédiat</button>
+          </div>
+        `;
+        let seconds = 10;
+        const countdownEl = document.getElementById("countdown");
+        const timer = setInterval(() => {
+          seconds--;
+          countdownEl.textContent = seconds;
+          if (seconds <= 0) {
+            clearInterval(timer);
+            window.location.href = "anime.html";
+          }
+        }, 1000);
+        document.querySelector('.btn-finish').addEventListener('click', () => {
+          clearInterval(timer);
+          window.location.href = "anime.html";
+        });
+      } else {
+        currentRound = winners;
+        winners = [];
+        pairIndex = 0;
+        roundNumber++;
+        shuffleArray(currentRound);
+        updateRoundIndicator();
+        loadPair();
+      }
+    }
+  }
+
+  function chooseWinner(index) {
+    winners.push(currentRound[pairIndex + index]);
+    pairIndex += 2;
+    loadPair();
+  }
+
+  function initializeTournament() {
+    const keys = Object.keys(categoriesData);
+    const foundKey = keys.find(k => normalizeCategory(k) === normalizeCategory(selectedCategory));
+
+    if (foundKey && categoriesData[foundKey].length > 0) {
+      currentRound = [...categoriesData[foundKey]];
+      totalRounds = Math.log2(currentRound.length);
+      if (!Number.isInteger(totalRounds)) {
+        const validLength = Math.pow(2, Math.floor(totalRounds));
+        currentRound = currentRound.slice(0, validLength);
+        totalRounds = Math.floor(totalRounds);
+      }
+      shuffleArray(currentRound);
+      winners = [];
+      pairIndex = 0;
+      roundNumber = 1;
+      updateRoundIndicator();
+      loadPair();
+    } else {
+      cardContainer.innerHTML = `<div class="winner"><h2>Aucun anime pour cette catégorie</h2></div>`;
+      roundIndicator.textContent = '';
+    }
+  }
+
+  categoryElements.forEach(elem => {
+    elem.addEventListener('click', () => {
+      categoryElements.forEach(e => e.classList.remove('selected'));
+      elem.classList.add('selected');
+      selectedCategory = elem.getAttribute('data-category');
+      initializeTournament();
+    });
+  });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const categoryParam = urlParams.get('category');
+  if (categoryParam) {
+    selectedCategory = categoryParam;
+    categoryElements.forEach(e => e.classList.remove('selected'));
+    const targetCat = Array.from(categoryElements).find(c => normalizeCategory(c.dataset.category) === normalizeCategory(categoryParam));
+    if (targetCat) targetCat.classList.add('selected');
+  }
+
+  card1.addEventListener('click', () => chooseWinner(0));
+  card2.addEventListener('click', () => chooseWinner(1));
+
+  initializeTournament();
+});
+    </script>
+  
+  </body>
+  </html>
