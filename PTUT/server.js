@@ -38,7 +38,7 @@ app.post('/ajouterElementJSON', async (req, res) => {
 });
 
 // Route pour importer tout le JSON vers PostgreSQL
-app.post('/importJSON', async (req, res) => {
+app.post('/ajouterElementJSON', async (req, res) => {
   try {
     const data = JSON.parse(fs.readFileSync(path.join(__dirname, 'RESULTATS.json'), 'utf8'));
 
@@ -55,12 +55,12 @@ app.post('/importJSON', async (req, res) => {
       const sex = d.sex || null;
 
       await pool.query(
-        'INSERT INTO preferences (categorie, original_id, pseudo, fav, age, sex) VALUES ($1, $2, $3, $4, $5, $6)',
+        'INSERT INTO favoris (categorie, original_id, pseudo, fav, age, sex) VALUES ($1, $2, $3, $4, $5, $6)',
         [categorie, id, pseudo, fav, age, sex]
       );
     }
 
-    res.send('Import JSON vers PostgreSQL réussi');
+    res.send('Utilisateur ajouté avec succès en JSON vers PostgreSQL réussi');
   } catch (error) {
     console.error("Erreur import JSON -> PostgreSQL :", error);
     res.status(500).send('Erreur serveur import');
