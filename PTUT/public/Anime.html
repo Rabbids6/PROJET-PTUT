@@ -216,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
     roundIndicator.textContent = `Round ${roundNumber} sur ${totalRounds} (${currentRound.length} participants)`;
   }
 
-  async function loadPair() {
+async function loadPair() {
   // Si on a fini de parcourir toutes les paires
   if (pairIndex >= currentRound.length - 1) {
     if (winners.length === 1) {
@@ -317,6 +317,7 @@ document.addEventListener("DOMContentLoaded", function () {
     </div>
   `;
 }
+
       let seconds = 10;
       const countdownEl = document.getElementById("countdown");
       const timer = setInterval(() => {
