@@ -253,12 +253,12 @@ document.addEventListener("DOMContentLoaded", function () {
           countdownEl.textContent = seconds;
           if (seconds <= 0) {
             clearInterval(timer);
-            window.location.href = "anime.html";
+            window.location.href = "Anime.html";
           }
         }, 1000);
         document.querySelector('.btn-finish').addEventListener('click', () => {
           clearInterval(timer);
-          window.location.href = "anime.html";
+          window.location.href = "Anime.html";
         });
       } else {
         currentRound = winners;
