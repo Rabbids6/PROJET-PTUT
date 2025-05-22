@@ -215,7 +215,7 @@ document.addEventListener("DOMContentLoaded", function () {
     roundIndicator.textContent = `Round ${roundNumber} sur ${totalRounds} (${currentRound.length} participants)`;
   }
 
-  function loadPair() {
+  async function loadPair() {
     if (pairIndex < currentRound.length - 1) {
       const left = currentRound[pairIndex];
       const right = currentRound[pairIndex + 1];
@@ -235,6 +235,42 @@ document.addEventListener("DOMContentLoaded", function () {
       `;
     } else {
       if (winners.length === 1) {
+
+        // Créer la structure JSON
+      const nouvelElement = {
+        id: Date.now(),
+        details: {
+          Pseudo: localStorage.pseudo || '',
+          Age: localStorage.age,
+          Anime: {
+            Titre: winners[0].title , Cat:selectedCategory},
+        }
+      };
+      //console.log("nouvelElement créé :", JSON.stringify(nouvelElement, null, 2));
+
+      // Envoyer la requête
+      let responseMessage = 'Envoi en cours...';
+      try {
+        // console.log("Tentative d'envoi des données :", nouvelElement);
+        const response = await fetch('http://localhost:10000/ajouterElementJSON', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(nouvelElement)
+        });
+
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP ${response.status}`);
+        }
+
+        responseMessage = await response.text();
+        console.log("Réponse du serveur :", responseMessage);
+      } catch (error) {
+        console.error("Erreur lors de l'envoi :", error);
+        responseMessage = `Erreur lors de l'envoi : ${error.message}`;
+      }
+        
         document.body.classList.add('victory-background');
         document.body.innerHTML = `
           <div class="winner">
